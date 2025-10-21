@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1184507543373266773
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6410937700998973809}
+  - component: {fileID: 5219486825804213202}
+  m_Layer: 0
+  m_Name: GameInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6410937700998973809
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184507543373266773}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5219486825804213202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184507543373266773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ff86e54861e6c440ac5d794c37617fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameInitializer
+  cameraManager: {fileID: 616804668313946544, guid: 25578a446c56add49b70e76a08779942, type: 3}
+  camPosition: {x: 7.35, y: 5, z: 0}
+  camRotation: {x: -0.27059805, y: 0.65328145, z: -0.27059805, w: -0.65328145}
+  gameManager: {fileID: 8076476632325488078, guid: 18573e3a1321fbf459456d819aa5ebc8, type: 3}
+  level: {fileID: 1352924665569756312, guid: 7abcc706699b70d45bc0b806cda767af, type: 3}
+  levelPosition: {x: 1.476199, y: 0, z: 0.9416288}
+  centerPoint: {fileID: 6774652335348138850, guid: e200b2c572642ad42a4c83355ad650fc, type: 3}
+  dog: {fileID: 3857874017725549293, guid: be65c4bd152301142b95f552c9cda8a9, type: 3}
+  dogPosition: {x: 0, y: -0.52, z: 2.233}
+  randomMovement: {fileID: 1957100519511301333, guid: be65c4bd152301142b95f552c9cda8a9, type: 3}
+  range: 15
+  cooldownMax: 5
