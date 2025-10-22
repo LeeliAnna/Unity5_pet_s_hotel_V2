@@ -51,8 +51,10 @@ MonoBehaviour:
   level: {fileID: 1352924665569756312, guid: 7abcc706699b70d45bc0b806cda767af, type: 3}
   levelPosition: {x: 1.476199, y: 0, z: 0.9416288}
   centerPoint: {fileID: 6774652335348138850, guid: e200b2c572642ad42a4c83355ad650fc, type: 3}
+  lunchBowlQuantity: 300
   dog: {fileID: 3857874017725549293, guid: be65c4bd152301142b95f552c9cda8a9, type: 3}
   dogPosition: {x: 0, y: -0.52, z: 2.233}
-  randomMovement: {fileID: 1957100519511301333, guid: be65c4bd152301142b95f552c9cda8a9, type: 3}
   range: 15
   cooldownMax: 5
+  maxHunger: 100
+  hungerDecreaseRate: 10

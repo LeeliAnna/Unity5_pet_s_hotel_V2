@@ -16,9 +16,7 @@ public class HungerNeed : MonoBehaviour, IDogNeed
         } 
         private set 
         {
-            if (_currentValue < 0) _currentValue = 0;
-            else if (_currentValue > MaxValue) _currentValue = MaxValue;
-            else _currentValue = value;
+            _currentValue = Mathf.Clamp(value, 0, MaxValue);
         }
     }
 
