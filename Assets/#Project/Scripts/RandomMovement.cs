@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(DogBehavior))]
 public class RandomMovement : MonoBehaviour
 {
     private LevelManager levelManager;
@@ -12,10 +13,10 @@ public class RandomMovement : MonoBehaviour
 
     private float cooldownActual = 0f;
 
-    public void Initialize(LevelManager levelManager, DogBehavior dogBehavior, float range, float cooldownMax )
+    public void Initialize(LevelManager levelManager, float range, float cooldownMax )
     {
         this.levelManager = levelManager;
-        this.dogBehavior = dogBehavior;
+        this.dogBehavior = GetComponent<DogBehavior>();
         this.range = range;
         this.cooldownMax = cooldownMax;
     }

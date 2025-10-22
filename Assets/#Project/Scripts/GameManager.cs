@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private RandomMovement randomMovement;
+    private DogBehavior dogBehavior;
 
-    public void Initialize(RandomMovement randomMovement)
+    public void Initialize(DogBehavior dogBehavior)
     {
-        this.randomMovement = randomMovement;
+        this.dogBehavior = dogBehavior;
     }
 
     void Update()
     {
-        randomMovement.Process();
+        dogBehavior.Process();
     }
 }

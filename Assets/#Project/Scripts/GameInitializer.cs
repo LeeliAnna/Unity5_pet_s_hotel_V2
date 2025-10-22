@@ -25,7 +25,6 @@ public class GameInitializer : MonoBehaviour
 
     [Space]
     [Header("Random Movement")]
-    [SerializeField] private RandomMovement randomMovement;
     [SerializeField] private float range;
     [SerializeField] private float cooldownMax;
 
@@ -47,7 +46,6 @@ public class GameInitializer : MonoBehaviour
         gameManager = Instantiate(gameManager);
         level = Instantiate(level);
         dog = Instantiate(dog);
-        randomMovement = Instantiate(randomMovement);
     }
 
     private void InitializeObjects()
@@ -56,8 +54,7 @@ public class GameInitializer : MonoBehaviour
         level.Initialize(levelPosition, Quaternion.identity, centerPoint);
         //dog.Initialize(dogPosition, Quaternion.identity);
         dog.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax);
-        //randomMovement.Initialize(level, dog, range, cooldownMax);
-        gameManager.Initialize(randomMovement);
+        gameManager.Initialize(dog);
     }
     
 }

@@ -20,7 +20,11 @@ public class DogBehavior : MonoBehaviour
         transform.SetLocalPositionAndRotation(position, rotation);
         Agent = GetComponent<NavMeshAgent>();
         randomMovement = GetComponent<RandomMovement>();
-        randomMovement.Initialize(level, this, range, cooldownMax);
+        randomMovement.Initialize(level, range, cooldownMax);
+    }
+
+    public void Process(){
+        randomMovement.Process();
     }
 
 }
