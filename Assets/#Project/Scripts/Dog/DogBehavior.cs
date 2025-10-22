@@ -39,6 +39,7 @@ public class DogBehavior : MonoBehaviour
         {
             stateMachine.ChangeState(new Hungry(this));
         }
+        stateMachine.Process();
     }
 
     public void MoveTo(Transform target)
@@ -55,7 +56,6 @@ public class DogBehavior : MonoBehaviour
     public void Eat()
     {
         HungerNeed.ApplySatisfaction(Appetize);
-        Debug.Log("chien mange");
     }
 
 }

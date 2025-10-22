@@ -24,7 +24,10 @@ public class Hungry : IState
         RaycastHit hit;
         if(Physics.Raycast(Dog.transform.position, Dog.Level.lunchBowl.transform.position, out hit, 0.02f))
         {
-            Dog.stateMachine.ChangeState(new Eating(Dog));
+            if (hit.collider.CompareTag("LunchBowl"))
+            {
+                Dog.stateMachine.ChangeState(new Eating(Dog));
+            }
         }
     }
 }

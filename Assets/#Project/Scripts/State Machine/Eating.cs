@@ -14,15 +14,15 @@ public class Eating : IState
 
     public void Enter()
     {
+        if (Dog.CanUse())
+        {
+            Dog.Eat();
+        }
         Debug.Log("Le chien mange");
     }
 
     public void Process()
     {
-        if (Dog.CanUse())
-        {
-            Dog.Eat();
-        }
     }
 
     public void Exit() { }

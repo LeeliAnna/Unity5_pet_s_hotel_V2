@@ -26,7 +26,7 @@ public class StateMachine
 
     public void Process()
     {
-        CurrentState.Process();
+        CurrentState?.Process();
     }
 
     public void ChangeState(IState newState)
