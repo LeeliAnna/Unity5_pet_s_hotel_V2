@@ -29,6 +29,12 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private float range;
     [SerializeField] private float cooldownMax;
 
+    [Space]
+    [Header("Hunger need")]
+    [SerializeField] private HungerNeed hungerNeed;
+    [SerializeField] private float naxHunger;
+    [SerializeField] private float hungerDecreaseRate;
+
     void Start()
     {
         CreateObjects();
@@ -48,8 +54,9 @@ public class GameInitializer : MonoBehaviour
     {
         cameraManager.Initialize(camPosition, camRotation);
         level.Initialize(levelPosition, Quaternion.identity, centerPoint);
-        dog.Initialize(dogPosition, Quaternion.identity);
-        randomMovement.Initialize(level, dog, range, cooldownMax);
+        //dog.Initialize(dogPosition, Quaternion.identity);
+        dog.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax);
+        //randomMovement.Initialize(level, dog, range, cooldownMax);
         gameManager.Initialize(randomMovement);
     }
     
