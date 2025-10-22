@@ -7,13 +7,6 @@ public class DogBehavior : MonoBehaviour
 {
     public NavMeshAgent Agent {  get; private set; }
     public RandomMovement randomMovement { get; private set; }
-    
-    
-    //public void Initialize(Vector3 position, Quaternion rotation)
-    //{
-    //    transform.SetLocalPositionAndRotation(position, rotation);
-    //    Agent = GetComponent<NavMeshAgent>();
-    //}
 
     public void Initialize(Vector3 position, Quaternion rotation, LevelManager level, float range, float cooldownMax)
     {

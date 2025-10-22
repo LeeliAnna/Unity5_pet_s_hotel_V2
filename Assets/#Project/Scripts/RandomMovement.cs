@@ -19,9 +19,6 @@ public class RandomMovement : MonoBehaviour
         this.dogBehavior = GetComponent<DogBehavior>();
         this.range = range;
         this.cooldownMax = cooldownMax;
-        Debug.Log(dogBehavior.Agent.remainingDistance);
-        Debug.Log(dogBehavior.Agent.stoppingDistance);
-        Debug.Log(cooldownActual);
 
     }
 
