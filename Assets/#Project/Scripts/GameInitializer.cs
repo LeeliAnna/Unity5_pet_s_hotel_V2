@@ -31,8 +31,8 @@ public class GameInitializer : MonoBehaviour
 
     [Space]
     [Header("Hunger need")]
-    [SerializeField] private HungerNeed hungerNeed;
-    [SerializeField] private float naxHunger;
+    //[SerializeField] private HungerNeed hungerNeed;
+    [SerializeField] private float maxHunger;
     [SerializeField] private float hungerDecreaseRate;
 
     void Start()
