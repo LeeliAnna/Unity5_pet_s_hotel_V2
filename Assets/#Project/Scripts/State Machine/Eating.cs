@@ -16,7 +16,7 @@ public class Eating : IState
     {
         if (Dog.CanUse())
         {
-            Dog.Eat();
+            //Dog.Eat();
         }
         Debug.Log("Le chien mange");
     }

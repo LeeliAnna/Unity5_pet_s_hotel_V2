@@ -1,40 +1,37 @@
+using System.Collections;
 using UnityEngine;
 
-public class HungerNeed : MonoBehaviour, IDogNeed
+public class HungerNeed : NeedBase
 {
-    public float MaxValue { get; private set; }
-    public float DecreaseRate { get; private set; }
-    public float Priority { get; private set; }
-    public bool IsCritical { get; private set; }
+    private float cooldown;
+    public float EatGain { get; private set; }
 
-    private float _currentValue;
-    public float CurrentValue 
+    public override void Initialize(NeedConfig hungerConfig)
     {
-        get 
-        { 
-            return _currentValue; 
-        } 
-        private set 
+        base.Initialize(hungerConfig);
+        if (hungerConfig is HungerConfig hunger) 
         {
-            _currentValue = Mathf.Clamp(value, 0, MaxValue);
+            cooldown = hunger.eatCooldown;
+            EatGain = hunger.eatGain;
         }
+        
     }
 
-    public void Initialize(float maxValue, float DecreaseRate)
+    public override void Process()
     {
-        this.MaxValue = maxValue;
-        this.DecreaseRate = DecreaseRate;
-
-        CurrentValue = this.MaxValue;
+        base.Process();
+        StartCoroutine(EatCoroutine());
     }
 
-    public void Process()
+    public void EatOnce()
     {
-        CurrentValue -= DecreaseRate * Time.deltaTime; 
+        ApplySatisfaction(EatGain);
     }
 
-    public void ApplySatisfaction(float amount)
+    private IEnumerator EatCoroutine()
     {
-        CurrentValue += amount;
+        yield return new WaitForSeconds(cooldown);
+        EatOnce();
     }
+
 }

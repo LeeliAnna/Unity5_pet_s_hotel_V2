@@ -1,3 +1,4 @@
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class GameInitializer : MonoBehaviour
@@ -31,8 +32,7 @@ public class GameInitializer : MonoBehaviour
 
     [Space]
     [Header("Hunger need")]
-    [SerializeField] private float maxHunger;
-    [SerializeField] private float hungerDecreaseRate;
+    [SerializeField] private HungerConfig hungerConfig;
 
     void Start()
     {
@@ -52,7 +52,7 @@ public class GameInitializer : MonoBehaviour
     {
         cameraManager.Initialize(camPosition, camRotation);
         level.Initialize(levelPosition, Quaternion.identity, centerPoint, lunchBowlQuantity);
-        dog.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax, maxHunger, hungerDecreaseRate);
+        dog.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax, hungerConfig);
         gameManager.Initialize(dog);
     }
     

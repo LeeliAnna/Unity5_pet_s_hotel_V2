@@ -307,6 +307,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameInitializer
       objectReference: {fileID: 0}
+    - target: {fileID: 5219486825804213202, guid: 340c33ba8f64b264583ebb5512358da2, type: 3}
+      propertyPath: hungerConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: e4cd75bca97890b48a32629b01443563, type: 2}
     - target: {fileID: 6410937700998973809, guid: 340c33ba8f64b264583ebb5512358da2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -17,8 +17,6 @@ public class LevelManager : MonoBehaviour
         {
             lunchBowl.Initialize(lunchBowlQuantity);
         }
-
-        
     }
 
 

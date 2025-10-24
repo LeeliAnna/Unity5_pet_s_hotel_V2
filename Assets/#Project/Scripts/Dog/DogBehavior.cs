@@ -10,13 +10,14 @@ public class DogBehavior : MonoBehaviour
     public NavMeshAgent Agent {  get; private set; }
     public RandomMovement RandomMovement { get; private set; }
     public LevelManager Level {  get; private set; }
-    public HungerNeed HungerNeed { get; private set; }
+    public DogNeedController needs { get; private set; }
+    public IDogNeed urgent { get; private set; }
     public StateMachine stateMachine { get; private set; }
 
     public int Appetize { get; } = 100;
 
 
-    public void Initialize(Vector3 position, Quaternion rotation, LevelManager level, float range, float cooldownMax, float maxHunger, float hungerDecreaseRate)
+    public void Initialize(Vector3 position, Quaternion rotation, LevelManager level, float range, float cooldownMax, HungerConfig hungerConfig)
     {
         transform.SetLocalPositionAndRotation(position, rotation);
         Agent = GetComponent<NavMeshAgent>();
@@ -25,8 +26,8 @@ public class DogBehavior : MonoBehaviour
         RandomMovement = GetComponent<RandomMovement>();
         RandomMovement.Initialize(level, range, cooldownMax);
 
-        HungerNeed = GetComponent<HungerNeed>();
-        HungerNeed.Initialize(maxHunger, hungerDecreaseRate);
+        needs = GetComponent<DogNeedController>();
+        needs.Initialize(hungerConfig);
 
         stateMachine = new StateMachine(this);
 
@@ -34,11 +35,9 @@ public class DogBehavior : MonoBehaviour
 
     public void Process(){
         RandomMovement.Process();
-        HungerNeed.Process();
-        if(HungerNeed.CurrentValue <= 10f)
-        {
-            stateMachine.ChangeState(new Hungry(this));
-        }
+        needs.AllProcess();
+        urgent = needs.GetMostUrgent();
+
         stateMachine.Process();
     }
 
@@ -51,11 +50,6 @@ public class DogBehavior : MonoBehaviour
     {
         if (Level.lunchBowl.IsUsable) return true;
         return false;
-    }
-
-    public void Eat()
-    {
-        HungerNeed.ApplySatisfaction(Appetize);
     }
 
 }
