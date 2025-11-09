@@ -11,13 +11,12 @@ public class DogNeedController : MonoBehaviour
 
     public void Initialize(HungerConfig hungerConfig)
     {
+        needs = new List<IDogNeed>();
+
         HungerNeed = GetComponent<HungerNeed>();
         HungerNeed.Initialize(hungerConfig);
 
-        Debug.Log(HungerNeed.EatGain);
-
         needs.Add(HungerNeed);
-        Debug.Log(needs);
     }
 
     public void AllProcess()

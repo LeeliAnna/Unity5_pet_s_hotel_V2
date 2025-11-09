@@ -16,5 +16,5 @@ MonoBehaviour:
   maxValue: 100
   DecreaseRate: 10
   criticalThreshold: 25
-  eatGain: 35
+  eatGain: 100
   eatCooldown: 2

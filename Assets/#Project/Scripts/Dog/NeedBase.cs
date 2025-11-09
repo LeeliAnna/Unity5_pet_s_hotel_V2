@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public abstract class NeedBase : MonoBehaviour, IDogNeed
 {
@@ -44,7 +45,7 @@ public abstract class NeedBase : MonoBehaviour, IDogNeed
         }
         private set
         {
-            _maxValue = Mathf.Max(1f, _maxValue);
+            _maxValue = Mathf.Max(1f, value);
         }
     }
 
@@ -56,7 +57,7 @@ public abstract class NeedBase : MonoBehaviour, IDogNeed
         }
         private set
         {
-            _decreaseRate = Mathf.Max(0f, _decreaseRate);
+            _decreaseRate = Mathf.Max(0f, value);
         }
     }
 
@@ -114,7 +115,13 @@ public abstract class NeedBase : MonoBehaviour, IDogNeed
 
     public virtual void Process()
     {
+        Debug.Log(NeedValue);
         NeedValue -= DecreaseRate * Time.deltaTime;
-        Priority = config.PriorityCalculation(NeedValue);
+        PriorityCalculation();
+    }
+
+    private void PriorityCalculation()
+    {
+        Priority = (1f - (NeedValue / MaxValue));
     }
 }

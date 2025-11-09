@@ -19,6 +19,6 @@ public class NeedConfig : ScriptableObject
     /// <returns>valeur comprise entre 0 et 1</returns>
     public float PriorityCalculation(float value)
     {
-        return (1f - Mathf.Clamp01(value/maxValue));
+        return (1f - value/maxValue);
     }
 }
