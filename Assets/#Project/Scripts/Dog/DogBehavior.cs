@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,8 +12,8 @@ public class DogBehavior : MonoBehaviour
     public RandomMovement RandomMovement { get; private set; }
     public LevelManager Level {  get; private set; }
     public DogNeedController needs { get; private set; }
-    public IDogNeed urgent { get; private set; }
-    public StateMachine stateMachine { get; private set; }
+    public NeedBase urgent { get; private set; }
+    public DogStateMachine stateMachine { get; private set; }
 
     public int Appetize { get; } = 100;
 
@@ -29,7 +30,7 @@ public class DogBehavior : MonoBehaviour
         needs = GetComponent<DogNeedController>();
         needs.Initialize(hungerConfig);
 
-        stateMachine = new StateMachine(this);
+        stateMachine = new DogStateMachine(this);
 
     }
 
@@ -44,6 +45,15 @@ public class DogBehavior : MonoBehaviour
     public void MoveTo(Transform target)
     {
         Agent.SetDestination(target.position);
+    }
+
+    public async Task Eat(float duration)
+    {
+        if (needs.IsHungry)
+        {
+            needs.HungerNeed.EatOnce();
+            await Task.Delay((int)(duration * 1000f));
+        }
     }
 
     public bool CanUse()

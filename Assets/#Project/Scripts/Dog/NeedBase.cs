@@ -1,29 +1,19 @@
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public abstract class NeedBase : MonoBehaviour, IDogNeed
+public abstract class NeedBase
 {
     private NeedConfig config;
     private float _needValue = 100f;
 
-    private string _name;
     private float _maxValue;
     private float _decreaseRate;
     private float _priority;
     private float _criticalThreshold;
     private bool _isCritical;
 
-    public string Name
-    {
-        get
-        {
-            return _name;
-        }
-        private set
-        {
-            _name = value;
-        }
-    }
+    public string Name { get; private set; }
+
 
     public float NeedValue
     {
@@ -61,18 +51,7 @@ public abstract class NeedBase : MonoBehaviour, IDogNeed
         }
     }
 
-    public float Priority
-    {
-        get
-        {
-            return _priority;
-        }
-        private set
-        {
-            _priority = Mathf.Clamp(value, 0, 1);
-        }
-    }
-
+    public float Priority => (1f - (NeedValue / MaxValue));
     public float CriticalThreshold
     {
         get
@@ -97,15 +76,13 @@ public abstract class NeedBase : MonoBehaviour, IDogNeed
         }
     }
 
-    public virtual void Initialize(NeedConfig config)
+    public NeedBase(NeedConfig config)
     {
-        Name = config.needName != null ? config.needName : "Need";
+        Name = config.needName is not null ? config.needName : "Need";
         MaxValue = config.maxValue;
         NeedValue = MaxValue;
         CriticalThreshold = config.criticalThreshold;
         DecreaseRate = config.DecreaseRate;
-        Priority = config.PriorityCalculation(NeedValue);
-
     }
 
     public virtual void ApplySatisfaction(float amount)
@@ -117,11 +94,6 @@ public abstract class NeedBase : MonoBehaviour, IDogNeed
     {
         Debug.Log(NeedValue);
         NeedValue -= DecreaseRate * Time.deltaTime;
-        PriorityCalculation();
     }
 
-    private void PriorityCalculation()
-    {
-        Priority = (1f - (NeedValue / MaxValue));
-    }
 }

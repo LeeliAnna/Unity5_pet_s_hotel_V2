@@ -5,30 +5,46 @@ using UnityEngine;
 
 public class DogNeedController : MonoBehaviour
 {
-    private List<IDogNeed> needs;
+    public List<NeedBase> needs { get; private set; }
 
     public HungerNeed HungerNeed { get; private set; }
 
     public void Initialize(HungerConfig hungerConfig)
     {
-        needs = new List<IDogNeed>();
+        needs = new();
 
-        HungerNeed = GetComponent<HungerNeed>();
-        HungerNeed.Initialize(hungerConfig);
+        HungerNeed = new(hungerConfig);
+
 
         needs.Add(HungerNeed);
     }
 
     public void AllProcess()
     {
-        foreach (IDogNeed need in needs)
+        foreach (NeedBase need in needs)
         {
             need.Process();
         }
     }
 
-    public IDogNeed GetMostUrgent()
+    public NeedBase GetMostUrgent()
     {
         return needs.OrderByDescending(n => n.Priority).FirstOrDefault();
     }
+
+    public bool NeedIsPresent<T>()
+    {
+        for (int i = 0; i < needs.Count; i++)
+        {
+            if (needs[i] is T)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool IsHungry => NeedIsPresent<HungerNeed>();
+
 }
+

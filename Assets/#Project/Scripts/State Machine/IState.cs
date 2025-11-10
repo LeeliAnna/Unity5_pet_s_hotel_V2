@@ -1,9 +1,10 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public interface IState
 {
-    public void Enter() { }
-    public void Process() { }
-    public void Exit() { }
+    public void Enter();
+    public async Task Process() { }
+    public async Task Exit() { }
 
 }

@@ -1,26 +1,25 @@
 using System.Collections;
 using UnityEngine;
 
-public class HungerNeed : NeedBase
+public class HungerNeed: NeedBase 
 {
     private float cooldown;
     public float EatGain { get; private set; }
 
-    public override void Initialize(NeedConfig hungerConfig)
-    {
-        base.Initialize(hungerConfig);
-        if (hungerConfig is HungerConfig hunger) 
+    public HungerNeed(NeedConfig needConfig): base(needConfig)
+    {        
+        if (needConfig is HungerConfig hunger)
         {
             cooldown = hunger.eatCooldown;
             EatGain = hunger.eatGain;
         }
-        
+
     }
 
     public override void Process()
     {
         base.Process();
-        StartCoroutine(EatCoroutine());
+        //StartCoroutine(EatCoroutine());
     }
 
     public void EatOnce()
