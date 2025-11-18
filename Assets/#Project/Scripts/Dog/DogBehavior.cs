@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(RandomMovement))]
-[RequireComponent(typeof(HungerNeed))]
 public class DogBehavior : MonoBehaviour
 {
     public NavMeshAgent Agent {  get; private set; }
@@ -34,7 +33,8 @@ public class DogBehavior : MonoBehaviour
 
     }
 
-    public void Process(){
+    public void Process()
+    {
         RandomMovement.Process();
         needs.AllProcess();
         urgent = needs.GetMostUrgent();

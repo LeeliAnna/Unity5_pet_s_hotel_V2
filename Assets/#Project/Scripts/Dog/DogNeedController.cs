@@ -8,13 +8,13 @@ public class DogNeedController : MonoBehaviour
     public List<NeedBase> needs { get; private set; }
 
     public HungerNeed HungerNeed { get; private set; }
+    public bool IsHungry => NeedIsPresent<HungerNeed>();
 
     public void Initialize(HungerConfig hungerConfig)
     {
         needs = new();
 
         HungerNeed = new(hungerConfig);
-
 
         needs.Add(HungerNeed);
     }
@@ -44,7 +44,6 @@ public class DogNeedController : MonoBehaviour
         return false;
     }
 
-    public bool IsHungry => NeedIsPresent<HungerNeed>();
 
 }
 

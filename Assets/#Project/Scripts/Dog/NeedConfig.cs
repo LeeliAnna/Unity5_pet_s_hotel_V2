@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NeedConfig_", menuName = "Dog/NeedConfig")]
 public class NeedConfig : ScriptableObject
 {
-    [Header("Valeurs générales")]
+    [Header("Valeurs gï¿½nï¿½rales")]
     public string needName = "Need";
     public float maxValue = 100f;
     [Tooltip("Dimiution par secondes")]
@@ -13,7 +13,7 @@ public class NeedConfig : ScriptableObject
 
 
     /// <summary>
-    /// Calcul de la priorité du besoin
+    /// Calcul de la prioritï¿½ du besoin
     /// </summary>
     /// <param name="value">valeur courtante du besoin</param>
     /// <returns>valeur comprise entre 0 et 1</returns>

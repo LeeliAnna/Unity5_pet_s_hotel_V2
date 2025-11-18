@@ -125,7 +125,6 @@ GameObject:
   - component: {fileID: 4734429085226455506}
   - component: {fileID: 3857874017725549293}
   - component: {fileID: 1957100519511301333}
-  - component: {fileID: 4084608010231255169}
   - component: {fileID: 2610896307616505624}
   m_Layer: 0
   m_Name: dog
@@ -196,18 +195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2174146d54679104383102a8abb7c166, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RandomMovement
---- !u!114 &4084608010231255169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7671550884117633661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28f123dec16050d448682929d359364b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HungerNeed
 --- !u!114 &2610896307616505624
 MonoBehaviour:
   m_ObjectHideFlags: 0
