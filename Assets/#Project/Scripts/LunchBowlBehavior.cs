@@ -18,18 +18,7 @@ public class LunchBowlBehavior : MonoBehaviour
         }
     }
 
-    public bool IsUsable
-    {
-        get
-        {
-            return _isUsable;
-        }
-        private set
-        {
-            if (CurrentQuantity == 0) _isUsable = true;
-            _isUsable = false;
-        }
-    }
+    public bool IsUsable => CurrentQuantity != 0;
 
     public void Initialize(int quantity)
     {

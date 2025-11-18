@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -51,7 +52,7 @@ public abstract class NeedBase
         }
     }
 
-    public float Priority => (1f - (NeedValue / MaxValue));
+    public float Priority => 1f - (NeedValue / MaxValue);
     public float CriticalThreshold
     {
         get
@@ -64,17 +65,8 @@ public abstract class NeedBase
         }
     }
 
-    public bool IsCritical
-    {
-        get
-        {
-            return _isCritical;
-        }
-        private set
-        {
-            _isCritical = (NeedValue * 100 / MaxValue) <= CriticalThreshold ? true : false;
-        }
-    }
+    public bool IsCritical => NeedValue <= CriticalThreshold;
+        
 
     public NeedBase(NeedConfig config)
     {
@@ -92,7 +84,7 @@ public abstract class NeedBase
 
     public virtual void Process()
     {
-        Debug.Log(NeedValue);
+        if(IsCritical) Debug.Log($"{Name} devient critique");
         NeedValue -= DecreaseRate * Time.deltaTime;
     }
 

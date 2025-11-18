@@ -13,13 +13,11 @@ public class HungerNeed: NeedBase
             cooldown = hunger.eatCooldown;
             EatGain = hunger.eatGain;
         }
-
     }
 
     public override void Process()
     {
         base.Process();
-        //StartCoroutine(EatCoroutine());
     }
 
     public void EatOnce()
@@ -27,10 +25,5 @@ public class HungerNeed: NeedBase
         ApplySatisfaction(EatGain);
     }
 
-    private IEnumerator EatCoroutine()
-    {
-        yield return new WaitForSeconds(cooldown);
-        EatOnce();
-    }
 
 }

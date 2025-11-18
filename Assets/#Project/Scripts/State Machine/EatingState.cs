@@ -6,17 +6,13 @@ using UnityEngine;
 public class EatingState : IState
 {
     private HungerConfig hungerConfig;
-    private DogBehavior dog;
-    private DogStateMachine dogStateMachine;
-
-    private int cooldown;  
+    public DogBehavior dog {get;}
+    public DogStateMachine dogStateMachine {get;}
 
     public EatingState(DogBehavior dog, DogStateMachine dogStateMachine)
     {
         this.dog = dog;
-        this.dogStateMachine = dogStateMachine;
-
-        
+        this.dogStateMachine = dogStateMachine;        
     }
 
     public void Enter() { }
@@ -34,5 +30,6 @@ public class EatingState : IState
     public async Task Exit()
     {
         await Task.Delay((int)(hungerConfig.eatCooldown * 1000f));
+        dogStateMachine.ChangeState<IdleState>();
     }
 }

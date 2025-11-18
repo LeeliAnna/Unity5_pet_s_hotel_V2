@@ -30,8 +30,6 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private float range;
     [SerializeField] private float cooldownMax;
 
-    [Space]
-    [Header("Hunger need")]
     [SerializeField] private HungerConfig hungerConfig;
 
     void Start()

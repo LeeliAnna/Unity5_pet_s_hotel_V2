@@ -44,6 +44,15 @@ public class DogNeedController : MonoBehaviour
         return false;
     }
 
+    public NeedBase FindNeed(NeedBase need)
+    {
+        for (int i = 0; i < needs.Count; i++)
+        {
+            if(needs.Contains(need)) return needs[i];
+        }
+        return null;
+    }
+
 
 }
 

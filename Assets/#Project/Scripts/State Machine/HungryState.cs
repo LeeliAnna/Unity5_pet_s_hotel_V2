@@ -1,9 +1,11 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class HungryState : IState
 {
-    public DogBehavior dog;
-    public DogStateMachine dogStateMachine;
+    public DogBehavior dog {get;}
+    public DogStateMachine dogStateMachine {get;}
+    private float cooldown = 2;
 
     public HungryState(DogBehavior dog, DogStateMachine dogStateMachine)
     {
@@ -13,21 +15,17 @@ public class HungryState : IState
 
     public void Enter()
     {
+        Debug.Log($"Le chien à faim!");
     }
 
-    public void Exit() 
+    public async Task Exit()
     {
+        await Task.Delay((int)(cooldown * 1000f));
+        dogStateMachine.ChangeState<MoveToBowl>();
     }
 
     public void Process()
     {
-        RaycastHit hit;
-        if(Physics.Raycast(dog.transform.position, dog.Level.lunchBowl.transform.position, out hit, 0.02f))
-        {
-            if (hit.collider.CompareTag("LunchBowl"))
-            {
-                //dog.stateMachine.ChangeState(new Eating(dog));
-            }
-        }
+        
     }
 }

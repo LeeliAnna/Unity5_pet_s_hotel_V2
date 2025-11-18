@@ -13,6 +13,7 @@ public class DogBehavior : MonoBehaviour
     public DogNeedController needs { get; private set; }
     public NeedBase urgent { get; private set; }
     public DogStateMachine stateMachine { get; private set; }
+    public HungerConfig hungerConfig;
 
     public int Appetize { get; } = 100;
 
@@ -27,10 +28,10 @@ public class DogBehavior : MonoBehaviour
         RandomMovement.Initialize(level, range, cooldownMax);
 
         needs = GetComponent<DogNeedController>();
+        this.hungerConfig = hungerConfig;
         needs.Initialize(hungerConfig);
 
         stateMachine = new DogStateMachine(this);
-
     }
 
     public void Process()
