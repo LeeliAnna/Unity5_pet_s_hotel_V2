@@ -2,30 +2,30 @@ using Unity.Mathematics;
 using UnityEngine;
 
 /// <summary>
-/// Gestionnaire de la caméra du jeu.
-/// Gère le positionnement et l'orientation de la caméra ainsi que l'accès à son composant.
-/// Appelé lors de l'initialisation du jeu par GameInitializer.
+/// Gestionnaire de la camera du jeu.
+/// Gere le positionnement et l'orientation de la camera ainsi que l'acces a son composant.
+/// Appele lors de l'initialisation du jeu par GameInitializer.
 /// </summary>
 public class CameraManager : MonoBehaviour
 {
     /// <summary>
-    /// Référence au composant Camera de cet objet.
-    /// Récupérée lors de l'initialisation pour un accès rapide.
+    /// Reference au composant Camera de cet objet.
+    /// Recuperee lors de l'initialisation pour un acces rapide.
     /// </summary>
     public Camera Camera { get; private set; }
 
     /// <summary>
-    /// Initialise la caméra avec sa position et son orientation.
-    /// Positionnez la caméra à l'emplacement désigné et récupère le composant Camera.
+    /// Initialise la camera avec sa position et son orientation.
+    /// Positionnez la camera a l'emplacement designe et recupere le composant Camera.
     /// </summary>
-    /// <param name="position">Position de la caméra dans le monde</param>
-    /// <param name="rotation">Orientation de la caméra (quaternion)</param>
+    /// <param name="position">Position de la camera dans le monde</param>
+    /// <param name="rotation">Orientation de la camera (quaternion)</param>
     public void Initialize(Vector3 position, quaternion rotation)
     {
-        // Positionner la caméra à l'emplacement spécifié avec la rotation donnée
+        // Positionner la camera a l'emplacement specifie avec la rotation donnee
         transform.SetPositionAndRotation(position, rotation);
 
-        // Récupérer le composant Camera attaché à cet objet pour un accès ultérieur
+        // Recuperer le composant Camera attache a cet objet pour un acces ulterieur
         Camera = GetComponent<Camera>();
     }
 }

@@ -6,8 +6,8 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// Gère le comportement principal du chien.
-/// Orchestre la navigation, les besoins (faim), les états et les interactions avec l'environnement.
+/// Gere le comportement principal du chien.
+/// Orchestre la navigation, les besoins (faim), les etats et les interactions avec l'environnement.
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(RandomMovement))]
@@ -16,40 +16,40 @@ public class DogBehavior : MonoBehaviour
     /// <summary>Agent de navigation du chien (NavMesh)</summary>
     public NavMeshAgent Agent { get; private set; }
 
-    /// <summary>Composant gérant le mouvement aléatoire en état Idle</summary>
+    /// <summary>Composant gï¿½rant le mouvement aleatoire en etat Idle</summary>
     public RandomMovement RandomMovement { get; private set; }
 
     /// <summary>Gestionnaire du niveau (environnement, gamelle, etc.)</summary>
     public LevelManager Level { get; private set; }
 
-    /// <summary>Contrôleur des besoins du chien (faim, etc.)</summary>
+    /// <summary>Contreleur des besoins du chien (faim, etc.)</summary>
     public DogNeedController needs { get; private set; }
 
     /// <summary>Besoin le plus urgent du moment (faim, etc.)</summary>
     public NeedBase urgent { get; private set; }
 
-    /// <summary>Machine à états gérant les comportements du chien</summary>
+    /// <summary>Machine a etats gerant les comportements du chien</summary>
     public DogStateMachine stateMachine { get; private set; }
 
-    /// <summary>Configuration spécifique au chien (appétit, etc.)</summary>
+    /// <summary>Configuration specifique au chien (appetit, etc.)</summary>
     private DogConfig dogConfig;
 
-    /// <summary>Configuration de la faim (gains, cooldowns, coûts)</summary>
+    /// <summary>Configuration de la faim (gains, cooldowns, coats)</summary>
     public HungerConfig hungerConfig;
 
-    /// <summary>Appétit du chien (quantité mangée par repas)</summary>
+    /// <summary>Appï¿½tit du chien (quantite mangee par repas)</summary>
     public int Appetize { get; private set; }
 
 
     /// <summary>
     /// Initialise le chien avec sa position, sa rotation et ses configurations.
-    /// Configure tous les composants (agent, besoins, états, mouvements).
+    /// Configure tous les composants (agent, besoins, etats, mouvements).
     /// </summary>
     /// <param name="position">Position initiale du chien dans le monde</param>
     /// <param name="rotation">Rotation initiale du chien</param>
-    /// <param name="level">Référence au gestionnaire du niveau</param>
-    /// <param name="range">Distance maximale pour le mouvement aléatoire</param>
-    /// <param name="cooldownMax">Cooldown entre chaque destination aléatoire</param>
+    /// <param name="level">Reference au gestionnaire du niveau</param>
+    /// <param name="range">Distance maximale pour le mouvement aleatoire</param>
+    /// <param name="cooldownMax">Cooldown entre chaque destination aleatoire</param>
     /// <param name="hungerConfig">Asset de configuration de la faim</param>
     /// <param name="dogConfig">Asset de configuration du chien</param>
     public void Initialize(Vector3 position, Quaternion rotation, LevelManager level, float range, float cooldownMax, HungerConfig hungerConfig, DogConfig dogConfig)
@@ -61,65 +61,65 @@ public class DogBehavior : MonoBehaviour
         Agent = GetComponent<NavMeshAgent>();
         Level = level;
 
-        // Récupération des configurations et appétit
+        // Recuperation des configurations et appï¿½tit
         this.dogConfig = dogConfig;
         Appetize = dogConfig.appetize;
 
-        // Initialisation du mouvement aléatoire
+        // Initialisation du mouvement aleatoire
         RandomMovement = GetComponent<RandomMovement>();
         RandomMovement.Initialize(level, range, cooldownMax);
 
-        // Initialisation du contrôleur de besoins (faim)
+        // Initialisation du contreleur de besoins (faim)
         needs = GetComponent<DogNeedController>();
         this.hungerConfig = hungerConfig;
         needs.Initialize(hungerConfig);
 
-        // Création de la machine à états
+        // Crï¿½ation de la machine a etats
         stateMachine = new DogStateMachine(this);
     }
 
     /// <summary>
-    /// Met à jour tous les systèmes du chien chaque frame.
-    /// Exécute le mouvement aléatoire, traite les besoins et la machine à états.
+    /// Met a jour tous les systemes du chien chaque frame.
+    /// Execute le mouvement aleatoire, traite les besoins et la machine a etats.
     /// </summary>
     public void Process()
     {
-        // Traiter le mouvement aléatoire (si en Idle)
+        // Traiter le mouvement aleatoire (si en Idle)
         RandomMovement.Process();
         
-        // Mettre à jour tous les besoins (faim, etc.)
+        // Mettre a jour tous les besoins (faim, etc.)
         needs.AllProcess();
         
         // Identifier le besoin le plus urgent
         urgent = needs.GetMostUrgent();
 
-        // Exécuter la logique de la machine à états
+        // Executer la logique de la machine a etats
         stateMachine.Process();
     }
 
     /// <summary>
-    /// Ordonne au chien de se diriger vers une cible donnée.
+    /// Ordonne au chien de se diriger vers une cible donnee.
     /// </summary>
     /// <param name="target">Transform vers laquelle se diriger</param>
     public void MoveTo(Transform target)
     {
-        // Définir la destination du NavMeshAgent
+        // Definir la destination du NavMeshAgent
         Agent.SetDestination(target.position);
     }
 
     /// <summary>
-    /// Exécute l'action de manger : augmente la jauge de faim et décrémente la gamelle.
+    /// Execute l'action de manger : augmente la jauge de faim et decremente la gamelle.
     /// N'a effet que si le chien a faim (seuil critique atteint).
     /// </summary>
     public void Eat()
     {        
-        // Vérifier que le chien a vraiment faim (seuil critique)
+        // Varifier que le chien a vraiment faim (seuil critique)
         if (needs.IsHungry)
         {
             // Augmenter la jauge de faim du chien
             needs.HungerNeed.EatOnce();
 
-            // Diminuer la quantité de croquettes dans la gamelle (si disponible)
+            // Diminuer la quantita de croquettes dans la gamelle (si disponible)
             if(Level != null && Level.lunchBowl != null && Level.lunchBowl.IsUsable)
             {
                 Level.lunchBowl.DecreaseQuantity(hungerConfig.eatCost);
@@ -128,17 +128,17 @@ public class DogBehavior : MonoBehaviour
     }
 
     /// <summary>
-    /// Coroutine gérant le repas du chien : mange puis attend avant de finir.
-    /// Exécutée sur le thread principal Unity pour éviter les crashs.
+    /// Coroutine gerant le repas du chien : mange puis attend avant de finir.
+    /// Executee sur le thread principal Unity pour eviter les crashs.
     /// </summary>
-    /// <param name="duration">Durée du repas en secondes</param>
-    /// <param name="onComplete">Callback invoqué après le repas</param>
-    /// <returns>Énumérateur pour la coroutine</returns>
+    /// <param name="duration">Durï¿½e du repas en secondes</param>
+    /// <param name="onComplete">Callback invoque apres le repas</param>
+    /// <returns>enumerateur pour la coroutine</returns>
     public IEnumerator EatRoutine(float duration, Action onComplete)
     {
         try
         {
-            // Exécuter l'action de manger
+            // Executer l'action de manger
             Eat();
         }
         catch (Exception ex)
@@ -147,7 +147,7 @@ public class DogBehavior : MonoBehaviour
             Debug.LogError($"[DogBehavior] Exception lors du repas: {ex}");
         }
 
-        // Attendre la durée du repas
+        // Attendre la duree du repas
         yield return new WaitForSeconds(duration);
 
         // Invoquer le callback de fin (retour en Idle, etc.)
@@ -155,12 +155,12 @@ public class DogBehavior : MonoBehaviour
     }
 
     /// <summary>
-    /// Vérifie si la gamelle est accessible et utilisable.
+    /// Verifie si la gamelle est accessible et utilisable.
     /// </summary>
     /// <returns>true si la gamelle existe et contient des croquettes, false sinon</returns>
     public bool CanUse()
     {
-        // Vérifier la présence du niveau, de la gamelle et ses croquettes
+        // Verifier la presence du niveau, de la gamelle et ses croquettes
         return Level != null && Level.lunchBowl != null && Level.lunchBowl.IsUsable;
     }
 

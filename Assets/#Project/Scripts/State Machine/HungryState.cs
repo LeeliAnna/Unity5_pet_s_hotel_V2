@@ -2,23 +2,23 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
-/// État représentant le chien affamé avec la gamelle vide.
+/// etat representant le chien affame avec la gamelle vide.
 /// Le chien attend passivement que le joueur remplisse la gamelle.
 /// Retourne automatiquement vers la gamelle (MoveToBowl) une fois remplie.
 /// </summary>
 public class HungryState : IState
 {
-    /// <summary>Référence au comportement principal du chien</summary>
+    /// <summary>Reference au comportement principal du chien</summary>
     public DogBehavior dog { get; }
 
-    /// <summary>Référence à la machine à états pour les changements d'état</summary>
+    /// <summary>Reference a la machine a etats pour les changements d'etat</summary>
     public DogStateMachine dogStateMachine { get; }
 
     /// <summary>
-    /// Initialise l'état affamé avec les références nécessaires.
+    /// Initialise l'etat affame avec les references necessaires.
     /// </summary>
-    /// <param name="dog">Référence au comportement du chien</param>
-    /// <param name="dogStateMachine">Référence à la machine à états</param>
+    /// <param name="dog">Reference au comportement du chien</param>
+    /// <param name="dogStateMachine">Reference a la machine a etats</param>
     public HungryState(DogBehavior dog, DogStateMachine dogStateMachine)
     {
         this.dog = dog;
@@ -26,7 +26,7 @@ public class HungryState : IState
     }
 
     /// <summary>
-    /// Appelé à l'entrée de cet état.
+    /// Appele a l'entree de cet etat.
     /// Affiche un log indiquant que la gamelle est vide et que le chien attend.
     /// </summary>
     public void Enter()
@@ -36,29 +36,29 @@ public class HungryState : IState
     }
 
     /// <summary>
-    /// Appelé à la sortie de cet état.
-    /// Aucune action asynchrone nécessaire ici (retour immédiat).
+    /// Appele a la sortie de cet etat.
+    /// Aucune action asynchrone necessaire ici (retour immediat).
     /// </summary>
-    /// <returns>Task complété immédiatement</returns>
+    /// <returns>Task complete immediatement</returns>
     public Task Exit()
     {
-        // Retourner un Task déjà complété (pas d'opération asynchrone)
+        // Retourner un Task deja complete (pas d'operation asynchrone)
         return Task.CompletedTask;
     }
 
     /// <summary>
-    /// Met à jour la logique d'attente chaque frame.
-    /// Vérifie si la gamelle a été remplie par le joueur.
+    /// Met a jour la logique d'attente chaque frame.
+    /// Verifie si la gamelle a ete remplie par le joueur.
     /// Si oui, retourne vers la gamelle pour manger.
     /// </summary>
     public void Process()
     {
-        // Vérifier si la gamelle a été remplie (contient des croquettes)
+        // Verifier si la gamelle a ete remplie (contient des croquettes)
         if (dog.CanUse())
         {
             // La gamelle est remplie, informer et se diriger vers elle
             Debug.Log("[HungryState] La gamelle est remplie! Direction la gamelle.");
-            // Changer d'état pour aller à la gamelle
+            // Changer d'etat pour aller a la gamelle
             dog.stateMachine.ChangeState<MoveToBowl>();
         }
         // Sinon, rester en HungryState (attendre passivement)

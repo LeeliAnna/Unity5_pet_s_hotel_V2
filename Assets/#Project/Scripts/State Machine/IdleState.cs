@@ -1,24 +1,24 @@
 using System.Threading.Tasks;
 
 /// <summary>
-/// État représentant le chien en repos ou en balade aléatoire.
-/// C'est l'état par défaut du chien où il se déplace librement dans le niveau.
-/// Permet à RandomMovement de gérer son déplacement aléatoire.
-/// Cet état est interrompu quand un besoin urgent (faim critique) doit être satisfait.
+/// etat representant le chien en repos ou en balade aleatoire.
+/// C'est l'etat par defaut du chien ou il se deplace librement dans le niveau.
+/// Permet a RandomMovement de gerer son deplacement aleatoire.
+/// Cet etat est interrompu quand un besoin urgent (faim critique) doit etre satisfait.
 /// </summary>
 public class IdleState : IState
 {
-    /// <summary>Référence au comportement principal du chien</summary>
+    /// <summary>Reference au comportement principal du chien</summary>
     public DogBehavior dog { get; }
 
-    /// <summary>Référence à la machine à états pour les changements d'état</summary>
+    /// <summary>Reference a la machine a etats pour les changements d'etat</summary>
     public DogStateMachine dogStateMachine { get; }
 
     /// <summary>
-    /// Initialise l'état Idle avec les références nécessaires.
+    /// Initialise l'etat Idle avec les references necessaires.
     /// </summary>
-    /// <param name="dog">Référence au comportement du chien</param>
-    /// <param name="dogStateMachine">Référence à la machine à états</param>
+    /// <param name="dog">Reference au comportement du chien</param>
+    /// <param name="dogStateMachine">Reference a la machine a etats</param>
     public IdleState(DogBehavior dog, DogStateMachine dogStateMachine)
     {
         this.dog = dog;
@@ -26,35 +26,35 @@ public class IdleState : IState
     }
 
     /// <summary>
-    /// Appelé à l'entrée de cet état.
-    /// Peut être utilisé pour initialiser les comportements du repos/balade.
+    /// Appele a l'entree de cet etat.
+    /// Peut etre utilise pour initialiser les comportements du repos/balade.
     /// </summary>
     public void Enter()
     {
-        // Aucune initialisation nécessaire pour le moment
+        // Aucune initialisation necessaire pour le moment
         // Le chien se balade naturellement via RandomMovement dans Process()
     }
 
     /// <summary>
-    /// Met à jour la logique de l'état Idle chaque frame.
-    /// La logique principale est gérée par RandomMovement (déplacement aléatoire).
-    /// Cet état reste passif : il n'agit que si un besoin urgent se manifeste.
+    /// Met a jour la logique de l'etat Idle chaque frame.
+    /// La logique principale est geree par RandomMovement (deplacement aleatoire).
+    /// Cet etat reste passif : il n'agit que si un besoin urgent se manifeste.
     /// </summary>
     public void Process()
     {
-        // La logique du mouvement aléatoire est gérée par RandomMovement.Process()
-        // appelée depuis DogBehavior.Process()
-        // Cet état ne fait rien de particulier : il permet simplement au chien de se balader
+        // La logique du mouvement aleatoire est geree par RandomMovement.Process()
+        // appelee depuis DogBehavior.Process()
+        // Cet etat ne fait rien de particulier : il permet simplement au chien de se balader
     }
 
     /// <summary>
-    /// Appelé à la sortie de cet état.
-    /// Aucune action asynchrone nécessaire ici (retour immédiat).
+    /// Appele a la sortie de cet etat.
+    /// Aucune action asynchrone necessaire ici (retour immediat).
     /// </summary>
-    /// <returns>Task complété immédiatement</returns>
+    /// <returns>Task complete immediatement</returns>
     public Task Exit()
     {
-        // Retourner un Task déjà complété (pas d'opération asynchrone)
+        // Retourner un Task deja complete (pas d'operation asynchrone)
         return Task.CompletedTask;
     }
 }

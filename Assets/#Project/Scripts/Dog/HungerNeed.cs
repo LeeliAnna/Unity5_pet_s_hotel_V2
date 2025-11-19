@@ -3,43 +3,43 @@ using UnityEngine;
 
 public class HungerNeed : NeedBase 
 {
-    /// <summary>Durée du repas en secondes (temps avant de pouvoir retourner en Idle)</summary>
+    /// <summary>Duree du repas en secondes (temps avant de pouvoir retourner en Idle)</summary>
     private float cooldown;
 
-    /// <summary>Points de faim gagnés à chaque repas (récupérés de HungerConfig)</summary>
+    /// <summary>Points de faim gagnes a chaque repas (recuperes de HungerConfig)</summary>
     public float EatGain { get; private set; }
 
     /// <summary>
-    /// Initialise le besoin de faim avec sa configuration spécifique.
-    /// Récupère le cooldown et le gain de faim depuis HungerConfig.
+    /// Initialise le besoin de faim avec sa configuration specifique.
+    /// Recupere le cooldown et le gain de faim depuis HungerConfig.
     /// </summary>
-    /// <param name="needConfig">Asset de configuration (doit être une HungerConfig)</param>
+    /// <param name="needConfig">Asset de configuration (doit etre une HungerConfig)</param>
     public HungerNeed(NeedConfig needConfig) : base(needConfig)
     {        
-        // Vérifier que la config est bien une HungerConfig (et pas juste NeedConfig)
+        // Verifier que la config est bien une HungerConfig (et pas juste NeedConfig)
         if (needConfig is HungerConfig hunger)
         {
-            // Récupérer le cooldown du repas
+            // Recuperer le cooldown du repas
             cooldown = hunger.eatCooldown;
-            // Récupérer les points de faim gagnés par repas
+            // Recuperer les points de faim gagnes par repas
             EatGain = hunger.eatGain;
         }
     }
 
     /// <summary>
-    /// Met à jour la faim du chien chaque frame.
+    /// Met a jour la faim du chien chaque frame.
     /// La faim diminue progressivement selon DecreaseRate.
-    /// Appelle la logique parent de NeedBase (diminution + vérification des seuils).
+    /// Appelle la logique parent de NeedBase (diminution + verification des seuils).
     /// </summary>
     public override void Process()
     {
-        // Exécuter la logique parent : diminuer la faim, vérifier les seuils critiques
+        // Executer la logique parent : diminuer la faim, verifier les seuils critiques
         base.Process();
     }
 
     /// <summary>
     /// Augmente la jauge de faim du chien lors d'un repas.
-    /// La valeur augmentée est égale à EatGain (défini dans HungerConfig).
+    /// La valeur augmentee est egale a EatGain (defini dans HungerConfig).
     /// </summary>
     public void EatOnce()
     {

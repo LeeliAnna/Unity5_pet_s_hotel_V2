@@ -7,45 +7,45 @@ using UnityEngine.AI;
 
 public class EatingState : IState
 {
-    /// <summary>Configuration de la faim (durée du repas, gain de faim, coûts)</summary>
+    /// <summary>Configuration de la faim (duree du repas, gain de faim, coets)</summary>
     private HungerConfig hungerConfig;
 
-    /// <summary>Référence au comportement principal du chien</summary>
+    /// <summary>Reference au comportement principal du chien</summary>
     public DogBehavior dog { get; }
 
-    /// <summary>Référence à la machine à états pour les changements d'état</summary>
+    /// <summary>Reference a la machine a etats pour les changements d'etat</summary>
     public DogStateMachine dogStateMachine { get; }
 
     /// <summary>Drapeau indiquant si le chien est actuellement en train de manger</summary>
     private bool isEating = false;
 
     /// <summary>
-    /// Initialise l'état de repas avec les références nécessaires.
-    /// Récupère la configuration de la faim depuis le comportement du chien.
+    /// Initialise l'etat de repas avec les references necessaires.
+    /// Recupere la configuration de la faim depuis le comportement du chien.
     /// </summary>
-    /// <param name="dog">Référence au comportement du chien</param>
-    /// <param name="dogStateMachine">Référence à la machine à états</param>
+    /// <param name="dog">Reference au comportement du chien</param>
+    /// <param name="dogStateMachine">Reference a la machine a etats</param>
     public EatingState(DogBehavior dog, DogStateMachine dogStateMachine)
     {
         this.dog = dog;
         this.dogStateMachine = dogStateMachine;
-        // Récupérer la configuration de la faim (cooldown, gain, etc.)
+        // Recuperer la configuration de la faim (cooldown, gain, etc.)
         hungerConfig = dog?.hungerConfig;
     }
 
     /// <summary>
-    /// Appelé à l'entrée de cet état.
-    /// Peut être utilisé pour initialiser le comportement du repas.
+    /// Appele a l'entree de cet etat.
+    /// Peut etre utilise pour initialiser le comportement du repas.
     /// </summary>
     public void Enter() { }
 
     /// <summary>
-    /// Met à jour la logique du repas chaque frame.
-    /// Gère le déplacement vers la gamelle, la détection d'arrivée et le lancement du repas.
+    /// Met a jour la logique du repas chaque frame.
+    /// Gere le deplacement vers la gamelle, la detection d'arrivee et le lancement du repas.
     /// </summary>
     public void Process()
     {
-        // Vérifier si la gamelle est devenue vide pendant le repas
+        // Verifier si la gamelle est devenue vide pendant le repas
         if (!dog.CanUse() && !isEating)
         {
             // Retourner en Idle si la gamelle est vide et on ne mange pas
@@ -56,44 +56,44 @@ public class EatingState : IState
         // Si la gamelle est disponible, se diriger vers elle
         if (dog.CanUse())
         {
-            // Ordonnez au chien d'aller à la gamelle
+            // Ordonnez au chien d'aller a la gamelle
             dog.MoveTo(dog.Level.lunchBowl.transform);
 
-            // Vérifier l'arrivée à la gamelle (chemin terminé + distance suffisante)
+            // Verifier l'arrivee a la gamelle (chemin termine + distance suffisante)
             if (!isEating && dog.Agent is not null && !dog.Agent.pathPending && 
                 dog.Agent.remainingDistance <= dog.Agent.stoppingDistance)
             {
-                // Marquer le début du repas
+                // Marquer le debut du repas
                 isEating = true;
                 
-                // Récupérer la durée du repas depuis la config (par défaut 2 secondes)
+                // Recuperer la duree du repas depuis la config (par defaut 2 secondes)
                 float eatDuration = (hungerConfig != null) ? hungerConfig.eatCooldown : 2f;
                 
                 // Lancer la coroutine de repas sur le chien (thread principal Unity)
                 dog.StartCoroutine(dog.EatRoutine(eatDuration, () =>
                 {
-                    // Callback après le repas : marquer fin du repas et retour en Idle
+                    // Callback apres le repas : marquer fin du repas et retour en Idle
                     isEating = false;
                     dogStateMachine.ChangeState<IdleState>();
                 }));
             }
-            // Si la gamelle est disponible mais le chien n'est pas arrivé et ne mange pas
+            // Si la gamelle est disponible mais le chien n'est pas arrive et ne mange pas
             else if (!isEating) 
             {
-                // Retourner en Idle (sécurité pour éviter les blocages)
+                // Retourner en Idle (securite pour eviter les blocages)
                 dog.stateMachine.ChangeState<IdleState>();
             }
         }
     }
 
     /// <summary>
-    /// Appelé à la sortie de cet état.
-    /// Aucune action asynchrone nécessaire ici (retour immédiat).
+    /// Appele e la sortie de cet etat.
+    /// Aucune action asynchrone necessaire ici (retour immediat).
     /// </summary>
-    /// <returns>Task complété immédiatement</returns>
+    /// <returns>Task complete immediatement</returns>
     public Task Exit()
     {
-        // Retourner un Task déjà complété (pas d'opération asynchrone)
+        // Retourner un Task deja complete (pas d'operation asynchrone)
         return Task.CompletedTask;
     }
 }
