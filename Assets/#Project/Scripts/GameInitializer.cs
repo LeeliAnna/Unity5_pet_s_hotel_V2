@@ -24,12 +24,15 @@ public class GameInitializer : MonoBehaviour
     [Header("Dog")]
     [SerializeField] private DogBehavior dog;
     [SerializeField] private Vector3 dogPosition;
+    [SerializeField] private DogConfig dogConfig;
 
     [Space]
     [Header("Random Movement")]
     [SerializeField] private float range;
     [SerializeField] private float cooldownMax;
 
+    [Space]
+    [Header("Hunger Configuration")]
     [SerializeField] private HungerConfig hungerConfig;
 
     void Start()
@@ -50,8 +53,8 @@ public class GameInitializer : MonoBehaviour
     {
         cameraManager.Initialize(camPosition, camRotation);
         level.Initialize(levelPosition, Quaternion.identity, centerPoint, lunchBowlQuantity);
-        dog.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax, hungerConfig);
-        gameManager.Initialize(dog);
+        dog.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax, hungerConfig, dogConfig);
+        gameManager.Initialize(dog, level);
     }
     
 }

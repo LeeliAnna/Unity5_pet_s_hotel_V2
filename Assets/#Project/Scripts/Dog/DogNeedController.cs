@@ -8,7 +8,7 @@ public class DogNeedController : MonoBehaviour
     public List<NeedBase> needs { get; private set; }
 
     public HungerNeed HungerNeed { get; private set; }
-    public bool IsHungry => NeedIsPresent<HungerNeed>();
+    public bool IsHungry => HungerNeed != null && HungerNeed.IsCritical;
 
     public void Initialize(HungerConfig hungerConfig)
     {
@@ -46,11 +46,8 @@ public class DogNeedController : MonoBehaviour
 
     public NeedBase FindNeed(NeedBase need)
     {
-        for (int i = 0; i < needs.Count; i++)
-        {
-            if(needs.Contains(need)) return needs[i];
-        }
-        return null;
+        if (need == null) return null;
+        return needs.FirstOrDefault(n => n == need);
     }
 
 

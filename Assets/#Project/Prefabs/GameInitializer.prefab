@@ -54,7 +54,7 @@ MonoBehaviour:
   lunchBowlQuantity: 300
   dog: {fileID: 3857874017725549293, guid: be65c4bd152301142b95f552c9cda8a9, type: 3}
   dogPosition: {x: 0, y: -0.52, z: 2.233}
+  dogConfig: {fileID: 11400000, guid: 2d003d38323231d40877c19e7acac038, type: 2}
   range: 15
   cooldownMax: 5
-  maxHunger: 100
-  hungerDecreaseRate: 10
+  hungerConfig: {fileID: 11400000, guid: e4cd75bca97890b48a32629b01443563, type: 2}

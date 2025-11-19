@@ -7,5 +7,9 @@ public class HungerConfig : NeedConfig
     [Header("Valeur spécifiques à la faim ")]
     public float eatGain = 35f;
     public float eatCooldown = 2f;
-    
+
+    [Space]
+    [Header("Valeurs spécifiques à la gamelle")]
+    public int eatCost = 100;
+
 }

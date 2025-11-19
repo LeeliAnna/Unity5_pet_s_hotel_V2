@@ -5,6 +5,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(DogBehavior))]
 public class RandomMovement : MonoBehaviour
 {
+    private const float arrivalEpsilon = 0.1f;
+
     private LevelManager levelManager;
     private DogBehavior dogBehavior;
 
@@ -13,6 +15,8 @@ public class RandomMovement : MonoBehaviour
 
     private float cooldownActual = 0f;
 
+    private NavMeshAgent agent;
+
     public void Initialize(LevelManager levelManager, float range, float cooldownMax )
     {
         this.levelManager = levelManager;
@@ -20,6 +24,7 @@ public class RandomMovement : MonoBehaviour
         this.range = range;
         this.cooldownMax = cooldownMax;
 
+        agent = dogBehavior.Agent;
     }
 
     public void Process()
@@ -28,7 +33,20 @@ public class RandomMovement : MonoBehaviour
         {
             cooldownActual -= Time.deltaTime;
         }
-        if(dogBehavior.Agent.remainingDistance >= dogBehavior.Agent.stoppingDistance && cooldownActual <= 0f)
+
+        if (agent == null) return;
+
+        if (agent.isStopped) return;
+
+        if (dogBehavior.stateMachine.CurrentState is not IdleState) return;
+
+        if (agent.pathPending) return;
+
+        bool hasPath = agent.hasPath;
+        float remainingDistance = agent.remainingDistance;
+        bool arrived = !hasPath || remainingDistance <= agent.stoppingDistance + arrivalEpsilon;
+
+        if (arrived && cooldownActual <= 0f)
         {
             ChooseDestination();
         }

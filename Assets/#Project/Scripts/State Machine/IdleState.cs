@@ -13,7 +13,7 @@ public class IdleState : IState
 
     public void Enter()
     {
-        //dog.RandomMovement.ChooseDestination();
+
     }
 
     public void Process()
@@ -21,8 +21,8 @@ public class IdleState : IState
         
     }
 
-    public async Task Exit()
+    public Task Exit()
     {
-        
+        return Task.CompletedTask;
     }
 }

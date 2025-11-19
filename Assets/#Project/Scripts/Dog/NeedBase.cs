@@ -84,7 +84,6 @@ public abstract class NeedBase
 
     public virtual void Process()
     {
-        if(IsCritical) Debug.Log($"{Name} devient critique");
         NeedValue -= DecreaseRate * Time.deltaTime;
     }
 

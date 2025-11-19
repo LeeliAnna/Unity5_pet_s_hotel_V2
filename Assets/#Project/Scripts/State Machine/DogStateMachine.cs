@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
-[RequireComponent(typeof(DogBehavior))]
 public class DogStateMachine
 {
     private DogBehavior dog;
@@ -33,27 +33,40 @@ public class DogStateMachine
 
     public void ChangeState<T>() where T : IState
     {
-        CurrentState?.Exit();
-        Debug.Log($"sortie de l'Ã©tat {CurrentState}");
-        CurrentState = states[typeof(T)];
-        Debug.Log($"Nouvel Ã©tat detecter : {CurrentState}");
+        IState target = states[typeof(T)];
+        if(ReferenceEquals(CurrentState, target)) return;
+
+        try
+        {
+            // ne pas bloquer le main thread en attendant Exit() : lancer et oublier
+            Task exitTask = CurrentState?.Exit();
+            // si on veut, on peut logguer si le Task n'est pas complété immédiatement
+            if (exitTask != null && !exitTask.IsCompleted)
+            {
+                Debug.LogWarning("Exit Task not completed synchronously; state transition proceeds without waiting.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Exception calling Exit(): {ex}");
+        }
+
+        Debug.Log($"Dog State Change: {CurrentState?.GetType().Name} -> {target.GetType().Name}");
+        CurrentState = target;
+
         CurrentState.Enter();
     }
 
     public void CheckUrgentNeed()
     {
         need = dog.urgent;
-        if(CurrentState is IdleState)
+        if (!(CurrentState is IdleState)) return;
+
+        switch (need)
         {
-            switch (need)
-            {
-                case HungerNeed hunger when hunger.IsCritical:
-                    ChangeState<MoveToBowl>();
-                    break;
-                default:
-                    ChangeState<IdleState>();
-                    break;
-            }
+            case HungerNeed hunger when hunger.IsCritical:
+                 ChangeState<MoveToBowl>();
+                 break;
         }
         
     }

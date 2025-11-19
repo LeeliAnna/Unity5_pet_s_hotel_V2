@@ -1,11 +1,12 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AI;
 public class MoveToBowl : IState
 {
+    private const float arrivalEpsilon = 0.1f;
     public DogBehavior dog {get;}
-    private LunchBowlBehavior lunchBowl;
     public DogStateMachine dogStateMachine {get;}
-    private float cooldown = 2;
+    private float cooldown = 2f;
 
     public MoveToBowl(DogBehavior dog, DogStateMachine dogStateMachine)
     {
@@ -18,22 +19,26 @@ public class MoveToBowl : IState
         
     }
 
-    public async Task Exit()
+    public  Task Exit()
     {
-        await Task.Delay((int)(cooldown * 1000f));
+        return Task.CompletedTask;
     }
 
     public void Process()
     {
+        if (dog == null || dog.Level == null || dog.Level.lunchBowl == null) return;
+
         dog.MoveTo(dog.Level.lunchBowl.transform);
-        RaycastHit hit;
-        if (Physics.Raycast(dog.transform.position, dog.Level.lunchBowl.transform.position, out hit, 0.02f))
+
+        NavMeshAgent agent = dog.Agent;
+        if (agent== null || agent.pathPending) return;
+
+        bool arrived = !agent.hasPath || agent.remainingDistance <= agent.stoppingDistance + arrivalEpsilon;
+
+        if (arrived)
         {
-            if (hit.collider.CompareTag("LunchBowl"))
-            {
-                if (dog.CanUse()) dog.stateMachine.ChangeState<EatingState>();
-                else{ dog.stateMachine.ChangeState<HungryState>(); }
-            }
+            if (dog.CanUse()) dog.stateMachine.ChangeState<EatingState>();
+            else{ dog.stateMachine.ChangeState<HungryState>(); }
         }
     }
 }

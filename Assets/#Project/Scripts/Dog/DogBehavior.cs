@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,16 +15,20 @@ public class DogBehavior : MonoBehaviour
     public DogNeedController needs { get; private set; }
     public NeedBase urgent { get; private set; }
     public DogStateMachine stateMachine { get; private set; }
+    private DogConfig dogConfig;
     public HungerConfig hungerConfig;
 
-    public int Appetize { get; } = 100;
+    public int Appetize { get; private set; }
 
 
-    public void Initialize(Vector3 position, Quaternion rotation, LevelManager level, float range, float cooldownMax, HungerConfig hungerConfig)
+    public void Initialize(Vector3 position, Quaternion rotation, LevelManager level, float range, float cooldownMax, HungerConfig hungerConfig, DogConfig dogConfig)
     {
         transform.SetLocalPositionAndRotation(position, rotation);
         Agent = GetComponent<NavMeshAgent>();
         Level = level;
+
+        this.dogConfig = dogConfig;
+        Appetize = dogConfig.appetize;
 
         RandomMovement = GetComponent<RandomMovement>();
         RandomMovement.Initialize(level, range, cooldownMax);
@@ -48,19 +54,40 @@ public class DogBehavior : MonoBehaviour
         Agent.SetDestination(target.position);
     }
 
-    public async Task Eat(float duration)
+    public void Eat()
     {
         if (needs.IsHungry)
         {
             needs.HungerNeed.EatOnce();
-            await Task.Delay((int)(duration * 1000f));
+
+            if(Level != null && Level.lunchBowl != null && Level.lunchBowl.IsUsable)
+            {
+                Level.lunchBowl.DecreaseQuantity(hungerConfig.eatCost);
+            }
         }
+    }
+
+    public IEnumerator EatRoutine(float duration, Action onComplete)
+    {
+        Exception caughtException = null;
+        try
+        {
+            Eat();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[DogBehavior] Exception lors de Eat(): {ex}");
+            caughtException = ex;
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        onComplete?.Invoke();
     }
 
     public bool CanUse()
     {
-        if (Level.lunchBowl.IsUsable) return true;
-        return false;
+        return Level != null && Level.lunchBowl != null && Level.lunchBowl.IsUsable;
     }
 
 }
