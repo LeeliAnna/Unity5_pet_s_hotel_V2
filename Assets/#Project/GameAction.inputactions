@@ -3,7 +3,7 @@
     "name": "GameAction",
     "maps": [
         {
-            "name": "Player",
+            "name": "In Game",
             "id": "6e69c69d-f1fc-412e-8726-2666d039b130",
             "actions": [
                 {

@@ -1,20 +1,18 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 /// <summary>
 /// Gere la gamelle du chien et ses croquettes.
 /// Stocke la quantite de croquettes, permet leur consommation et leur remplissage.
 /// Determine automatiquement si la gamelle est utilisable (contient des croquettes).
 /// </summary>
-public class LunchBowlBehavior : MonoBehaviour
+public class LunchBowlBehavior : MonoBehaviour, IInteractable
 {
     /// <summary>Quantite maximale de croquettes que peut contenir la gamelle</summary>
     private int maxQuantity;
 
     /// <summary>Quantite actuelle de croquettes dans la gamelle (0 a maxQuantity)</summary>
     private int _currentQuantity;
-
-    /// <summary>Drapeau indiquant si la gamelle est utilisable (actuellement inutilise, redondant avec IsUsable)</summary>
-    private bool _isUsable;
 
     /// <summary>
     /// Quantite actuelle de croquettes dans la gamelle.
@@ -79,4 +77,11 @@ public class LunchBowlBehavior : MonoBehaviour
         CurrentQuantity += quantity;
     }
 
+    /// <summary>
+    /// Appeler quand on click sur l'objet
+    /// </summary>
+    public void Interact()
+    {
+        AddQuantity(maxQuantity);
+    }
 }

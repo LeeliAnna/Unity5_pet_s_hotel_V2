@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerInteraction))]
 /// <summary>
 /// Gestionnaire principal du jeu.
 /// Orchestre la boucle de mise a jour de tous les systemes du jeu.
@@ -13,17 +15,25 @@ public class GameManager : MonoBehaviour
     /// <summary>Reference au gestionnaire du niveau</summary>
     private LevelManager levelManager;
 
+    private PlayerInteraction playerInteraction;
+
     /// <summary>
     /// Initialise le gestionnaire du jeu avec les references aux systemes principaux.
     /// Appelee par GameInitializer lors du demarrage du jeu.
     /// </summary>
     /// <param name="dogBehavior">Reference au comportement du chien</param>
     /// <param name="levelManager">Reference au gestionnaire du niveau</param>
-    public void Initialize(DogBehavior dogBehavior, LevelManager levelManager)
+    /// <param name="cameraManager">Reference au gestionnaire de la camera</param>
+    /// <param name="actons">Reference a l'action map venant du game initializer</param>
+    public void Initialize(DogBehavior dogBehavior, LevelManager levelManager, CameraManager cameraManager, InputActionAsset actions)
     {
         // Stocker les references pour acces dans Update()
         this.dogBehavior = dogBehavior;
         this.levelManager = levelManager;
+        
+        playerInteraction = GetComponent<PlayerInteraction>();
+        Debug.Log(playerInteraction);
+        playerInteraction.Initialize(cameraManager, actions);
     }
 
     /// <summary>
@@ -35,6 +45,9 @@ public class GameManager : MonoBehaviour
     {
         // Mettre a jour tous les systemes du chien (mouvement, besoins, machine a etats)
         dogBehavior.Process();
+
+        // Met a jour le PlayerInteraction
+        playerInteraction.process();
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Initialise tous les systemes du jeu au demarrage.
@@ -22,6 +23,13 @@ public class GameInitializer : MonoBehaviour
     [Space]
     [Header("Game Manager")]
     [SerializeField] private GameManager gameManager;
+
+    /// <summary>
+    /// Action map
+    /// </summary>
+    [Space]
+    [Header("Input Action")]
+    [SerializeField] private InputActionAsset actions;
 
     /// <summary>Gestionnaire du niveau (environnement, gamelle, point central)</summary>
     [Space]
@@ -110,7 +118,7 @@ public class GameInitializer : MonoBehaviour
         dog.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax, hungerConfig, dogConfig);
         
         // Initialiser le gestionnaire du jeu avec les references principales (chien et niveau)
-        gameManager.Initialize(dog, level);
+        gameManager.Initialize(dog, level, cameraManager, actions);
     }
     
 }

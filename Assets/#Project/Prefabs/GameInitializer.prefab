@@ -48,6 +48,7 @@ MonoBehaviour:
   camPosition: {x: 7.35, y: 5, z: 0}
   camRotation: {x: -0.27059805, y: 0.65328145, z: -0.27059805, w: -0.65328145}
   gameManager: {fileID: 8076476632325488078, guid: 18573e3a1321fbf459456d819aa5ebc8, type: 3}
+  actions: {fileID: -944628639613478452, guid: a15406cb28aa27042898dfd5bc10aad2, type: 3}
   level: {fileID: 1352924665569756312, guid: 7abcc706699b70d45bc0b806cda767af, type: 3}
   levelPosition: {x: 1.476199, y: 0, z: 0.9416288}
   centerPoint: {fileID: 6774652335348138850, guid: e200b2c572642ad42a4c83355ad650fc, type: 3}
