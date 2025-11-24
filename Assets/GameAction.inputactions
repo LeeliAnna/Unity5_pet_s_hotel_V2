@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "GameAction",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "6e69c69d-f1fc-412e-8726-2666d039b130",
+            "actions": [
+                {
+                    "name": "Selection",
+                    "type": "Button",
+                    "id": "c2ac2656-9839-49b0-be65-ddad588a72e2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e978982f-ab6d-4988-ba86-295a973262e0",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Selection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

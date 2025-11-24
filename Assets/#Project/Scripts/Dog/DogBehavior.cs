@@ -11,12 +11,13 @@ using UnityEngine.AI;
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(RandomMovement))]
+[RequireComponent(typeof(Collider))]
 public class DogBehavior : MonoBehaviour
 {
     /// <summary>Agent de navigation du chien (NavMesh)</summary>
     public NavMeshAgent Agent { get; private set; }
 
-    /// <summary>Composant g�rant le mouvement aleatoire en etat Idle</summary>
+    /// <summary>Composant gerant le mouvement aleatoire en etat Idle</summary>
     public RandomMovement RandomMovement { get; private set; }
 
     /// <summary>Gestionnaire du niveau (environnement, gamelle, etc.)</summary>
@@ -37,8 +38,10 @@ public class DogBehavior : MonoBehaviour
     /// <summary>Configuration de la faim (gains, cooldowns, coats)</summary>
     public HungerConfig hungerConfig;
 
-    /// <summary>App�tit du chien (quantite mangee par repas)</summary>
+    /// <summary>Appetit du chien (quantite mangee par repas)</summary>
     public int Appetize { get; private set; }
+    public float FrontOffset { get; private set; }
+    private float extraFrontOffset = 0.1f;
 
 
     /// <summary>
@@ -59,22 +62,45 @@ public class DogBehavior : MonoBehaviour
         
         // Initialisation du NavMeshAgent
         Agent = GetComponent<NavMeshAgent>();
+
+        // Recuperation du collider 
+        Collider collider = GetComponent<Collider>();
+        ///<summary>
+        /// si le collider existe prend la moitier + un extrat
+        /// si non si agent existe prend le radius de celui-ci
+        /// si non prend ce qui vient des configurations
+        ///</summary>
+        if(collider != null)
+        {
+            float halfLengthZ = collider.bounds.extents.z;
+            FrontOffset = halfLengthZ + extraFrontOffset;
+        }
+        else if (Agent != null)
+        {
+            FrontOffset = Agent.radius + extraFrontOffset;
+        }
+        else
+        {
+            FrontOffset = dogConfig.frontOffset;
+        }
+
+        // recupere le niveau
         Level = level;
 
-        // Recuperation des configurations et app�tit
+        // Recuperation des configurations et appetit
         this.dogConfig = dogConfig;
         Appetize = dogConfig.appetize;
 
         // Initialisation du mouvement aleatoire
         RandomMovement = GetComponent<RandomMovement>();
-        RandomMovement.Initialize(level, range, cooldownMax);
+        RandomMovement.Initialize(level, range, dogConfig);
 
         // Initialisation du contreleur de besoins (faim)
         needs = GetComponent<DogNeedController>();
         this.hungerConfig = hungerConfig;
         needs.Initialize(hungerConfig);
 
-        // Cr�ation de la machine a etats
+        // Creation de la machine a etats
         stateMachine = new DogStateMachine(this);
     }
 
@@ -98,13 +124,31 @@ public class DogBehavior : MonoBehaviour
     }
 
     /// <summary>
-    /// Ordonne au chien de se diriger vers une cible donnee.
+    /// Ordonne au chien de se diriger vers une cible donnee,
+    /// en s'arrêtant légèrement devant au lieu d'arriver dessus.
     /// </summary>
     /// <param name="target">Transform vers laquelle se diriger</param>
     public void MoveTo(Transform target)
     {
+        // Calcul la direction entre la position du chien et le target
+        Vector3 direction = target.position - transform.position;
+        // on ne bouge pas la position haut, bas
+        direction.y = 0f;
+
+        // Verifie si le chien es deja sur place et ne fais rien
+        if(direction.sqrMagnitude < 0.001f) return;
+
+        // Normalise la direction pour obtenir uniquement l'orientation
+        direction.Normalize();
+
+        // Decale la destination pour que le chien s'arrete devant la target
+        Vector3 destination = target.position - direction * FrontOffset;
+
+        // Reduit la distance d'arret pour que l'arrivee soit prescise et propre
+        Agent.stoppingDistance = 0.05f;
+
         // Definir la destination du NavMeshAgent
-        Agent.SetDestination(target.position);
+        Agent.SetDestination(destination);
     }
 
     /// <summary>

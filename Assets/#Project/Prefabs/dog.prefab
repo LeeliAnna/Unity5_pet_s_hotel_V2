@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 3857874017725549293}
   - component: {fileID: 1957100519511301333}
   - component: {fileID: 2610896307616505624}
+  - component: {fileID: 7923039361371154866}
   m_Layer: 0
   m_Name: dog
   m_TagString: Untagged
@@ -183,6 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51b0b2d3a9ffc9488447e13d45543d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DogBehavior
+  hungerConfig: {fileID: 0}
 --- !u!114 &1957100519511301333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2174146d54679104383102a8abb7c166, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RandomMovement
+  baseSpeed: 0
+  turnSpeedFactor: 0
+  bigTurnAngle: 0
 --- !u!114 &2610896307616505624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,3 +212,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dc1e82948d501e49a0b6ce0280fe702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DogNeedController
+--- !u!136 &7923039361371154866
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7671550884117633661}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
