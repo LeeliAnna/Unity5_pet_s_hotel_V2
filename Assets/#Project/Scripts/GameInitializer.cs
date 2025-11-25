@@ -50,6 +50,7 @@ public class GameInitializer : MonoBehaviour
     [Space]
     [Header("Dog")]
     [SerializeField] private DogBehavior dog;
+    [SerializeField] private DogBehavior husky;
 
     /// <summary>Position initiale du chien dans le monde</summary>
     [SerializeField] private Vector3 dogPosition;
@@ -100,6 +101,7 @@ public class GameInitializer : MonoBehaviour
         
         // Instancier le chien
         dog = Instantiate(dog);
+        husky = Instantiate(husky);
     }
 
     /// <summary>
@@ -117,9 +119,11 @@ public class GameInitializer : MonoBehaviour
         
         // Initialiser le chien avec tous ses parametres (position, niveau, config, mouvement, faim)
         dog.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax, hungerConfig, dogConfig);
+        husky.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax, hungerConfig, dogConfig);
         
         // Initialiser le gestionnaire du jeu avec les references principales (chien et niveau)
         gameManager.Initialize(dog, level, cameraManager, actions);
+        // Activation du GameManager
         gameManager.gameObject.SetActive(true);
     }
     

@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     private LevelManager levelManager;
 
     private PlayerInteraction playerInteraction;
+    private InputActionAsset actions;
 
     /// <summary>
     /// Initialise le gestionnaire du jeu avec les references aux systemes principaux.
@@ -30,10 +31,15 @@ public class GameManager : MonoBehaviour
         // Stocker les references pour acces dans Update()
         this.dogBehavior = dogBehavior;
         this.levelManager = levelManager;
+        // Recuperation de l'action map pour la transferer au PlayerInteraction
+        this.actions = actions;
         
+        // Recuperation du PlayerInteraction et activation de celui-ci
         playerInteraction = GetComponent<PlayerInteraction>();
-        Debug.Log(playerInteraction);
         playerInteraction.Initialize(cameraManager, actions);
+        // Desactivation et activation pour déclencher le OnEnable
+        playerInteraction.gameObject.SetActive(false);
+        playerInteraction.gameObject.SetActive(true);
     }
 
     /// <summary>

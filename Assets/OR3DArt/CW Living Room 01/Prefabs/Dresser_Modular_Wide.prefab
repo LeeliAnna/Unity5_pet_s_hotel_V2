@@ -1,0 +1,333 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5282720967099433822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3633907570161634914}
+  m_Layer: 0
+  m_Name: Dresser_Modular_Wide
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3633907570161634914
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5282720967099433822}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8057456664588493810}
+  - {fileID: 6123039445599814772}
+  - {fileID: 1371705848864525238}
+  - {fileID: 6685307553325072168}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2952066885387077029
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3633907570161634914}
+    m_Modifications:
+    - target: {fileID: 4323066426858769939, guid: b32df11f7f10b1c45b3197387ebcc3a7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323066426858769939, guid: b32df11f7f10b1c45b3197387ebcc3a7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323066426858769939, guid: b32df11f7f10b1c45b3197387ebcc3a7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323066426858769939, guid: b32df11f7f10b1c45b3197387ebcc3a7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323066426858769939, guid: b32df11f7f10b1c45b3197387ebcc3a7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323066426858769939, guid: b32df11f7f10b1c45b3197387ebcc3a7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323066426858769939, guid: b32df11f7f10b1c45b3197387ebcc3a7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323066426858769939, guid: b32df11f7f10b1c45b3197387ebcc3a7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323066426858769939, guid: b32df11f7f10b1c45b3197387ebcc3a7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323066426858769939, guid: b32df11f7f10b1c45b3197387ebcc3a7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973259900321016826, guid: b32df11f7f10b1c45b3197387ebcc3a7,
+        type: 3}
+      propertyPath: m_Name
+      value: Dresser_Modular_Wide_Drawer_Mid
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b32df11f7f10b1c45b3197387ebcc3a7, type: 3}
+--- !u!4 &1371705848864525238 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4323066426858769939, guid: b32df11f7f10b1c45b3197387ebcc3a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 2952066885387077029}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4367018007306241475
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3633907570161634914}
+    m_Modifications:
+    - target: {fileID: 109100615843514303, guid: 87c6c9d5ace2fff4ab5581462c96b4d9,
+        type: 3}
+      propertyPath: m_Name
+      value: Dresser_Modular_Wide_Main
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001914671263622705, guid: 87c6c9d5ace2fff4ab5581462c96b4d9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001914671263622705, guid: 87c6c9d5ace2fff4ab5581462c96b4d9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001914671263622705, guid: 87c6c9d5ace2fff4ab5581462c96b4d9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001914671263622705, guid: 87c6c9d5ace2fff4ab5581462c96b4d9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001914671263622705, guid: 87c6c9d5ace2fff4ab5581462c96b4d9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001914671263622705, guid: 87c6c9d5ace2fff4ab5581462c96b4d9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001914671263622705, guid: 87c6c9d5ace2fff4ab5581462c96b4d9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001914671263622705, guid: 87c6c9d5ace2fff4ab5581462c96b4d9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001914671263622705, guid: 87c6c9d5ace2fff4ab5581462c96b4d9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001914671263622705, guid: 87c6c9d5ace2fff4ab5581462c96b4d9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 87c6c9d5ace2fff4ab5581462c96b4d9, type: 3}
+--- !u!4 &8057456664588493810 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6001914671263622705, guid: 87c6c9d5ace2fff4ab5581462c96b4d9,
+    type: 3}
+  m_PrefabInstance: {fileID: 4367018007306241475}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4524413936645492324
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3633907570161634914}
+    m_Modifications:
+    - target: {fileID: 1366522745918394227, guid: 6a52b72176187944d9714fda87262f68,
+        type: 3}
+      propertyPath: m_Name
+      value: Dresser_Modular_Wide_Drawer_Bottom
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065876569582596428, guid: 6a52b72176187944d9714fda87262f68,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065876569582596428, guid: 6a52b72176187944d9714fda87262f68,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065876569582596428, guid: 6a52b72176187944d9714fda87262f68,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065876569582596428, guid: 6a52b72176187944d9714fda87262f68,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065876569582596428, guid: 6a52b72176187944d9714fda87262f68,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065876569582596428, guid: 6a52b72176187944d9714fda87262f68,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065876569582596428, guid: 6a52b72176187944d9714fda87262f68,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065876569582596428, guid: 6a52b72176187944d9714fda87262f68,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065876569582596428, guid: 6a52b72176187944d9714fda87262f68,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7065876569582596428, guid: 6a52b72176187944d9714fda87262f68,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6a52b72176187944d9714fda87262f68, type: 3}
+--- !u!4 &6685307553325072168 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7065876569582596428, guid: 6a52b72176187944d9714fda87262f68,
+    type: 3}
+  m_PrefabInstance: {fileID: 4524413936645492324}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7816386521511716209
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3633907570161634914}
+    m_Modifications:
+    - target: {fileID: 1220977406844725600, guid: ae85854f46d7ccf4ea0d342c767c8e70,
+        type: 3}
+      propertyPath: m_Name
+      value: Dresser_Modular_Wide_Drawer_Top
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071260453609005317, guid: ae85854f46d7ccf4ea0d342c767c8e70,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071260453609005317, guid: ae85854f46d7ccf4ea0d342c767c8e70,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071260453609005317, guid: ae85854f46d7ccf4ea0d342c767c8e70,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071260453609005317, guid: ae85854f46d7ccf4ea0d342c767c8e70,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071260453609005317, guid: ae85854f46d7ccf4ea0d342c767c8e70,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071260453609005317, guid: ae85854f46d7ccf4ea0d342c767c8e70,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071260453609005317, guid: ae85854f46d7ccf4ea0d342c767c8e70,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071260453609005317, guid: ae85854f46d7ccf4ea0d342c767c8e70,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071260453609005317, guid: ae85854f46d7ccf4ea0d342c767c8e70,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071260453609005317, guid: ae85854f46d7ccf4ea0d342c767c8e70,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ae85854f46d7ccf4ea0d342c767c8e70, type: 3}
+--- !u!4 &6123039445599814772 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4071260453609005317, guid: ae85854f46d7ccf4ea0d342c767c8e70,
+    type: 3}
+  m_PrefabInstance: {fileID: 7816386521511716209}
+  m_PrefabAsset: {fileID: 0}
