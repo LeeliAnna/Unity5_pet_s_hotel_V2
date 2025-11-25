@@ -31,8 +31,8 @@ public class PlayerInteraction : MonoBehaviour
         InputActionMap map = actions.FindActionMap(PLAYER_ACTION_MAP);
         clickAction = map.FindAction(INPUT_ACTION_CLICK);
 
-        clickAction.performed += OnInteractionPerformed;
-        map.Enable();
+        //clickAction.performed += OnInteractionPerformed;
+        //map.Enable();
     }
 
     /// <summary>
@@ -49,6 +49,7 @@ public class PlayerInteraction : MonoBehaviour
         mousePosition = Mouse.current.position.ReadValue();
     }
 
+#warning TODO : ajouter commentaire sur les méthodes ajouter pour le click!
     private void OnEnable()
     {
         if(actions != null)

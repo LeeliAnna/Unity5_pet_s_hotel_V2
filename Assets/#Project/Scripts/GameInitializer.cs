@@ -1,4 +1,5 @@
-﻿using UnityEditor.ShaderGraph.Internal;
+﻿using Unity.VisualScripting;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -119,6 +120,7 @@ public class GameInitializer : MonoBehaviour
         
         // Initialiser le gestionnaire du jeu avec les references principales (chien et niveau)
         gameManager.Initialize(dog, level, cameraManager, actions);
+        gameManager.gameObject.SetActive(true);
     }
     
 }
