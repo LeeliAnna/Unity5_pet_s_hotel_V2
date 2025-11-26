@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 public class GameManager : MonoBehaviour
 {
     /// <summary>Reference au comportement principal du chien</summary>
-    private DogBehavior dogBehavior;
+    private DogBehaviour dogBehavior;
 
     /// <summary>Reference au gestionnaire du niveau</summary>
     private LevelManager levelManager;
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     /// <param name="levelManager">Reference au gestionnaire du niveau</param>
     /// <param name="cameraManager">Reference au gestionnaire de la camera</param>
     /// <param name="actons">Reference a l'action map venant du game initializer</param>
-    public void Initialize(DogBehavior dogBehavior, LevelManager levelManager, CameraManager cameraManager, InputActionAsset actions)
+    public void Initialize(DogBehaviour dogBehavior, LevelManager levelManager, CameraManager cameraManager, InputActionAsset actions)
     {
         // Stocker les references pour acces dans Update()
         this.dogBehavior = dogBehavior;

@@ -12,7 +12,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(RandomMovement))]
 [RequireComponent(typeof(Collider))]
-public class DogBehavior : MonoBehaviour
+[RequireComponent(typeof(Animator))]
+public class DogBehaviour : MonoBehaviour
 {
     /// <summary>Agent de navigation du chien (NavMesh)</summary>
     public NavMeshAgent Agent { get; private set; }
@@ -38,6 +39,9 @@ public class DogBehavior : MonoBehaviour
     /// <summary>Configuration de la faim (gains, cooldowns, coats)</summary>
     public HungerConfig hungerConfig;
 
+    public DogAnimationController dogAnimationController { get; private set; }
+    private Animator dogAnimator;
+
     /// <summary>Appetit du chien (quantite mangee par repas)</summary>
     public int Appetize { get; private set; }
     public float FrontOffset { get; private set; }
@@ -55,8 +59,12 @@ public class DogBehavior : MonoBehaviour
     /// <param name="cooldownMax">Cooldown entre chaque destination aleatoire</param>
     /// <param name="hungerConfig">Asset de configuration de la faim</param>
     /// <param name="dogConfig">Asset de configuration du chien</param>
+    /// <param name="dogAnimatorController">Animator du chien</param>
     public void Initialize(Vector3 position, Quaternion rotation, LevelManager level, float range, float cooldownMax, HungerConfig hungerConfig, DogConfig dogConfig)
     {
+        this.dogConfig = dogConfig;
+        this.hungerConfig = hungerConfig;
+
         // Positionnement et rotation du chien
         transform.SetLocalPositionAndRotation(position, rotation);
         
@@ -88,7 +96,6 @@ public class DogBehavior : MonoBehaviour
         Level = level;
 
         // Recuperation des configurations et appetit
-        this.dogConfig = dogConfig;
         Appetize = dogConfig.appetize;
 
         // Initialisation du mouvement aleatoire
@@ -97,11 +104,14 @@ public class DogBehavior : MonoBehaviour
 
         // Initialisation du contreleur de besoins (faim)
         needs = GetComponent<DogNeedController>();
-        this.hungerConfig = hungerConfig;
         needs.Initialize(hungerConfig);
 
+        dogAnimator = GetComponent<Animator>();
+        dogAnimationController = GetComponent<DogAnimationController>();
+        dogAnimationController.Initialize(dogAnimator);
+
         // Creation de la machine a etats
-        stateMachine = new DogStateMachine(this);
+        stateMachine = new DogStateMachine(this, dogAnimationController);
     }
 
     /// <summary>
@@ -121,6 +131,9 @@ public class DogBehavior : MonoBehaviour
 
         // Executer la logique de la machine a etats
         stateMachine.Process();
+
+        // Mise a jour de l'animation en fonction de la vitesse de l'agent
+        dogAnimationController.UpdateLocomotion(Agent.velocity);
     }
 
     /// <summary>
@@ -188,7 +201,7 @@ public class DogBehavior : MonoBehaviour
         catch (Exception ex)
         {
             // Capturer les erreurs sans interrompre le flux
-            Debug.LogError($"[DogBehavior] Exception lors du repas: {ex}");
+            Debug.LogError($"[u] Exception lors du repas: {ex}");
         }
 
         // Attendre la duree du repas

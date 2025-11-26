@@ -11,10 +11,12 @@ public class EatingState : IState
     private HungerConfig hungerConfig;
 
     /// <summary>Reference au comportement principal du chien</summary>
-    public DogBehavior dog { get; }
+    public DogBehaviour dog { get; }
 
     /// <summary>Reference a la machine a etats pour les changements d'etat</summary>
     public DogStateMachine dogStateMachine { get; }
+
+        public DogAnimationController dogAnimationController { get; }
 
     /// <summary>Drapeau indiquant si le chien est actuellement en train de manger</summary>
     private bool isEating = false;
@@ -25,10 +27,11 @@ public class EatingState : IState
     /// </summary>
     /// <param name="dog">Reference au comportement du chien</param>
     /// <param name="dogStateMachine">Reference a la machine a etats</param>
-    public EatingState(DogBehavior dog, DogStateMachine dogStateMachine)
+    public EatingState(DogBehaviour dog, DogStateMachine dogStateMachine, DogAnimationController dogAnimationController)
     {
         this.dog = dog;
         this.dogStateMachine = dogStateMachine;
+        this.dogAnimationController = dogAnimationController;
         // Recuperer la configuration de la faim (cooldown, gain, etc.)
         hungerConfig = dog?.hungerConfig;
     }
@@ -91,9 +94,8 @@ public class EatingState : IState
     /// Aucune action asynchrone necessaire ici (retour immediat).
     /// </summary>
     /// <returns>Task complete immediatement</returns>
-    public Task Exit()
+    public void Exit()
     {
-        // Retourner un Task deja complete (pas d'operation asynchrone)
-        return Task.CompletedTask;
+        
     }
 }

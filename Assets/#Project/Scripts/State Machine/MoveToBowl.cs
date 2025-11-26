@@ -13,20 +13,23 @@ public class MoveToBowl : IState
     private const float arrivalEpsilon = 0.1f;
 
     /// <summary>Reference au comportement principal du chien</summary>
-    public DogBehavior dog { get; }
+    public DogBehaviour dog { get; }
 
     /// <summary>Reference a la machine a etats pour les changements d'etat</summary>
     public DogStateMachine dogStateMachine { get; }
+
+    public DogAnimationController dogAnimationController { get; }
 
     /// <summary>
     /// Initialise l'etat de deplacement vers la gamelle avec les references necessaires.
     /// </summary>
     /// <param name="dog">Reference au comportement du chien</param>
     /// <param name="dogStateMachine">Reference a la machine a etats</param>
-    public MoveToBowl(DogBehavior dog, DogStateMachine dogStateMachine)
+    public MoveToBowl(DogBehaviour dog, DogStateMachine dogStateMachine, DogAnimationController dogAnimationController)
     {
         this.dog = dog;
         this.dogStateMachine = dogStateMachine;
+        this.dogAnimationController = dogAnimationController;
     }
 
     /// <summary>
@@ -40,17 +43,6 @@ public class MoveToBowl : IState
     }
 
     /// <summary>
-    /// Appele a la sortie de cet etat.
-    /// Aucune action asynchrone necessaire ici (retour immediat).
-    /// </summary>
-    /// <returns>Task complete immediatement</returns>
-    public Task Exit()
-    {
-        // Retourner un Task deja complete (pas d'operation asynchrone)
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
     /// Met a jour le deplacement vers la gamelle chaque frame.
     /// Gere la navigation, detecte l'arrivee et declenche le changement vers EatingState ou HungryState.
     /// </summary>
@@ -61,6 +53,8 @@ public class MoveToBowl : IState
 
         // Ordonnez au chien de se diriger vers la gamelle
         dog.MoveTo(dog.Level.lunchBowl.transform);
+
+        dogAnimationController.UpdateLocomotion(dog.Agent.velocity);
 
         // Recuperer l'agent de navigation pour verifier l'arrivee
         NavMeshAgent agent = dog.Agent;
@@ -84,5 +78,15 @@ public class MoveToBowl : IState
                 dog.stateMachine.ChangeState<HungryState>();
             }
         }
+    }
+
+    /// <summary>
+    /// Appele a la sortie de cet etat.
+    /// Aucune action asynchrone necessaire ici (retour immediat).
+    /// </summary>
+    /// <returns>Task complete immediatement</returns>
+    public void Exit()
+    {
+        // dogAnimationController.UpdateLocomotion(0f);
     }
 }

@@ -1622,7 +1622,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CT_Husky_AContr_Demo
+  m_Name: _dog_animations
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Blend

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using UnityEngine;
 
 /// <summary>
 /// etat representant le chien en repos ou en balade aleatoire.
@@ -9,20 +10,23 @@ using System.Threading.Tasks;
 public class IdleState : IState
 {
     /// <summary>Reference au comportement principal du chien</summary>
-    public DogBehavior dog { get; }
+    public DogBehaviour dog { get; }
 
     /// <summary>Reference a la machine a etats pour les changements d'etat</summary>
     public DogStateMachine dogStateMachine { get; }
+
+    public DogAnimationController dogAnimationController { get; }
 
     /// <summary>
     /// Initialise l'etat Idle avec les references necessaires.
     /// </summary>
     /// <param name="dog">Reference au comportement du chien</param>
     /// <param name="dogStateMachine">Reference a la machine a etats</param>
-    public IdleState(DogBehavior dog, DogStateMachine dogStateMachine)
+    public IdleState(DogBehaviour dog, DogStateMachine dogStateMachine, DogAnimationController dogAnimationController)
     {
         this.dog = dog;
         this.dogStateMachine = dogStateMachine;
+        this.dogAnimationController = dogAnimationController;
     }
 
     /// <summary>
@@ -31,8 +35,9 @@ public class IdleState : IState
     /// </summary>
     public void Enter()
     {
-        // Aucune initialisation necessaire pour le moment
-        // Le chien se balade naturellement via RandomMovement dans Process()
+        // dogAnimationController.SetSpeed(0.0f);
+
+        dogAnimationController.SetIdleVariant(Random.Range(0,6));
     }
 
     /// <summary>
@@ -42,9 +47,7 @@ public class IdleState : IState
     /// </summary>
     public void Process()
     {
-        // La logique du mouvement aleatoire est geree par RandomMovement.Process()
-        // appelee depuis DogBehavior.Process()
-        // Cet etat ne fait rien de particulier : il permet simplement au chien de se balader
+        if (dog.Agent.velocity.magnitude > 0.05f) dogStateMachine.ChangeState<WalkState>();
     }
 
     /// <summary>
@@ -52,9 +55,8 @@ public class IdleState : IState
     /// Aucune action asynchrone necessaire ici (retour immediat).
     /// </summary>
     /// <returns>Task complete immediatement</returns>
-    public Task Exit()
+    public void Exit()
     {
-        // Retourner un Task deja complete (pas d'operation asynchrone)
-        return Task.CompletedTask;
+        
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 /// Stocke la quantite de croquettes, permet leur consommation et leur remplissage.
 /// Determine automatiquement si la gamelle est utilisable (contient des croquettes).
 /// </summary>
-public class LunchBowlBehavior : MonoBehaviour, IInteractable
+public class LunchBowlBehaviour : MonoBehaviour, IInteractable
 {
     /// <summary>Quantite maximale de croquettes que peut contenir la gamelle</summary>
     private int maxQuantity;

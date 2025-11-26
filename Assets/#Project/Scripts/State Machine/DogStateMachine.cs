@@ -11,7 +11,8 @@ using UnityEngine;
     public class DogStateMachine
     {
         /// <summary>Reference au comportement principal du chien</summary>
-        private DogBehavior dog;
+        private DogBehaviour dog;
+        private DogAnimationController dogAnimationController;
 
         /// <summary>Le besoin le plus urgent du moment (faim, etc.)</summary>
         private NeedBase need;
@@ -30,17 +31,19 @@ using UnityEngine;
         /// L'etat initial est toujours IdleState.
         /// </summary>
         /// <param name="dog">Reference au comportement du chien</param>
-        public DogStateMachine(DogBehavior dog)
+        public DogStateMachine(DogBehaviour dog, DogAnimationController dogAnimationController)
         {
             this.dog = dog;
+            this.dogAnimationController = dogAnimationController;
             
             // Creer et initialiser tous les etats possibles du chien
             states = new Dictionary<Type, IState>()
             {
-                { typeof(IdleState), new IdleState(dog, this) },           // etat de repos/balade
-                { typeof(EatingState), new EatingState(dog, this) },       // etat de repas
-                { typeof(HungryState), new HungryState(dog, this) },       // etat d'attente (gamelle vide)
-                { typeof(MoveToBowl), new MoveToBowl(dog, this) }          // etat de navigation vers gamelle
+                { typeof(IdleState), new IdleState(dog, this, dogAnimationController) },            // etat de repos/balade
+                {typeof(WalkState), new WalkState(dog, this, dogAnimationController)},              // etat de marche
+                { typeof(EatingState), new EatingState(dog, this, dogAnimationController) },        // etat de repas
+                { typeof(HungryState), new HungryState(dog, this, dogAnimationController) },        // etat d'attente (gamelle vide)
+                { typeof(MoveToBowl), new MoveToBowl(dog, this, dogAnimationController) }           // etat de navigation vers gamelle
             };
 
             // Commencer en etat Idle
@@ -77,17 +80,12 @@ using UnityEngine;
             try
             {
                 // Appeler Exit() de l'etat sortant et verifier sa completion
-                Task exitTask = CurrentState?.Exit();
-                if (exitTask != null && !exitTask.IsCompleted)
-                {
-                    // Log d'avertissement si le Task n'est pas termine immediatement
-                    Debug.LogWarning($"[State Machine] Exit Task non complet pour {CurrentState?.GetType().Name}");
-                }
+                CurrentState?.Exit();
             }
             catch (Exception ex)
             {
                 // Capturer les erreurs dans Exit() pour eviter un crash
-                Debug.LogError($"[State Machine] Exception attrap�e dans Exit(): {ex}");
+                Debug.LogError($"[State Machine] Exception attrapee dans Exit(): {ex}");
             }
 
             // Changer l'etat courant

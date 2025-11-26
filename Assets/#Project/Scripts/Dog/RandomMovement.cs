@@ -7,14 +7,14 @@ using UnityEngine.AI;
 /// Le chien se deplace vers des points aleatoires sur le NavMesh avec des cooldowns entre les deplacements.
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(DogBehavior))]
+[RequireComponent(typeof(DogBehaviour))]
 public class RandomMovement : MonoBehaviour
 {
     /// <summary>Marge de tolerance pour considerer l'agent comme arrive a destination</summary>
     private const float arrivalEpsilon = 0.1f;
 
     private LevelManager levelManager;
-    private DogBehavior dogBehavior;
+    private DogBehaviour dogBehaviour;
 
     private float range;              // Distance max de recherche de point aleatoire
     private float cooldownActual;     // Cooldown restant en secondes
@@ -32,6 +32,7 @@ public class RandomMovement : MonoBehaviour
     private Vector3 velocity;
     private bool hasLasDestination;
 
+    public bool IsMoving => agent.velocity.magnitude > 0.0f;
 
     /// <summary>
     /// Initialise le composant avec les references necessaires et les parametres de deplacement.
@@ -42,8 +43,8 @@ public class RandomMovement : MonoBehaviour
     public void Initialize(LevelManager levelManager, float range, DogConfig dogConfig)
     {
         this.levelManager = levelManager;
-        dogBehavior = GetComponent<DogBehavior>();
         this.range = range;
+        dogBehaviour = GetComponent<DogBehaviour>();
         cooldownMax = dogConfig.cooldownMax;
         cooldownMin = dogConfig.cooldownMin;
         minWalkSpeed = dogConfig.minWalkSpeed;
@@ -52,10 +53,12 @@ public class RandomMovement : MonoBehaviour
         baseSpeed = dogConfig.baseSpeed;
         turnSpeedFactor = dogConfig.turnSpeedFactor;
         bigTurnAngle = dogConfig.bigTurnAngle;
+        rotationSpeed = dogConfig.rotationSpeed;
 
-        agent = dogBehavior.Agent;
+        agent = dogBehaviour.Agent;
+        // agent.updateRotation = false;
         // recuperation de la direction de deplacement prevue par l'agent 
-        velocity = agent.desiredVelocity;
+        // velocity = agent.desiredVelocity;
 
         // generation d'un cooldown aleatoire
         cooldownActual = Random.Range(cooldownMin, cooldownMax);
@@ -76,8 +79,20 @@ public class RandomMovement : MonoBehaviour
         // Verifications de securite
         if (agent == null) return;
         if (agent.isStopped) return;
-        if (dogBehavior.stateMachine.CurrentState is not IdleState) return; // Uniquement en Idle
+        if (dogBehaviour.stateMachine.CurrentState is not IdleState) return; // Uniquement en Idle
         if (agent.pathPending) return; // Attendre que le chemin soit calcule
+
+        Debug.Log($"[RandomMovment] rotation {velocity}");
+        // if (!agent.updateRotation)
+        // {
+        //     velocity = agent.desiredVelocity;
+        //     velocity.y = 0f;
+        //     if(agent != null && !agent.pathPending && agent.hasPath && velocity.sqrMagnitude > 0.01f)
+        //     {
+        //     }
+        // }
+        UpdateTurnSpeed();
+        UpdateRotationFromAgent();
 
         // Verifier l'arrivee a destination
         bool hasPath = agent.hasPath;
@@ -98,12 +113,9 @@ public class RandomMovement : MonoBehaviour
             }
         }
 
-        velocity = agent.desiredVelocity;
-        // pas de rotation en haut ou en bas
-        velocity.y = 0f;
-
-        UpdateTurnSpeed();
-        UpdateRotationFromAgent();
+        // velocity = agent.desiredVelocity;
+        // // pas de rotation en haut ou en bas
+        // velocity.y = 0f;
     }
 
     /// <summary>
@@ -154,7 +166,7 @@ public class RandomMovement : MonoBehaviour
             agent.speed = Random.Range(minWalkSpeed, maxWalkSpeed);
 
             // Envoyer l'agent vers ce point
-            dogBehavior.Agent.SetDestination(point);
+            dogBehaviour.Agent.SetDestination(point);
             // recupere le point selectionner
             lastDestination = point;
             // set a true has last destination
@@ -176,14 +188,18 @@ public class RandomMovement : MonoBehaviour
     private void UpdateRotationFromAgent()
     {
         // Securite : si jamais l'agent n'existe pas, on stoppe la fonction
-        if (agent == null) return;
+        if (agent == null || agent.pathPending || !agent.hasPath) return;
+        Vector3 desired = agent.desiredVelocity;
+        desired.y = 0f;
+
+        if(agent.updateRotation) return;
 
         // si le chien est quasiment immobile, on ne le tourne pas
-        if(velocity.sqrMagnitude < 0.01f) return;
+        if(desired.sqrMagnitude < 0.03f) return;
         
         // Calcule la rotation que le chien devrait viser
         // LookRotation crée une orientation a partir d'une direction
-        Quaternion tragetRotation = Quaternion.LookRotation(velocity.normalized);
+        Quaternion tragetRotation = Quaternion.LookRotation(desired.normalized);
 
         // Fait tourner le chien progressivement vers la rotation cible
         // Slerp = interpolation douce → evite les rotations brusques

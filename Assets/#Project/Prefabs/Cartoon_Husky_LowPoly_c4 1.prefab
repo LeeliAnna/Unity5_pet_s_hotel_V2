@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 910256308836660786}
   - component: {fileID: 4164770372457975148}
   - component: {fileID: 4598966705217013650}
+  - component: {fileID: -2083787937679466024}
   m_Layer: 0
   m_Name: Cartoon_Husky_LowPoly_c4 1
   m_TagString: Untagged
@@ -237,7 +238,7 @@ Animator:
   m_GameObject: {fileID: 1406628425980949499}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 2c38ef2cfd8e4004baaab10cfb9ab032, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f523be7338c7e894e864f833ff5c0027, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -332,6 +333,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dc1e82948d501e49a0b6ce0280fe702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DogNeedController
+--- !u!114 &-2083787937679466024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406628425980949499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c22f0efa84729b4d94ce778d021e396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DogAnimationController
 --- !u!1 &2475177614833116291
 GameObject:
   m_ObjectHideFlags: 0

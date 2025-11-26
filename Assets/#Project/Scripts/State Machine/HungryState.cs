@@ -9,20 +9,23 @@ using UnityEngine;
 public class HungryState : IState
 {
     /// <summary>Reference au comportement principal du chien</summary>
-    public DogBehavior dog { get; }
+    public DogBehaviour dog { get; }
 
     /// <summary>Reference a la machine a etats pour les changements d'etat</summary>
     public DogStateMachine dogStateMachine { get; }
+
+        public DogAnimationController dogAnimationController { get; }
 
     /// <summary>
     /// Initialise l'etat affame avec les references necessaires.
     /// </summary>
     /// <param name="dog">Reference au comportement du chien</param>
     /// <param name="dogStateMachine">Reference a la machine a etats</param>
-    public HungryState(DogBehavior dog, DogStateMachine dogStateMachine)
+    public HungryState(DogBehaviour dog, DogStateMachine dogStateMachine, DogAnimationController dogAnimationController)
     {
         this.dog = dog;
         this.dogStateMachine = dogStateMachine;
+        this.dogAnimationController = dogAnimationController;
     }
 
     /// <summary>
@@ -33,17 +36,6 @@ public class HungryState : IState
     {
         // Informer que le chien est en attente de remplissage de la gamelle
         Debug.Log("[HungryState] Enter - La gamelle est vide! En attente de remplissage...");
-    }
-
-    /// <summary>
-    /// Appele a la sortie de cet etat.
-    /// Aucune action asynchrone necessaire ici (retour immediat).
-    /// </summary>
-    /// <returns>Task complete immediatement</returns>
-    public Task Exit()
-    {
-        // Retourner un Task deja complete (pas d'operation asynchrone)
-        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -62,5 +54,15 @@ public class HungryState : IState
             dog.stateMachine.ChangeState<MoveToBowl>();
         }
         // Sinon, rester en HungryState (attendre passivement)
+    }
+
+    /// <summary>
+    /// Appele a la sortie de cet etat.
+    /// Aucune action asynchrone necessaire ici (retour immediat).
+    /// </summary>
+    /// <returns>Task complete immediatement</returns>
+    public void Exit()
+    {
+        
     }
 }
