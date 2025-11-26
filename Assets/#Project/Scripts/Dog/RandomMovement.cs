@@ -31,6 +31,7 @@ public class RandomMovement : MonoBehaviour
     private Vector3 lastDestination;
     private Vector3 velocity;
     private bool hasLasDestination;
+    private bool isIdelingAtPoint;
 
     public bool IsMoving => agent.velocity.magnitude > 0.0f;
 
@@ -56,9 +57,9 @@ public class RandomMovement : MonoBehaviour
         rotationSpeed = dogConfig.rotationSpeed;
 
         agent = dogBehaviour.Agent;
-        // agent.updateRotation = false;
+        agent.updateRotation = true;
         // recuperation de la direction de deplacement prevue par l'agent 
-        // velocity = agent.desiredVelocity;
+        velocity = agent.desiredVelocity;
 
         // generation d'un cooldown aleatoire
         cooldownActual = Random.Range(cooldownMin, cooldownMax);
@@ -70,46 +71,61 @@ public class RandomMovement : MonoBehaviour
     /// </summary>
     public void Process()
     {
-        // Decrementer le cooldown
-        if(cooldownActual > 0f)
-        {
-            cooldownActual -= Time.deltaTime;
-        }
-
         // Verifications de securite
         if (agent == null) return;
         if (agent.isStopped) return;
         if (dogBehaviour.stateMachine.CurrentState is not IdleState) return; // Uniquement en Idle
         if (agent.pathPending) return; // Attendre que le chemin soit calcule
 
-        Debug.Log($"[RandomMovment] rotation {velocity}");
-        // if (!agent.updateRotation)
-        // {
-        //     velocity = agent.desiredVelocity;
-        //     velocity.y = 0f;
-        //     if(agent != null && !agent.pathPending && agent.hasPath && velocity.sqrMagnitude > 0.01f)
-        //     {
-        //     }
-        // }
-        UpdateTurnSpeed();
-        UpdateRotationFromAgent();
-
         // Verifier l'arrivee a destination
         bool hasPath = agent.hasPath;
         float remainingDistance = agent.remainingDistance;
         bool arrived = !hasPath || remainingDistance <= agent.stoppingDistance + arrivalEpsilon;
 
-        // Si arrive et cooldown ecoule : choisir une nouvelle destination
-        if (arrived && cooldownActual <= 0f)
+        if (arrived)
         {
-            // 30% de chance que le chien sniff sur place
-            if(Random.value < 0.3f)
+            if (hasPath)
             {
-                StartCoroutine(SniffRoutine());
+                agent.ResetPath();
+            }
+            if (!isIdelingAtPoint)
+            {
+                isIdelingAtPoint = true;
+                cooldownActual = Random.Range(cooldownMin, cooldownMax);
+
+                // modifier l'animation idle pour avoir les variants
+                // dogBehaviour.dogAnimationController.SetIdleVariant(Random.Range(0,6));
             }
             else
             {
-                ChooseDestination();
+                // Decrementer le cooldown
+                if(cooldownActual > 0f)
+                {
+                    cooldownActual -= Time.deltaTime;
+                    return;
+                }
+                isIdelingAtPoint = false;
+                
+                if(Random.value < 0.3f)
+                {
+                    StartCoroutine(SniffRoutine());
+                }
+                else
+                {
+                    ChooseDestination();
+                }
+            }
+            return;
+        }
+
+        if (!agent.updateRotation)
+        {
+            velocity = agent.desiredVelocity;
+            velocity.y = 0f;
+            if(agent != null && !agent.pathPending && agent.hasPath && velocity.sqrMagnitude > 0.01f)
+            {
+                UpdateTurnSpeed();
+                UpdateRotationFromAgent();
             }
         }
 
@@ -187,15 +203,15 @@ public class RandomMovement : MonoBehaviour
     /// </summary>
     private void UpdateRotationFromAgent()
     {
+        if(agent.updateRotation) return;
         // Securite : si jamais l'agent n'existe pas, on stoppe la fonction
         if (agent == null || agent.pathPending || !agent.hasPath) return;
         Vector3 desired = agent.desiredVelocity;
         desired.y = 0f;
 
-        if(agent.updateRotation) return;
 
         // si le chien est quasiment immobile, on ne le tourne pas
-        if(desired.sqrMagnitude < 0.03f) return;
+        if(desired.sqrMagnitude < 0.01f) return;
         
         // Calcule la rotation que le chien devrait viser
         // LookRotation crée une orientation a partir d'une direction
@@ -212,11 +228,15 @@ public class RandomMovement : MonoBehaviour
     /// </summary>
     private void UpdateTurnSpeed()
     {
+        if(agent.updateRotation) return;
         // Securite : si jamais l'agent n'existe pas, on stoppe la fonction
         if (agent == null) return;
 
+        Vector3 desired = agent.desiredVelocity;
+        desired.y = 0f;
+
         // Si le chien est presque immobile → vitesse normale
-        if (velocity.sqrMagnitude < 0.01f)
+        if (desired.sqrMagnitude < 0.01f)
         {
             agent.speed = baseSpeed;
             return;
@@ -224,7 +244,7 @@ public class RandomMovement : MonoBehaviour
 
         // Calcule l'angle entre la direction actuelle du chien
         // et la direction vers laquelle il doit se déplacer
-        float angle = Vector3.Angle(transform.forward, velocity.normalized);
+        float angle = Vector3.Angle(transform.forward, desired.normalized);
 
         // Si l'angle est très grand → gros virage (demi-tour)
         if(angle > bigTurnAngle) agent.speed = baseSpeed * turnSpeedFactor;       // on ralentit
