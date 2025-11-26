@@ -129,9 +129,9 @@ public class RandomMovement : MonoBehaviour
             }
         }
 
-        // velocity = agent.desiredVelocity;
-        // // pas de rotation en haut ou en bas
-        // velocity.y = 0f;
+        velocity = agent.desiredVelocity;
+        // pas de rotation en haut ou en bas
+        velocity.y = 0f;
     }
 
     /// <summary>
