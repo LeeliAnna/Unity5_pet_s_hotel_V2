@@ -144,8 +144,9 @@ public class RandomMovement : MonoBehaviour
     private bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
         // cherche un point qui n'es pas trop proche du precedent
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 20; i++)
         {
+            Debug.Log($"[RandomMovement] itération :{i}");
             // Generer un point aleatoire dans une sphere
             Vector3 randomPoint = center + Random.insideUnitSphere * range;
             randomPoint.y = center.y;       // garder a peut pres le meme niveau
@@ -153,10 +154,13 @@ public class RandomMovement : MonoBehaviour
             NavMeshHit hit;
 
             // Chercher le point navigable le plus proche sur le NavMesh
-            if(NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+            if(NavMesh.SamplePosition(randomPoint, out hit, range, NavMesh.AllAreas))
             {
+                Debug.Log($"[RandomMovement] point random :{randomPoint}");
                 // s'il n'y a pas de destination precedente et qu'elle n'est pas trop proche de la precedente continue si non donne la destination calculee
-                if(hasLasDestination && Vector3.Distance(hit.position, lastDestination) < minDistanceFromLastPoint) continue;
+                //if(hasLasDestination && Vector3.Distance(hit.position, lastDestination) < minDistanceFromLastPoint) continue;
+                if (Vector3.Distance(hit.position, lastDestination) < minDistanceFromLastPoint) continue;
+                if (Vector3.Distance(hit.position, transform.position) < minDistanceFromLastPoint) continue;
                 result = hit.position;
                 return true;
             }  
