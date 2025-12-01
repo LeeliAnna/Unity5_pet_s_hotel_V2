@@ -29,4 +29,5 @@ public class DogConfig : ScriptableObject
     public float bigTurnAngle = 120f;       // limite definie pour les gros virages
 
     public float frontOffset = 0.5f;        // distance entre le centre du chien et l'objet viser
+    public float stoppingDistance = 1.5f;  // Distance d'arret par default
 }

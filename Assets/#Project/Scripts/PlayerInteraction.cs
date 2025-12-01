@@ -25,7 +25,6 @@ public class PlayerInteraction : MonoBehaviour
     /// <param name="actions">action map venant de GameManager</param>
     public void Initialize(CameraManager cameraManager, InputActionAsset actions)
     {
-        Debug.Log($"[PlayerInteraction] Playeractions initialisé");
         this.cameraManager = cameraManager;
         this.actions = actions;
 

@@ -32,6 +32,8 @@ public class RandomMovement : MonoBehaviour
     private Vector3 velocity;
     private bool hasLasDestination;
     private bool isIdelingAtPoint;
+    private float frontOffSet;
+    private float stoppingDistance;
 
     public bool IsMoving => agent.velocity.magnitude > 0.0f;
 
@@ -55,9 +57,12 @@ public class RandomMovement : MonoBehaviour
         turnSpeedFactor = dogConfig.turnSpeedFactor;
         bigTurnAngle = dogConfig.bigTurnAngle;
         rotationSpeed = dogConfig.rotationSpeed;
+        frontOffSet = dogConfig.frontOffset;
+        stoppingDistance = dogConfig.stoppingDistance;
 
         agent = dogBehaviour.Agent;
         agent.updateRotation = true;
+        agent.stoppingDistance = stoppingDistance;
         // recuperation de la direction de deplacement prevue par l'agent 
         velocity = agent.desiredVelocity;
 
@@ -146,21 +151,22 @@ public class RandomMovement : MonoBehaviour
         // cherche un point qui n'es pas trop proche du precedent
         for (int i = 0; i < 20; i++)
         {
-            Debug.Log($"[RandomMovement] itération :{i}");
             // Generer un point aleatoire dans une sphere
             Vector3 randomPoint = center + Random.insideUnitSphere * range;
             randomPoint.y = center.y;       // garder a peut pres le meme niveau
 
             NavMeshHit hit;
-
             // Chercher le point navigable le plus proche sur le NavMesh
             if(NavMesh.SamplePosition(randomPoint, out hit, range, NavMesh.AllAreas))
             {
-                Debug.Log($"[RandomMovement] point random :{randomPoint}");
+                float distToDog = Vector3.Distance(hit.position, agent.transform.position);
+
+                if (distToDog < 2.0f) continue;
                 // s'il n'y a pas de destination precedente et qu'elle n'est pas trop proche de la precedente continue si non donne la destination calculee
-                //if(hasLasDestination && Vector3.Distance(hit.position, lastDestination) < minDistanceFromLastPoint) continue;
-                if (Vector3.Distance(hit.position, lastDestination) < minDistanceFromLastPoint) continue;
-                if (Vector3.Distance(hit.position, transform.position) < minDistanceFromLastPoint) continue;
+                if(hasLasDestination && Vector3.Distance(hit.position, lastDestination) < minDistanceFromLastPoint) continue;
+                if (distToDog < minDistanceFromLastPoint) continue;
+                Debug.Log($"[RandomMovement] Destination choisie = {hit.position} (Distance du chien : {distToDog})");
+                Debug.Log($"[RandomMovement] Stopping distance agent {agent.stoppingDistance}");
                 result = hit.position;
                 return true;
             }  

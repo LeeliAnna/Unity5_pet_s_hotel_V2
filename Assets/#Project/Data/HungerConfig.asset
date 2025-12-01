@@ -18,3 +18,4 @@ MonoBehaviour:
   criticalThreshold: 25
   eatGain: 100
   eatCooldown: 2
+  eatCost: 100

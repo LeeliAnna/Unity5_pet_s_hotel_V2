@@ -13,3 +13,14 @@ MonoBehaviour:
   m_Name: DogConfig
   m_EditorClassIdentifier: Assembly-CSharp::DogConfig
   appetize: 100
+  baseSpeed: 2.5
+  cooldownMax: 4
+  cooldownMin: 1.5
+  minWalkSpeed: 1.2
+  maxWalkSpeed: 2.5
+  minDistanceFromLastPoint: 2.5
+  rotationSpeed: 10
+  turnSpeedFactor: 0.4
+  bigTurnAngle: 120
+  frontOffset: 1.5
+  stoppingDistance: 1.5

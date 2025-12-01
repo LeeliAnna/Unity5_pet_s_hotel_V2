@@ -158,7 +158,7 @@ public class DogBehaviour : MonoBehaviour
         Vector3 destination = target.position - direction * FrontOffset;
 
         // Reduit la distance d'arret pour que l'arrivee soit prescise et propre
-        Agent.stoppingDistance = 0.05f;
+        Agent.stoppingDistance = 0.3f;
 
         // Definir la destination du NavMeshAgent
         Agent.SetDestination(destination);

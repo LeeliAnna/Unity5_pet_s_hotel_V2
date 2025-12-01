@@ -96,6 +96,6 @@ public class EatingState : IState
     /// <returns>Task complete immediatement</returns>
     public void Exit()
     {
-        
+        dog.Agent.stoppingDistance = 1.5f;
     }
 }

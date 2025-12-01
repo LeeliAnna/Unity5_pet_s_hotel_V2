@@ -83,5 +83,6 @@ public class LunchBowlBehaviour : MonoBehaviour, IInteractable
     public void Interact()
     {
         AddQuantity(maxQuantity);
+        Debug.Log($"[Lunchbowl] Quantité {CurrentQuantity}, la gamelle est utilisable {IsUsable}");
     }
 }
