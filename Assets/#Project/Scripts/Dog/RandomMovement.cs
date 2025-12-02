@@ -165,8 +165,6 @@ public class RandomMovement : MonoBehaviour
                 // s'il n'y a pas de destination precedente et qu'elle n'est pas trop proche de la precedente continue si non donne la destination calculee
                 if(hasLasDestination && Vector3.Distance(hit.position, lastDestination) < minDistanceFromLastPoint) continue;
                 if (distToDog < minDistanceFromLastPoint) continue;
-                Debug.Log($"[RandomMovement] Destination choisie = {hit.position} (Distance du chien : {distToDog})");
-                Debug.Log($"[RandomMovement] Stopping distance agent {agent.stoppingDistance}");
                 result = hit.position;
                 return true;
             }  

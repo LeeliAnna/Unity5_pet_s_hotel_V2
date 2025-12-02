@@ -9,16 +9,16 @@ using UnityEngine;
 public class LunchBowlBehaviour : MonoBehaviour, IInteractable
 {
     /// <summary>Quantite maximale de croquettes que peut contenir la gamelle</summary>
-    private int maxQuantity;
+    private float maxQuantity;
 
     /// <summary>Quantite actuelle de croquettes dans la gamelle (0 a maxQuantity)</summary>
-    private int _currentQuantity;
+    private float _currentQuantity;
 
     /// <summary>
     /// Quantite actuelle de croquettes dans la gamelle.
     /// Toujours comprise entre 0 et maxQuantity (automatiquement clampee).
     /// </summary>
-    public int CurrentQuantity
+    public float CurrentQuantity
     {
         get
         {
@@ -44,7 +44,7 @@ public class LunchBowlBehaviour : MonoBehaviour, IInteractable
     /// Appelee par LevelManager lors de l'initialisation du niveau.
     /// </summary>
     /// <param name="quantity">Quantite maximale de croquettes pour cette gamelle</param>
-    public void Initialize(int quantity)
+    public void Initialize(float quantity)
     {
         // Definir la capacite maximale de la gamelle
         this.maxQuantity = quantity;
@@ -71,7 +71,7 @@ public class LunchBowlBehaviour : MonoBehaviour, IInteractable
     /// La quantite est automatiquement limitee a maxQuantity si elle tente de depasser.
     /// </summary>
     /// <param name="quantity">Nombre de croquettes a ajouter</param>
-    public void AddQuantity(int quantity)
+    public void AddQuantity(float quantity)
     {
         // Ajouter les croquettes remplies (le clamp dans la propriete gere les debordements)
         CurrentQuantity += quantity;

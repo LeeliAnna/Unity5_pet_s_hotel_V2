@@ -33,7 +33,7 @@ public class LevelManager : MonoBehaviour
     /// <param name="rotation">Orientation du niveau</param>
     /// <param name="centerPoint">Transform representant le point central du niveau</param>
     /// <param name="lunchBowlQuantity">Quantite initiale de croquettes dans la gamelle</param>
-    public void Initialize(Vector3 position, Quaternion rotation, Transform centerPoint, int lunchBowlQuantity)
+    public void Initialize(Vector3 position, Quaternion rotation, Transform centerPoint, float lunchBowlQuantity)
     {
         // Positionner et orienter le niveau
         transform.SetPositionAndRotation(position, rotation);

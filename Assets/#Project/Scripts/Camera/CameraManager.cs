@@ -56,13 +56,11 @@ public class CameraManager : MonoBehaviour
         if (levelBoundsProvider != null)
         {  
             levelBounds = levelBoundsProvider.GetWorldBounds();
-            Debug.Log($"[CameraManager] LevelBounds centre={levelBounds.center}, size={levelBounds.size}"); 
         }
         else
         {
             Debug.LogWarning("[CameraManager] levelBoundsProvider est null.");
         }
-        Debug.Log($"[CameraManager] LevelBounds centre={levelBounds.center}, size={levelBounds.size}");
 
         Actions = actions;
         if(Actions != null)
@@ -174,11 +172,6 @@ public class CameraManager : MonoBehaviour
     float maxX = levelBounds.max.x;
     float minZ = levelBounds.min.z;
     float maxZ = levelBounds.max.z;
-
-    // Debug temporaire pour comprendre
-    // (tu peux le commenter après le test)
-    Debug.Log($"[CameraManager] Clamp : posAvant={position}, " +
-              $"minX={minX}, maxX={maxX}, minZ={minZ}, maxZ={maxZ}");
 
         position.x = Mathf.Clamp(position.x, levelBounds.min.x, levelBounds.max.x);
         position.z = Mathf.Clamp(position.z, levelBounds.min.z, levelBounds.max.z);

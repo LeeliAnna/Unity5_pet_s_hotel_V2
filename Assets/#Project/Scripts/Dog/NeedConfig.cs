@@ -22,7 +22,7 @@ public class NeedConfig : ScriptableObject
     /// Represente l'etat où le besoin est totalement satisfait.
     /// Valeur par defaut : 100 points.
     /// </summary>
-    public float maxValue = 100f;
+    public float maxValue = 300f;
 
     /// <summary>
     /// Vitesse de diminution du besoin par seconde.

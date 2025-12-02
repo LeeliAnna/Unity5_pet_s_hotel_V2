@@ -7,8 +7,6 @@ public class LevelBoundsProvider : MonoBehaviour
     public void Initialize(Collider levelBoundsCollider)
     {
         this.levelBoundsCollider = levelBoundsCollider;
-        Debug.Log($"[LevelBoundsProvider] Collider assigné: {levelBoundsCollider.gameObject.name}, " +
-              $"bounds center={levelBoundsCollider.bounds.center}, extents={levelBoundsCollider.bounds.extents}");
     }
 
     public Bounds GetWorldBounds()

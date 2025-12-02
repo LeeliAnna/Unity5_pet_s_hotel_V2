@@ -41,15 +41,10 @@ public class GameInitializer : MonoBehaviour
     /// <summary>Point central du niveau (reference pour le mouvement aleatoire)</summary>
     [SerializeField] private Transform centerPoint;
 
-    /// <summary>Quantite initiale de croquettes dans la gamelle</summary>
-    [SerializeField] private int lunchBowlQuantity;
-
     /// <summary>Comportement principal du chien</summary>
     [Space]
     [Header("Dog")]
-    [SerializeField] private DogBehaviour dog;
     [SerializeField] private DogBehaviour husky;
-    [SerializeField] private Animator dogAnimator;
 
     /// <summary>Position initiale du chien dans le monde</summary>
     [SerializeField] private Vector3 dogPosition;
@@ -110,7 +105,7 @@ public class GameInitializer : MonoBehaviour
     private void InitializeObjects()
     {
         // Initialiser le niveau avec sa position, point central et quantite de croquettes
-        level.Initialize(levelPosition, Quaternion.identity, centerPoint, lunchBowlQuantity);
+        level.Initialize(levelPosition, Quaternion.identity, centerPoint, hungerConfig.maxValue);
 
         // Initialiser la camera avec sa position et rotation
         cameraManager.Initialize(camPosition, Quaternion.Euler(camEuler), actions, cameraSettings, level);
