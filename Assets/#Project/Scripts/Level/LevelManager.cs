@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[RequireComponent(typeof(LevelBoundsProvider))]
 /// <summary>
 /// Gestionnaire du niveau (environnement du jeu).
 /// Gere la position du niveau, le point central (reference pour mouvements aleatoires) et la gamelle.
@@ -12,6 +14,8 @@ public class LevelManager : MonoBehaviour
     /// Utilise par RandomMovement pour generer des destinations aleatoires autour de ce point.
     /// </summary>
     public Transform CenterPoint { get; private set; }
+    public LevelBoundsProvider LevelBoundsProvider {get; private set;}
+    public Collider boundsCollider;
 
     /// <summary>
     /// Reference a la gamelle du chien.
@@ -33,6 +37,12 @@ public class LevelManager : MonoBehaviour
     {
         // Positionner et orienter le niveau
         transform.SetPositionAndRotation(position, rotation);
+
+        LevelBoundsProvider = GetComponent<LevelBoundsProvider>();
+
+        if(boundsCollider == null) Debug.LogError("[LevelManager] Aucun BoxCollider trouvé dans l'enfant du level.");
+        else LevelBoundsProvider.Initialize(boundsCollider);
+
         
         // Stocker la reference au point central
         CenterPoint = centerPoint;

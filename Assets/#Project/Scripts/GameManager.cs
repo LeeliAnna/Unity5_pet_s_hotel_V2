@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     private PlayerInteraction playerInteraction;
     private InputActionAsset actions;
+    private CameraManager CameraManager;
 
     /// <summary>
     /// Initialise le gestionnaire du jeu avec les references aux systemes principaux.
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
         this.levelManager = levelManager;
         // Recuperation de l'action map pour la transferer au PlayerInteraction
         this.actions = actions;
+        this.CameraManager = cameraManager;
         
         // Recuperation du PlayerInteraction et activation de celui-ci
         playerInteraction = GetComponent<PlayerInteraction>();
@@ -50,10 +52,13 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // Mettre a jour tous les systemes du chien (mouvement, besoins, machine a etats)
-        dogBehavior.Process();
+        if(dogBehavior!= null) dogBehavior.Process();
 
         // Met a jour le PlayerInteraction
-        playerInteraction.process();
+        if (playerInteraction != null) playerInteraction.process();
+
+        // Met à journ le CameraManager
+        if(CameraManager != null) CameraManager.Process();
     }
 
 }

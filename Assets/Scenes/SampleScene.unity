@@ -312,9 +312,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4164770372457975148, guid: 95b2000a3120c8640a3e017314226ed2, type: 3}
     - target: {fileID: 5219486825804213202, guid: 340c33ba8f64b264583ebb5512358da2, type: 3}
+      propertyPath: camEuler.x
+      value: 49
+      objectReference: {fileID: 0}
+    - target: {fileID: 5219486825804213202, guid: 340c33ba8f64b264583ebb5512358da2, type: 3}
+      propertyPath: camEuler.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5219486825804213202, guid: 340c33ba8f64b264583ebb5512358da2, type: 3}
       propertyPath: hungerConfig
       value: 
       objectReference: {fileID: 11400000, guid: e4cd75bca97890b48a32629b01443563, type: 2}
+    - target: {fileID: 5219486825804213202, guid: 340c33ba8f64b264583ebb5512358da2, type: 3}
+      propertyPath: camPosition.x
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5219486825804213202, guid: 340c33ba8f64b264583ebb5512358da2, type: 3}
+      propertyPath: camPosition.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6410937700998973809, guid: 340c33ba8f64b264583ebb5512358da2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -1,6 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Internal;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -13,12 +11,13 @@ public class GameInitializer : MonoBehaviour
     /// <summary>Gestionnaire de la camera du jeu</summary>
     [Header("Camera")]
     [SerializeField] private CameraManager cameraManager;
+    [SerializeField] private CameraSettings cameraSettings;
 
     /// <summary>Position initiale de la camera dans le monde</summary>
     [SerializeField] private Vector3 camPosition;
 
     /// <summary>Orientation initiale de la camera</summary>
-    [SerializeField] private Quaternion camRotation;
+    [SerializeField] private Vector3 camEuler;
 
     /// <summary>Gestionnaire principal du jeu (orchestration generale)</summary>
     [Space]
@@ -36,7 +35,6 @@ public class GameInitializer : MonoBehaviour
     [Space]
     [Header("Level")]
     [SerializeField] private LevelManager level;
-
     /// <summary>Position initiale du niveau dans le monde</summary>
     [SerializeField] private Vector3 levelPosition;
 
@@ -111,17 +109,16 @@ public class GameInitializer : MonoBehaviour
     /// </summary>
     private void InitializeObjects()
     {
-        // Initialiser la camera avec sa position et rotation
-        cameraManager.Initialize(camPosition, camRotation);
-        
         // Initialiser le niveau avec sa position, point central et quantite de croquettes
         level.Initialize(levelPosition, Quaternion.identity, centerPoint, lunchBowlQuantity);
+
+        // Initialiser la camera avec sa position et rotation
+        cameraManager.Initialize(camPosition, Quaternion.Euler(camEuler), actions, cameraSettings, level);
         
         // Initialiser le chien avec tous ses parametres (position, niveau, config, mouvement, faim)
         husky.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax, hungerConfig, dogConfig);
         
         // Initialiser le gestionnaire du jeu avec les references principales (chien et niveau)
-        gameManager.Initialize(dog, level, cameraManager, actions);
         gameManager.Initialize(husky, level, cameraManager, actions);
         // Activation du GameManager
         gameManager.gameObject.SetActive(true);
