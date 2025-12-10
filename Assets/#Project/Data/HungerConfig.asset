@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HungerConfig
   m_EditorClassIdentifier: Assembly-CSharp::HungerConfig
   needName: Hunger
-  maxValue: 100
+  maxValue: 300
   DecreaseRate: 10
   criticalThreshold: 25
   eatGain: 100

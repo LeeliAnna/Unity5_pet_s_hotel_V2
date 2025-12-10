@@ -6,7 +6,7 @@ using UnityEngine;
 /// Classe parente pour les configurations specifiques (HungerConfig, SleepConfig, etc.).
 /// Creable directement depuis le menu contextuel Unity (Create > Dog > NeedConfig).
 /// </summary>
-[CreateAssetMenu(fileName = "NeedConfig_", menuName = "Dog/NeedConfig")]
+[CreateAssetMenu(fileName = "NeedConfig_", menuName = "Dog/Need Config/Base")]
 public class NeedConfig : ScriptableObject
 {
     /// <summary>

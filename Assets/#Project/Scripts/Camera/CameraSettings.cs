@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CameraSettings", menuName = "Config/CameraSettings")]
+[CreateAssetMenu(fileName = "Camera Settings", menuName = "Game/Camera Settings")]
 public class CameraSettings : ScriptableObject
 {
     [Header("Déplacement")]

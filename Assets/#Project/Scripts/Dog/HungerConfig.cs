@@ -5,7 +5,7 @@ using UnityEngine;
 /// Herite de NeedConfig et ajoute des parametres specifiques a l'alimentation et a la gamelle.
 /// Creable directement depuis le menu contextuel Unity (Create > Dog > Need Config > Hunger).
 /// </summary>
-[CreateAssetMenu(fileName = "HungerConfig", menuName = "Dog/Need Config/Hunger")]
+[CreateAssetMenu(fileName = "Hunger Config", menuName = "Dog/Need Config/Hunger")]
 public class HungerConfig : NeedConfig
 {
     /// <summary>

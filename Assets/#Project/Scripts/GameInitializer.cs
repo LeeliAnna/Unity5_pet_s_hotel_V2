@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /// <summary>
 /// Initialise tous les systemes du jeu au demarrage.
@@ -65,6 +68,14 @@ public class GameInitializer : MonoBehaviour
     [Header("Hunger Configuration")]
     [SerializeField] private HungerConfig hungerConfig;
 
+    [Space]
+    [Header("Pension")]
+    [SerializeField] private PensionSettings pensionSettings;
+
+    [Space]
+    [Header("Reference UI")]
+    [SerializeField] private GameObject uiRoot; 
+
     /// <summary>
     /// Appele automatiquement par Unity au demarrage du jeu.
     /// Lance la creation et l'initialisation de tous les systemes.
@@ -95,6 +106,9 @@ public class GameInitializer : MonoBehaviour
         
         // Instancier le chien
         husky = Instantiate(husky);
+
+        // Instancier l'UI nouveau jeu
+        uiRoot = Instantiate(uiRoot);
     }
 
     /// <summary>
@@ -114,9 +128,24 @@ public class GameInitializer : MonoBehaviour
         husky.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax, hungerConfig, dogConfig);
         
         // Initialiser le gestionnaire du jeu avec les references principales (chien et niveau)
-        gameManager.Initialize(husky, level, cameraManager, actions);
+        gameManager.Initialize(husky, level, cameraManager, actions, pensionSettings);
         // Activation du GameManager
+        gameManager.gameObject.SetActive(false);
         gameManager.gameObject.SetActive(true);
+
+        // UI et Menus
+
+        List<IMenu> menus = new List<IMenu>(uiRoot.GetComponentsInChildren<IMenu>(true));
+
+        foreach(IMenu menu in menus)
+        {
+            menu.Initialize(gameManager);
+            gameManager.RegisterMenu(menu);
+            menu.Hide();
+        }
+
+        // On démarre le jeu sur l'écran Nouvelle partie 
+        gameManager.ShowMenu<MainMenu>();
     }
     
 }

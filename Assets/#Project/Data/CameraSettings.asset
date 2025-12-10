@@ -15,5 +15,5 @@ MonoBehaviour:
   moveSpeed: 10
   edgeThickness: 20
   minHeight: 2
-  maxHeight: 50
+  maxHeight: 10
   zoomSpeed: 0.5
