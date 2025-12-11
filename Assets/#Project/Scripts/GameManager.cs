@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -198,4 +199,130 @@ public class GameManager : MonoBehaviour
             Debug.Log("[GameManager] Pause ignorée : état de jeu actuel = " + CurrentGameState?.GetType().Name);
     }
     #endregion
+
+    #region Savegarde
+
+    public void SaveGame()
+    {
+        SaveGameData data = BuildSaveData();
+        SaveSystem.Save(data);
+    }
+
+    private SaveGameData BuildSaveData()
+    {
+        SaveGameData data = new SaveGameData();
+
+        // --- Pension ---
+        data.pensionName = CurrentPension != null ? CurrentPension.Name : "Ma pension"; 
+        data.pensionMoney = CurrentPension.Money;
+        data.pensionPrestige = CurrentPension.Prestige;
+
+        // --- chien ---
+        SaveDogData dogData = new SaveDogData();
+        if(dogBehavior != null)
+        {
+            dogData.position = dogBehavior.transform.position;
+            dogData.needs = BuildDogNeedsSaveData(dogBehavior.needController);
+
+            data.dog = dogData;
+        }
+
+        // --- Level ---
+        if(levelManager != null)
+        {
+            SaveLevelData levelData = new SaveLevelData();
+            levelData.foodBowlPosition = levelManager.lunchBowl.transform.position;
+            levelData.foodInBowl = levelManager.lunchBowl.CurrentQuantity;
+
+            data.level = levelData;
+        }
+
+        return data;
+    }
+    
+    private List<SaveNeedData> BuildDogNeedsSaveData(DogNeedController controller)
+    {
+        List<SaveNeedData> list = new List<SaveNeedData>();
+
+        if(controller == null || controller.needs == null) return list;
+
+        foreach(NeedBase need in controller.needs)
+        {
+            if(need == null) continue;
+
+            SaveNeedData data = new SaveNeedData()
+            {
+                name = need.Name,
+                currentValue = need.NeedValue,
+                maxValue = need.MaxValue,
+            };
+
+            list.Add(data);
+        }
+        return list;
+    }
+
+    public void LoadGame()
+    {
+        if(!SaveSystem.TryLoad(out SaveGameData data))
+        {
+            Debug.LogWarning("[GameManager] Pas de sauvegarde à charger.");
+            return;
+        }
+        ApplySaveData(data);
+    }
+
+    private void ApplySaveData(SaveGameData data)
+    {
+        if (data == null)
+        {
+            Debug.LogError("[GameManager] ApplySaveData a recu un data null.");
+            return;
+        }
+
+        // --- Pension ---
+        if(PensionSettings != null)
+        {
+            CurrentPension = new Pension(data.pensionName, PensionSettings);
+        }
+
+        // --- Chien ---
+        if (dogBehavior != null && data.dog != null)
+        {
+            dogBehavior.transform.position = data.dog.position;
+            if(data.dog.needs != null) ApplyDogNeedsSaveData(dogBehavior.needController, data.dog.needs);
+        }
+
+        // --- Niveau ---
+        if (levelManager != null && data.level != null)
+        {
+            levelManager.lunchBowl.transform.position = data.level.foodBowlPosition;
+            levelManager.lunchBowl.CurrentQuantity = data.level.foodInBowl;
+        }
+
+        ChangeGameState(playingState);
+    }
+
+    private void ApplyDogNeedsSaveData(DogNeedController needController, List<SaveNeedData> savedNeeds)
+    {
+        if(needController == null || needController == null || savedNeeds == null) return;
+
+        foreach (SaveNeedData needSaveed in savedNeeds)
+        {
+            NeedBase data = needController.needs.FirstOrDefault(n => n.Name == needSaveed.name);
+
+            if(data == null)
+            {
+                Debug.LogError($"[GameManager] Aucun besoin trouvé avec le nom {data.Name}");
+                continue;
+            }
+
+            data.SetValue(needSaveed.currentValue);
+        }
+    }
+
+
+
+    #endregion
+
 }

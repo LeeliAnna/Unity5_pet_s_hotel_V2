@@ -13,6 +13,8 @@ public class MainMenu : MonoBehaviour, IMenu
     [Header("Boutons UI")]
     [SerializeField] private Button newGameButton;
     [SerializeField] private Button quitButton;
+    [SerializeField] private Button loadMenuButton;
+    [SerializeField] private Button continueButton;
 
     public void Initialize(GameManager gameManager)
     {
@@ -23,6 +25,13 @@ public class MainMenu : MonoBehaviour, IMenu
 
         if (quitButton != null) quitButton.onClick.AddListener(OnQuitClicked);
         else Debug.LogError("[MainMenu] quitButton n'est pas assigné !");
+
+        if (continueButton != null) 
+        {
+            continueButton.onClick.AddListener(OnContinueClicked);
+            continueButton.gameObject.SetActive(SaveSystem.SaveExists());
+        }
+        else Debug.LogError("[MainMenu] continueButton n'est pas assginé !");
     }
 
     private void OnNewGameClicked()
@@ -33,6 +42,11 @@ public class MainMenu : MonoBehaviour, IMenu
     {
         if(UnityEditor.EditorApplication.isPlaying == true) UnityEditor.EditorApplication.isPlaying = false;
         else Application.Quit();
+    }
+
+    private void OnContinueClicked()
+    {
+        GameManager.LoadGame();
     }
 
     public void Hide()

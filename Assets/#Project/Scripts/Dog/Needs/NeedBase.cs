@@ -16,14 +16,8 @@ public abstract class NeedBase
     /// <summary>Vitesse de diminution du besoin par seconde</summary>
     private float _decreaseRate;
 
-    /// <summary>Urgence calculee du besoin (0 à 1)</summary>
-    private float _priority;
-
     /// <summary>Seuil en dessous duquel le besoin est critique</summary>
     private float _criticalThreshold;
-
-    /// <summary>Indique si le besoin a atteint son seuil critique</summary>
-    private bool _isCritical;
 
     /// <summary>
     /// Nom du besoin (ex : "Faim", "Sommeil").
@@ -157,6 +151,11 @@ public abstract class NeedBase
     {
         // Diminuer la valeur du besoin proportionnellement au temps ecoule
         NeedValue -= DecreaseRate * Time.deltaTime;
+    }
+
+    public void SetValue(float value)
+    {
+        NeedValue = value;
     }
 
 }

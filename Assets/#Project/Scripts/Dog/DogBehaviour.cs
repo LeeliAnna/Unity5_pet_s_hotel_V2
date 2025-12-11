@@ -25,7 +25,7 @@ public class DogBehaviour : MonoBehaviour
     public LevelManager Level { get; private set; }
 
     /// <summary>Contreleur des besoins du chien (faim, etc.)</summary>
-    public DogNeedController needs { get; private set; }
+    public DogNeedController needController { get; private set; }
 
     /// <summary>Besoin le plus urgent du moment (faim, etc.)</summary>
     public NeedBase urgent { get; private set; }
@@ -103,8 +103,8 @@ public class DogBehaviour : MonoBehaviour
         RandomMovement.Initialize(level, range, dogConfig);
 
         // Initialisation du contreleur de besoins (faim)
-        needs = GetComponent<DogNeedController>();
-        needs.Initialize(hungerConfig);
+        needController = GetComponent<DogNeedController>();
+        needController.Initialize(hungerConfig);
 
         dogAnimator = GetComponent<Animator>();
         dogAnimationController = GetComponent<DogAnimationController>();
@@ -124,10 +124,10 @@ public class DogBehaviour : MonoBehaviour
         RandomMovement.Process();
         
         // Mettre a jour tous les besoins (faim, etc.)
-        needs.AllProcess();
+        needController.AllProcess();
         
         // Identifier le besoin le plus urgent
-        urgent = needs.GetMostUrgent();
+        urgent = needController.GetMostUrgent();
 
         // Executer la logique de la machine a etats
         stateMachine.Process();
@@ -171,10 +171,10 @@ public class DogBehaviour : MonoBehaviour
     public void Eat()
     {        
         // Varifier que le chien a vraiment faim (seuil critique)
-        if (needs.IsHungry)
+        if (needController.IsHungry)
         {
             // Augmenter la jauge de faim du chien
-            needs.HungerNeed.EatOnce();
+            needController.HungerNeed.EatOnce();
 
             // Diminuer la quantita de croquettes dans la gamelle (si disponible)
             if(Level != null && Level.lunchBowl != null && Level.lunchBowl.IsUsable)

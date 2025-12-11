@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour, IMenu
     [Header("Boutons UI")]
     [SerializeField] private Button exitButton;
     [SerializeField] private Button resumeButton;
+    [SerializeField] private Button saveButton;
 
     public void Initialize(GameManager gameManager)
     {
@@ -17,8 +18,15 @@ public class PauseMenu : MonoBehaviour, IMenu
         if(exitButton != null) exitButton.onClick.AddListener(OnExitClicked);
 
         if(resumeButton != null) resumeButton.onClick.AddListener(OnResumeClicked);
+        
+        if(saveButton != null) saveButton.onClick.AddListener(OnSaveClicked);
 
         Hide();
+    }
+
+    private void OnSaveClicked()
+    {
+        GameManager.SaveGame();
     }
 
     public void Hide()
