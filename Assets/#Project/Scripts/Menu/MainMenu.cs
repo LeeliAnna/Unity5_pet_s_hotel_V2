@@ -31,8 +31,8 @@ public class MainMenu : MonoBehaviour, IMenu
     }
     private void OnQuitClicked()
     {
-        UnityEditor.EditorApplication.isPlaying = false;
-        Application.Quit();
+        if(UnityEditor.EditorApplication.isPlaying == true) UnityEditor.EditorApplication.isPlaying = false;
+        else Application.Quit();
     }
 
     public void Hide()

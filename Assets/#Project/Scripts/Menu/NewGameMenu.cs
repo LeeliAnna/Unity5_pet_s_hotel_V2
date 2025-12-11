@@ -47,9 +47,6 @@ public class NewGameMenu : MonoBehaviour, IMenu
 
         string chosenName = nameInput.text.Trim();
         GameManager.CreateNewGame(chosenName);
-        GameManager.ChangeGameState(new PlayingState(GameManager));
-        
-        GameManager.HideCurrentMenu();
     }
 
     /// <summary>

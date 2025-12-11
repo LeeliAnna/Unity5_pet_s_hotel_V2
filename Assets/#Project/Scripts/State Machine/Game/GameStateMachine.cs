@@ -13,7 +13,7 @@ public class GameStateMachine
         CurrentState.Enter();
     }
 
-    public void process()
+    public void Process()
     {
         CurrentState?.Process();
     }

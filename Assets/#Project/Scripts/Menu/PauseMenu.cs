@@ -39,7 +39,7 @@ public class PauseMenu : MonoBehaviour, IMenu
 
     private void OnExitClicked()
     {
-        GameManager.ChangeGameState(new MenuState(GameManager));
+        GameManager.ChangeGameState(GameManager.menuState);
         GameManager.ShowMenu<MainMenu>();
     }
 

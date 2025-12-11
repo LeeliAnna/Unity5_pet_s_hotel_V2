@@ -144,7 +144,7 @@ public class GameInitializer : MonoBehaviour
             menu.Hide();
         }
 
-        // On démarre le jeu sur l'écran Nouvelle partie 
+        // On démarre le jeu sur l'écran main menu
         gameManager.ShowMenu<MainMenu>();
     }
     

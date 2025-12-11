@@ -22,6 +22,6 @@ public class PlayingState : IGameState
 
     public void Process()
     {
-        if(Keyboard.current.escapeKey.wasPressedThisFrame) Game.ChangeGameState(new PauseState(Game));
+        // if(Keyboard.current.escapeKey.wasPressedThisFrame) Game.ChangeGameState(new PauseState(Game));
     }
 }

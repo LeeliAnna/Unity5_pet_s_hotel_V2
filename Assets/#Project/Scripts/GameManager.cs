@@ -32,6 +32,10 @@ public class GameManager : MonoBehaviour
     private IMenu currentMenu;
 
     private GameStateMachine gameStateMachine;
+    public IGameState menuState {get; private set;}
+    public IGameState playingState {get; private set;}
+    public IGameState pauseState {get; private set;}
+    public IGameState endOfDayState {get; private set;}
     private IGameState CurrentGameState => gameStateMachine?.CurrentState;
 
     /// <summary>
@@ -61,7 +65,11 @@ public class GameManager : MonoBehaviour
         playerInteraction.gameObject.SetActive(true);
 
         gameStateMachine = new GameStateMachine();
-        IGameState menuState = new MenuState(this);
+        menuState = new MenuState(this);
+        playingState = new PlayingState(this);
+        pauseState = new PauseState(this);
+        endOfDayState = new EndOfDayState(this);
+
         gameStateMachine.ChangeState(menuState);
 
         if(actions != null)
@@ -79,6 +87,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if(gameStateMachine != null) gameStateMachine.Process();
+
+        if(CurrentGameState != playingState) return ;
+
         // Mettre a jour tous les systemes du chien (mouvement, besoins, machine a etats)
         if(dogBehavior!= null) dogBehavior.Process();
 
@@ -88,7 +100,6 @@ public class GameManager : MonoBehaviour
         // Met à journ le CameraManager
         if(CameraManager != null) CameraManager.Process();
 
-        if(gameStateMachine != null) gameStateMachine.process();
     }
 
     public void OnEnable()
@@ -98,7 +109,6 @@ public class GameManager : MonoBehaviour
             pauseAction.performed += OnPausePerformed;
             actions.FindActionMap(PLAYER_ACTION_MAP).Enable();
         }
-        else Debug.LogWarning("[GameManager] pauseAction est null dans OnEnable. Vérifie l'action 'Pause' dans l'InputActions.");
     }
 
     public void OnDisable()
@@ -108,7 +118,6 @@ public class GameManager : MonoBehaviour
             pauseAction.performed -= OnPausePerformed;
             actions.FindActionMap(PLAYER_ACTION_MAP).Disable();
         }
-        else Debug.LogWarning("[GameManager] pauseAction est null dans OnDisable. Vérifie l'action 'Pause' dans l'InputActions.");
     }
 
     #region Pension
@@ -116,11 +125,13 @@ public class GameManager : MonoBehaviour
     {
         if (PensionSettings == null) return;
 
-        if(string.IsNullOrWhiteSpace(requestName)) name = GetRandomPensionName(); 
+        string finalName = requestName;
+        if(string.IsNullOrWhiteSpace(finalName)) finalName = GetRandomPensionName(); 
 
-        CurrentPension = new Pension(name,PensionSettings);
+        CurrentPension = new Pension(finalName,PensionSettings);
 
-        ChangeGameState(new PlayingState(this));
+        ChangeGameState(playingState);
+        HideCurrentMenu();
     }
 
     public string GetRandomPensionName()
@@ -181,8 +192,8 @@ public class GameManager : MonoBehaviour
 
     public void TogglePause()
     {
-        if (CurrentGameState is PauseState) ChangeGameState(new PlayingState(this));
-        else if (CurrentGameState is PlayingState) ChangeGameState(new PauseState(this));
+        if (CurrentGameState is PauseState) ChangeGameState(playingState);
+        else if (CurrentGameState is PlayingState) ChangeGameState(pauseState);
         else // Si on est dans le menu principal etc., on peut choisir d'ignorer la pause
             Debug.Log("[GameManager] Pause ignorée : état de jeu actuel = " + CurrentGameState?.GetType().Name);
     }
