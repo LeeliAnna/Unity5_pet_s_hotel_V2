@@ -1,11 +1,9 @@
-using System;
-using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Menu principal : Nouveau jeu / Quitter
+/// Menu principal refactorisé.
+/// Appelle directement GameManager et UIController selon les responsabilités.
 /// </summary>
 public class MainMenu : MonoBehaviour, IMenu
 {
@@ -21,56 +19,59 @@ public class MainMenu : MonoBehaviour, IMenu
     {
         GameManager = gameManager;
 
-        if(newGameButton != null) newGameButton.onClick.AddListener(OnNewGameClicked);
-        else Debug.LogError("[MainMenu] newGameButton n'est pas assigné !");
+        if (newGameButton != null)
+            newGameButton.onClick.AddListener(OnNewGameClicked);
 
-        if (quitButton != null) quitButton.onClick.AddListener(OnQuitClicked);
-        else Debug.LogError("[MainMenu] quitButton n'est pas assigné !");
+        if (quitButton != null)
+            quitButton.onClick.AddListener(OnQuitClicked);
 
-        if (continueButton != null) 
+        if (continueButton != null)
         {
             continueButton.onClick.AddListener(OnContinueClicked);
             continueButton.gameObject.SetActive(SaveSystem.AnySaveExists());
         }
-        else Debug.LogError("[MainMenu] continueButton n'est pas assginé !");
 
-        if(loadMenuButton != null) loadMenuButton.onClick.AddListener(OnLoadGameClicked);
-    }
-
-    private void OnLoadGameClicked()
-    {
-        GameManager.UI_OpenLoadSlots();
+        if (loadMenuButton != null)
+            loadMenuButton.onClick.AddListener(OnLoadGameClicked);
     }
 
     private void OnNewGameClicked()
     {
-        GameManager.UI_OpenNewGameMenu();
+        GameManager.ChangeGameState(GameManager.MenuState);
+        GameManager.UIController?.ShowNewGameMenuUI();
     }
-    private void OnQuitClicked()
+
+    private void OnLoadGameClicked()
     {
-        if(UnityEditor.EditorApplication.isPlaying == true) UnityEditor.EditorApplication.isPlaying = false;
-        else Application.Quit();
+        GameManager.ChangeGameState(GameManager.MenuState);
+        GameManager.UIController?.ShowSaveSlotsUI(SaveSlotsMode.Load, UIReturnTarget.MainMenu);
     }
 
     private void OnContinueClicked()
     {
-        if(SaveSystem.TryGetLastSaveSlot(out int lastSlot))
+        if (SaveSystem.TryGetLastSaveSlot(out int lastSlot))
         {
-            Debug.Log($"[MainMenu] Continue -> chargement du slot {lastSlot}");
             GameManager.LoadGameFromSlot(lastSlot);
         }
     }
 
-    public void Hide()
+    private void OnQuitClicked()
     {
-        gameObject.SetActive(false);
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
+
+    public void Hide() => gameObject.SetActive(false);
 
     public void Show()
     {
         gameObject.SetActive(true);
         transform.SetAsLastSibling();
-        
-        if(continueButton != null) continueButton.gameObject.SetActive(SaveSystem.AnySaveExists());
+
+        if (continueButton != null)
+            continueButton.gameObject.SetActive(SaveSystem.AnySaveExists());
     }
 }

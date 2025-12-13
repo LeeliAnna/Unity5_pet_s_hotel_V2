@@ -28,10 +28,10 @@ public class NeedConfig : ScriptableObject
     /// Vitesse de diminution du besoin par seconde.
     /// Chaque seconde, le besoin perd cette quantite de points.
     /// Plus la valeur est elevee, plus le chien a besoin rapidement.
-    /// Valeur par defaut : 1 point/sec.
+    /// Valeur par defaut : 0.5 point/sec (changé pour ralentir la descente de la faim).
     /// </summary>
     [Tooltip("Diminution par secondes")]
-    public float DecreaseRate = 1f;
+    public float DecreaseRate = 0.5f;
 
     /// <summary>
     /// Seuil critique du besoin (0 à 100).

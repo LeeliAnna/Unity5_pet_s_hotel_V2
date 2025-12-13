@@ -1,3 +1,5 @@
+using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -6,10 +8,12 @@ using UnityEngine;
 /// Stocke la quantite de croquettes, permet leur consommation et leur remplissage.
 /// Determine automatiquement si la gamelle est utilisable (contient des croquettes).
 /// </summary>
-public class LunchBowlBehaviour : MonoBehaviour, IInteractable
+public class BowlBehaviour : MonoBehaviour, IInteractable
 {
     /// <summary>Quantite maximale de croquettes que peut contenir la gamelle</summary>
     private float maxQuantity;
+    private BowlFillBar bowlFillBar;
+    private GameObject contentVisual;
 
     /// <summary>Quantite actuelle de croquettes dans la gamelle (0 a maxQuantity)</summary>
     private float _currentQuantity;
@@ -39,6 +43,12 @@ public class LunchBowlBehaviour : MonoBehaviour, IInteractable
     public bool IsUsable => CurrentQuantity != 0;
 
     /// <summary>
+    /// Evenement declenche quand la quantite de croquettes change.
+    /// Parametres : (float CurrentQuantite, float maxQuantite)
+    /// </summary>
+    public event Action<float, float> OnQuantityChanged;
+
+    /// <summary>
     /// Initialise la gamelle avec une quantite maximale de croquettes.
     /// Remplit la gamelle a sa capacite maximale au demarrage.
     /// Appelee par LevelManager lors de l'initialisation du niveau.
@@ -51,6 +61,17 @@ public class LunchBowlBehaviour : MonoBehaviour, IInteractable
 
         // Remplir completement la gamelle au demarrage
         CurrentQuantity = maxQuantity;
+
+        // Initialiser la barre de remplissage si presente
+        bowlFillBar = GetComponentInChildren<BowlFillBar>();
+        if(bowlFillBar != null)
+            bowlFillBar.Initialize(this);
+
+        contentVisual = transform.Find("Content").gameObject;
+        
+        // Notifier les ecouteurs de la quantite initiale
+        OnQuantityChanged?.Invoke(CurrentQuantity, maxQuantity);
+        OnQuantityChanged += (current, max) => UpdateFoodVisual();
     }
 
     /// <summary>
@@ -63,6 +84,7 @@ public class LunchBowlBehaviour : MonoBehaviour, IInteractable
     {
         // Soustraire les croquettes consommees (le clamp dans la propriete gere les debordements)
         CurrentQuantity -= quantity;
+        OnQuantityChanged?.Invoke(CurrentQuantity, maxQuantity);
     }
 
     /// <summary>
@@ -75,6 +97,7 @@ public class LunchBowlBehaviour : MonoBehaviour, IInteractable
     {
         // Ajouter les croquettes remplies (le clamp dans la propriete gere les debordements)
         CurrentQuantity += quantity;
+        OnQuantityChanged?.Invoke(CurrentQuantity, maxQuantity);
     }
 
     /// <summary>
@@ -84,5 +107,29 @@ public class LunchBowlBehaviour : MonoBehaviour, IInteractable
     {
         AddQuantity(maxQuantity);
         Debug.Log($"[Lunchbowl] Quantité {CurrentQuantity}, la gamelle est utilisable {IsUsable}");
+    }
+
+    private void UpdateFoodVisual()
+    {
+        if (contentVisual != null)
+        {
+            float fillRatio = CurrentQuantity / maxQuantity;
+
+            if(CurrentQuantity <= 0)
+            {
+                contentVisual.SetActive(false);
+                return;
+            }
+
+            contentVisual.SetActive(true);
+
+            float minY = -0.05f; // Position Y lorsque la gamelle est vide
+            float maxY = 0f; // Position Y lorsque la gamelle est pleine
+
+            Vector3 position = contentVisual.transform.localPosition;
+            position.y = Mathf.Lerp(minY, maxY, fillRatio);
+            contentVisual.transform.localPosition = position;
+
+        }
     }
 }

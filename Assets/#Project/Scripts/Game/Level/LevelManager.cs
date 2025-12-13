@@ -22,7 +22,7 @@ public class LevelManager : MonoBehaviour
     /// Contient les croquettes et gere leur consommation et remplissage.
     /// Trouvee automatiquement dans les enfants du niveau lors de l'initialisation.
     /// </summary>
-    public LunchBowlBehaviour lunchBowl;
+    public BowlBehaviour lunchBowl;
 
     /// <summary>
     /// Initialise le niveau avec sa position, orientation et ses composants.
@@ -48,7 +48,7 @@ public class LevelManager : MonoBehaviour
         CenterPoint = centerPoint;
 
         // Chercher automatiquement le composant LunchBowlBehavior dans les enfants du niveau
-        lunchBowl = GetComponentInChildren<LunchBowlBehaviour>();
+        lunchBowl = GetComponentInChildren<BowlBehaviour>();
 
         // Initialiser la gamelle avec la quantite de croquettes
         if (lunchBowl != null)

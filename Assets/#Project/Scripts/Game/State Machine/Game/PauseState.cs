@@ -14,14 +14,14 @@ public class PauseState : IGameState
     public void Enter()
     {
         Time.timeScale = 0f;
-        pauseMenu = Game.GetMenu<PauseMenu>();
-        Game.ShowMenu<PauseMenu>();
+        pauseMenu = Game.UIController?.GetMenu<PauseMenu>();
+        Game.UIController?.ShowMenu<PauseMenu>();
     }
 
     public void Exit()
     {
         Time.timeScale = 1f;
-        Game.HideCurrentMenu();
+        Game.UIController?.HideCurrentMenu();
     }
 
     public void Process()

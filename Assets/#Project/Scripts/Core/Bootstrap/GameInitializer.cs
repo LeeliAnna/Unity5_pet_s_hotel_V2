@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -134,11 +134,11 @@ public class GameInitializer : MonoBehaviour
         // Initialiser le chien avec tous ses parametres (position, niveau, config, mouvement, faim)
         husky.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax, hungerConfig, dogConfig);
         dogSatisfaction = husky.GetComponent<DogSatisfaction>();
-        gameManager.RegisterDog(husky);
 
+        // Enregistrer la satisfaction du chien
         if(dogSatisfaction != null) satisfactionService.Register(dogSatisfaction);
 
-        // UI et Menus
+        // === UI et Menus ===
         uiController = uiRoot.GetComponentInChildren<UIController>(true);
         if (uiController == null)
         {
@@ -146,35 +146,38 @@ public class GameInitializer : MonoBehaviour
             return;
         }
 
+        // Enregistrer tous les menus
         List<IMenu> menus = new List<IMenu>(uiRoot.GetComponentsInChildren<IMenu>(true));
         foreach(IMenu menu in menus)
         {
             menu.Initialize(gameManager);
-            // gameManager.RegisterMenu(menu);
             uiController.RegisterMenu(menu);
             menu.Hide();
         }
 
+        // Récupérer les références HUD
         hud = uiRoot.GetComponentInChildren<HudGlobalSatisfaction>(true);
-        if( hud != null)
-        {
-            hud.Initialize(satisfactionService);
+        if(hud != null)
             hud.SetVisible(false);
-        }
+
         hudButtonActions = uiRoot.GetComponentInChildren<HudButtonActions>(true);
-        uiController = uiRoot.GetComponentInChildren<UIController>(true);
-        // Initialiser le gestionnaire du jeu avec les references principales (chien et niveau)
+
+        // === Bind UI au GameManager ===
         gameManager.BindHud(hud);
         gameManager.BindHudButtonActions(hudButtonActions);
         gameManager.BindUI(uiController);
+
+        // === Initialiser UIController avec le satisfactionService ===
+        uiController.Initialize(gameManager, satisfactionService);
+
+        // === Initialiser le GameManager ===
         gameManager.Initialize(husky, level, cameraManager, actions, pensionSettings, satisfactionService);
-        // Activation du GameManager
+
+        // Activation du GameManager (trick Unity pour forcer OnEnable)
         gameManager.gameObject.SetActive(false);
         gameManager.gameObject.SetActive(true);
 
-        // On démarre le jeu sur l'écran main menu
-        // gameManager.ShowMenu<MainMenu>();
+        // Démarrer sur le menu principal
         uiController.ShowMainMenuUI();
     }
-    
 }

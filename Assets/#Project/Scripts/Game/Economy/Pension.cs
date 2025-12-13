@@ -41,12 +41,30 @@ public class Pension
     }
 
     /// <summary>
+    /// Retirer de l'argent de la pension
+    /// </summary>
+    /// <param name="amount">montant à retirer</param>
+    public void RemoveMoney(int amount)
+    {
+        Money -= amount;
+    }
+
+    /// <summary>
     /// Ajouter le prestige à la pension
     /// </summary>
     /// <param name="amount">quantité de prestige a ajouter</param>
-    public void AddPresting(int amount)
+    public void AddPrestige(int amount)
     {
         Prestige += amount;
+    }
+
+    /// <summary>
+    /// Définir les valeurs de la pension (utilisé lors du chargement)
+    /// </summary>
+    public void SetValues(int money, int prestige)
+    {
+        Money = money;
+        Prestige = prestige;
     }
 
 }

@@ -15,7 +15,7 @@ public class PlayerInteraction : MonoBehaviour
     private InputAction clickAction;                // Action du click
     private Vector2 mousePosition;                  // Position de la souris
     
-    private float maxDistance = 100f;               // distance ou le click est autoriser
+    private float maxDistance = 50f;                // distance ou le click est autoriser
 
     /// <summary>
     /// Initilaise le playerInteraction

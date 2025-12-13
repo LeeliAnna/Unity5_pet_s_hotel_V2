@@ -12,13 +12,13 @@ public class MenuState : IGameState
 
     public void Enter()
     {
-        mainMenu = Game.GetMenu<MainMenu>();
-        Game.ShowMenu<MainMenu>();
+        mainMenu = Game.UIController?.GetMenu<MainMenu>();
+        Game.UIController?.ShowMenu<MainMenu>();
     }
 
     public void Exit()
     {
-        Game.HideCurrentMenu();
+        Game.UIController?.HideCurrentMenu();
     }
 
     public void Process()

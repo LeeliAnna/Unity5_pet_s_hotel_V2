@@ -59,6 +59,5 @@ MonoBehaviour:
   range: 15
   cooldownMax: 5
   hungerConfig: {fileID: 11400000, guid: e4cd75bca97890b48a32629b01443563, type: 2}
-  pensionSettings: {fileID: 11400000, guid: c86581148cfb45f408549f3fc5c78b3a, type: 2}
-  newGameMenu: {fileID: 2953493770714303793, guid: 27c6df99b1629944ba79d3cbe3e30c99, type: 3}
+  pensionSettings: {fileID: 11400000, guid: ae55a54b602222e4887afc7e3d5c4a0e, type: 2}
   uiRoot: {fileID: 644979849582591923, guid: 882676fe37349874f880984377f85282, type: 3}

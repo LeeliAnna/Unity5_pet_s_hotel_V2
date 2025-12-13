@@ -1,17 +1,16 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Gere l'ecran de creation d'une nouvelle partie
-/// Permet de saisir un nom de pension ou d'en choisir un aleatoirement
+/// Menu de création d'une nouvelle partie.
+/// Permet de saisir un nom de pension ou d'en générer un aléatoirement.
 /// </summary>
 public class NewGameMenu : MonoBehaviour, IMenu
 {
-    public GameManager GameManager { get; private set;}
+    public GameManager GameManager { get; private set; }
 
-    [Header("Boutons UI")]
+    [Header("UI Elements")]
     [SerializeField] private TMP_InputField nameInput;
     [SerializeField] private Button randomNameButton;
     [SerializeField] private Button startButton;
@@ -21,51 +20,52 @@ public class NewGameMenu : MonoBehaviour, IMenu
     {
         GameManager = gameManager;
 
-        if(randomNameButton != null) randomNameButton.onClick.AddListener(GenerateRandomName);
-        if(startButton != null) startButton.onClick.AddListener(StartGame);
-        if(cancelButton != null) cancelButton.onClick.AddListener(CancelNewGame);
+        if (randomNameButton != null)
+            randomNameButton.onClick.AddListener(OnRandomNameClicked);
+
+        if (startButton != null)
+            startButton.onClick.AddListener(OnStartClicked);
+
+        if (cancelButton != null)
+            cancelButton.onClick.AddListener(OnCancelClicked);
+
+        Hide();
     }
 
-
-    /// <summary>
-    /// Remplit le champ avec un nom aleatoire fourni par le GameManager.
-    /// </summary>
-    private void GenerateRandomName()
+    private void OnRandomNameClicked()
     {
-        if (GameManager == null) return; 
+        if (GameManager == null) return;
 
         string randomName = GameManager.GetRandomPensionName();
-        if(nameInput != null) nameInput.text = randomName;
+        if (nameInput != null)
+            nameInput.text = randomName;
     }
 
-    /// <summary>
-    /// Lance la creation d'une nouvelle partie avec le nom saisi (ou aleatoire si vide).
-    /// </summary>
-    private void StartGame()
+    private void OnStartClicked()
     {
-        if (GameManager == null) return; 
+        if (GameManager == null) return;
 
-        string chosenName = nameInput.text.Trim();
+        string chosenName = nameInput != null ? nameInput.text.Trim() : "";
         GameManager.CreateNewGame(chosenName);
     }
 
-    /// <summary>
-    /// Annule la creation de partie et ferme simplement le menu.
-    /// </summary>
-    private void CancelNewGame()
+    private void OnCancelClicked()
     {
-        // gameManager.HideCurrentMenu();
-        GameManager.ShowMenu<MainMenu>();
+        GameManager?.ReturnToMainMenu();
     }
+
+    public void Hide() => gameObject.SetActive(false);
 
     public void Show()
     {
         gameObject.SetActive(true);
         transform.SetAsLastSibling();
-    }
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
+        // Vider le champ nom à chaque affichage
+        if (nameInput != null)
+        {
+            nameInput.text = "";
+            nameInput.ActivateInputField();
+        }
     }
 }

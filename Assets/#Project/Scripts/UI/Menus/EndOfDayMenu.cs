@@ -1,36 +1,32 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Menu de fin de journée refactorisé.
+/// </summary>
 public class EndOfDayMenu : MonoBehaviour, IMenu
 {
-    public GameManager GameManager { get; private set;}
+    public GameManager GameManager { get; private set; }
 
-    [SerializeField] private Button nexDayButton;
+    [Header("Boutons UI")]
+    [SerializeField] private Button nextDayButton;
     [SerializeField] private Button saveButton;
     [SerializeField] private Button quitButton;
 
-    //[Header("Boutons UI")]
     public void Initialize(GameManager gameManager)
     {
         GameManager = gameManager;
 
-        if(nexDayButton != null) nexDayButton.onClick.AddListener(OnNextDayClicked);
-        if(saveButton != null) saveButton.onClick.AddListener(OnSaveClicked);
-        if(quitButton != null) quitButton.onClick.AddListener(OnQuitClicked);
+        if (nextDayButton != null) 
+            nextDayButton.onClick.AddListener(OnNextDayClicked);
+        
+        if (saveButton != null) 
+            saveButton.onClick.AddListener(OnSaveClicked);
+        
+        if (quitButton != null) 
+            quitButton.onClick.AddListener(OnQuitClicked);
 
         Hide();
-    }
-
-    private void OnQuitClicked()
-    {
-        GameManager.UI_CloseEndOfDay();
-
-    }
-
-    private void OnSaveClicked()
-    {
-        GameManager.UI_OpenSaveSlots_FromEndOfDay();
     }
 
     private void OnNextDayClicked()
@@ -38,11 +34,17 @@ public class EndOfDayMenu : MonoBehaviour, IMenu
         GameManager.StartNextDay();
     }
 
-    public void Hide()
+    private void OnSaveClicked()
     {
-        gameObject.SetActive(false);
+        GameManager.UIController?.ShowSaveSlotsUI(SaveSlotsMode.Save, UIReturnTarget.EndOfDayMenu);
     }
 
+    private void OnQuitClicked()
+    {
+        GameManager.ReturnToMainMenu();
+    }
+
+    public void Hide() => gameObject.SetActive(false);
 
     public void Show()
     {

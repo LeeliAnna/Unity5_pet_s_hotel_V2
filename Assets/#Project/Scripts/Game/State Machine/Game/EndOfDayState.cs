@@ -12,13 +12,13 @@ public class EndOfDayState : IGameState
 
     public void Enter()
     {
-        endOfDayMenu = Game.GetMenu<EndOfDayMenu>();
-        Game.ShowMenu<EndOfDayMenu>();
+        endOfDayMenu = Game.UIController?.GetMenu<EndOfDayMenu>();
+        Game.UIController?.ShowMenu<EndOfDayMenu>();
     }
 
     public void Exit()
     {
-        Game.HideCurrentMenu();
+        Game.UIController?.HideCurrentMenu();
     }
 
     public void Process()

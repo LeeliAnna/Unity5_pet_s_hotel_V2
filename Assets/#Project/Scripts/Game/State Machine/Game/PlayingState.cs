@@ -13,6 +13,7 @@ public class PlayingState : IGameState
     public void Enter()
     {
         Time.timeScale = 1f;
+        Game.UIController?.ShowInGameUI();
     }
 
     public void Exit()
