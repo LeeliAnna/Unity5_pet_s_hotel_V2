@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 4598966705217013650}
   - component: {fileID: -2083787937679466024}
   - component: {fileID: 1612858771463097614}
+  - component: {fileID: 24291432206488268}
   m_Layer: 0
   m_Name: Cartoon_Husky_LowPoly_c4 1
   m_TagString: Untagged
@@ -364,6 +365,18 @@ MonoBehaviour:
   logToConsole: 1
   stuckDetectionTime: 3
   minDistanceToNotBeStuck: 0.5
+--- !u!114 &24291432206488268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406628425980949499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64793f1fa8e63014da969b6bd023b4f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DogSatisfaction
 --- !u!1 &2475177614833116291
 GameObject:
   m_ObjectHideFlags: 0
