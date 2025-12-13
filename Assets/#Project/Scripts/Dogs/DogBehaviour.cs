@@ -115,6 +115,10 @@ public class DogBehaviour : MonoBehaviour
         dogAnimationController = GetComponent<DogAnimationController>();
         dogAnimationController.Initialize(dogAnimator);
 
+        // Initialisation de l'émetteur d'impulsion (pour pousser les balles)
+        var impulseEmitter = GetComponent<DogImpulseEmitter>();
+        if (impulseEmitter != null) impulseEmitter.Initilize(this);
+
         // Creation de la machine a etats
         stateMachine = new DogStateMachine(this, dogAnimationController);
     }

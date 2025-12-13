@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(LevelBoundsProvider))]
@@ -23,6 +24,9 @@ public class LevelManager : MonoBehaviour
     /// Trouvee automatiquement dans les enfants du niveau lors de l'initialisation.
     /// </summary>
     public BowlBehaviour lunchBowl;
+    public List<BowlBehaviour> bowls = new List<BowlBehaviour>();
+    public BallBehaviour ball;
+    public List<BallBehaviour> balls = new List<BallBehaviour>();
 
     /// <summary>
     /// Initialise le niveau avec sa position, orientation et ses composants.
@@ -49,6 +53,7 @@ public class LevelManager : MonoBehaviour
 
         // Chercher automatiquement le composant LunchBowlBehavior dans les enfants du niveau
         lunchBowl = GetComponentInChildren<BowlBehaviour>();
+        ball = GetComponentInChildren<BallBehaviour>();
 
         // Initialiser la gamelle avec la quantite de croquettes
         if (lunchBowl != null)
@@ -71,4 +76,25 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Tick central du niveau, appelé par le GameManager.
+    /// Regroupe la mise à jour des objets physiques et interactifs du level.
+    /// </summary>
+    public void Process()
+    {
+        // Physique de la balle (ralentissement/arrêt/clamp)
+        if (ball != null)
+        {
+            // Méthode dédiée dans BallBehaviour pour la physique par tick
+            ball.TickPhysics();
+        }
+    }
+
+    public void Register<T>(List<T> liste, T item)
+    {
+        if (!liste.Contains(item))
+        {
+            liste.Add(item);
+        }
+    }
 }

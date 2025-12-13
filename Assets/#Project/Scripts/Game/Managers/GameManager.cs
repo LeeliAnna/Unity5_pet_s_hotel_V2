@@ -156,6 +156,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void FixedUpdate()
+    {
+        if(levelManager != null)
+            levelManager.Process();
+    }
+
     #region Unity Callbacks
     public void OnEnable()
     {

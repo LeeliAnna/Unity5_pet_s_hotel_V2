@@ -206,6 +206,7 @@ GameObject:
   - component: {fileID: -2083787937679466024}
   - component: {fileID: 1612858771463097614}
   - component: {fileID: 24291432206488268}
+  - component: {fileID: 6536195828791477782}
   m_Layer: 0
   m_Name: Cartoon_Husky_LowPoly_c4 1
   m_TagString: Untagged
@@ -271,7 +272,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: -0.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!65 &44658714181734247
@@ -289,7 +290,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -377,6 +378,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64793f1fa8e63014da969b6bd023b4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DogSatisfaction
+--- !u!114 &6536195828791477782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406628425980949499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69170a2e7d4a914dae5178a0fa48446, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DogImpulseEmitter
+  config: {fileID: 11400000, guid: 9ad9bc9ae02034145a4d33e71b14b875, type: 2}
 --- !u!1 &2475177614833116291
 GameObject:
   m_ObjectHideFlags: 0

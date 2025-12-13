@@ -10,10 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc300629ca3a64f44866befe14d98a3b, type: 3}
-  m_Name: CameraSettings
+  m_Name: Camera Settings
   m_EditorClassIdentifier: Assembly-CSharp::CameraSettings
   moveSpeed: 10
   edgeThickness: 20
   minHeight: 2
-  maxHeight: 10
-  zoomSpeed: 0.5
+  maxHeight: 5
+  zoomSpeed: 5
+  zoomSmoothSpeed: 8
+  rotationSensitivityX: 2
+  rotationSensitivityY: 1
+  minPitch: 10
+  maxPitch: 80

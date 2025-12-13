@@ -25,6 +25,14 @@ public class CameraManager : MonoBehaviour
     private float minHeight;
     private float maxHeight;
     private float zoomSpeed;
+    private float zoomSmoothSpeed;
+    private float targetHeight;
+
+    // Rotation
+    private float currentYaw;
+    private float currentPitch;
+    private bool isRotating;
+    private Vector2 lastMousePosition;
 
     public InputActionAsset Actions{ get; private set; }
     private InputAction moveAction;
@@ -51,6 +59,13 @@ public class CameraManager : MonoBehaviour
         minHeight = cameraSettings.minHeight;
         maxHeight = cameraSettings.maxHeight;
         zoomSpeed = cameraSettings.zoomSpeed;
+        zoomSmoothSpeed = cameraSettings.zoomSmoothSpeed;
+        targetHeight = transform.position.y;
+
+        // Initialiser les angles de rotation depuis la rotation actuelle
+        Vector3 euler = transform.eulerAngles;
+        currentYaw = euler.y;
+        currentPitch = euler.x;
 
         levelBoundsProvider = level.LevelBoundsProvider;
         if (levelBoundsProvider != null)
@@ -106,9 +121,48 @@ public class CameraManager : MonoBehaviour
     public void Process()
     {
         if(moveAction == null || zoomAction == null) return;
+        HandleRotation();
         HandleMovement();
         HandleZoom();
         ClampPosition();
+    }
+
+    private void HandleRotation()
+    {
+        if (Mouse.current == null) return;
+
+        bool rightMousePressed = Mouse.current.rightButton.isPressed;
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+
+        if (rightMousePressed)
+        {
+            if (!isRotating)
+            {
+                // Début de la rotation
+                isRotating = true;
+                lastMousePosition = mousePosition;
+            }
+            else
+            {
+                // Calcul du delta souris
+                Vector2 delta = mousePosition - lastMousePosition;
+                lastMousePosition = mousePosition;
+
+                // Appliquer la rotation
+                currentYaw += delta.x * cameraSettings.rotationSensitivityX * 0.1f;
+                currentPitch -= delta.y * cameraSettings.rotationSensitivityY * 0.1f;
+
+                // Clamp le pitch pour éviter de retourner la caméra
+                currentPitch = Mathf.Clamp(currentPitch, cameraSettings.minPitch, cameraSettings.maxPitch);
+
+                // Appliquer la rotation
+                transform.rotation = Quaternion.Euler(currentPitch, currentYaw, 0f);
+            }
+        }
+        else
+        {
+            isRotating = false;
+        }
     }
 
     private void HandleMovement()
@@ -148,17 +202,16 @@ public class CameraManager : MonoBehaviour
     {
         float zoomInput = zoomAction.ReadValue<float>();
 
-        if(Mathf.Approximately(zoomInput, 0f)) return;
+        // Ajuster la hauteur cible si input
+        if (!Mathf.Approximately(zoomInput, 0f))
+        {
+            targetHeight -= zoomInput * zoomSpeed * 0.1f;
+            targetHeight = Mathf.Clamp(targetHeight, minHeight, maxHeight);
+        }
 
-        // zoomInput *= 0.1f;
-
+        // Interpoler doucement vers la hauteur cible
         Vector3 position = transform.position;
-
-        // position.y -= zoomInput * zoomSpeed * Time.deltaTime;
-        position.y -= zoomInput * zoomSpeed;
-
-        position.y = Mathf.Clamp(position.y, minHeight, maxHeight);
-        
+        position.y = Mathf.Lerp(position.y, targetHeight, zoomSmoothSpeed * Time.deltaTime);
         transform.position = position;
     }
 
