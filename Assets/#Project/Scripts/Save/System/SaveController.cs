@@ -146,7 +146,7 @@ public class SaveController
     /// <summary>
     /// Extrait les données de besoins du chien pour la sauvegarde.
     /// </summary>
-    private List<SaveNeedData> BuildDogNeedsSaveData(DogNeedController controller)
+    private List<SaveNeedData> BuildDogNeedsSaveData(ControleurBesoinsChien controller)
     {
         List<SaveNeedData> list = new List<SaveNeedData>();
 
@@ -232,7 +232,7 @@ public class SaveController
     /// <summary>
     /// Applique les besoins sauvegardés au chien.
     /// </summary>
-    private void ApplyDogNeedsSaveData(DogNeedController needController, List<SaveNeedData> savedNeeds)
+    private void ApplyDogNeedsSaveData(ControleurBesoinsChien needController, List<SaveNeedData> savedNeeds)
     {
         if (needController == null || needController.needs == null || savedNeeds == null)
             return;

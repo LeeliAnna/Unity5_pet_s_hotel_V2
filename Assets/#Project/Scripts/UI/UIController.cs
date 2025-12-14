@@ -6,6 +6,7 @@ using UnityEngine;
 /// Contrôleur d'interface utilisateur.
 /// Gère l'affichage et la navigation entre tous les menus du jeu.
 /// Responsable de la gestion du registre des menus et de leur cycle de vie visuel.
+/// Point d'entrée unique pour toute l'UI du jeu.
 /// </summary>
 public class UIController : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject panelHudActions;
     [SerializeField] private HudGlobalSatisfaction hudGlobalSatisfaction;
     [SerializeField] private HudButtonActions hudButtonActions;
+    
+    [Header("Popup References")]
+    [SerializeField] private DogPopupInfo dogPopupInfo;
 
     private readonly List<IMenu> menus = new();
     private IMenu currentMenu;
@@ -24,7 +28,7 @@ public class UIController : MonoBehaviour
 
     #region Initialization
 
-    public void Initialize(GameManager gameManager, GlobalSatisfactionService satisfactionService = null)
+    public void Initialize(GameManager gameManager, AggregateurSatisfactionPension satisfactionService = null)
     {
         this.gameManager = gameManager;
 
@@ -177,6 +181,89 @@ public class UIController : MonoBehaviour
             hudGlobalSatisfaction.SetPension(currentPension.Name, currentPension.Money, currentPension.Prestige);
         else
             hudGlobalSatisfaction.SetPension("-", 0, 0);
+    }
+
+    #endregion
+
+    #region Dog Popup Management
+    
+    /// <summary>
+    /// Affiche la popup d'information d'un chien.
+    /// Utilise le DogBehaviour pour initialiser la popup (compatibilité).
+    /// </summary>
+    /// <param name="dog">Comportement du chien à afficher</param>
+    public void ShowDogPopup(DogBehaviour dog)
+    {
+        if (dogPopupInfo == null)
+        {
+            Debug.LogWarning("[UIController] DogPopupInfo non configuré dans l'inspecteur.");
+            return;
+        }
+        
+        if (dog == null)
+        {
+            Debug.LogWarning("[UIController] Tentative d'affichage de popup pour un chien null.");
+            return;
+        }
+        
+        dogPopupInfo.Initialize(gameManager, dog);
+        dogPopupInfo.Show();
+    }
+    
+    /// <summary>
+    /// Affiche la popup d'information d'un chien via son ControleurBesoinsChien.
+    /// Nouvelle méthode utilisant l'architecture simplifiée.
+    /// </summary>
+    /// <param name="controller">Contrôleur de besoins du chien</param>
+    /// <param name="displayName">Nom à afficher pour le chien</param>
+    public void ShowDogPopup(ControleurBesoinsChien controller, string displayName)
+    {
+        if (dogPopupInfo == null)
+        {
+            Debug.LogWarning("[UIController] DogPopupInfo non configuré dans l'inspecteur.");
+            return;
+        }
+        
+        if (controller == null)
+        {
+            Debug.LogWarning("[UIController] Tentative d'affichage de popup pour un contrôleur null.");
+            return;
+        }
+        
+        dogPopupInfo.InitializeFromController(gameManager, controller, displayName);
+        dogPopupInfo.Show();
+    }
+    
+    /// <summary>
+    /// Affiche la popup d'information via InteractionChien.
+    /// Utilise automatiquement les données du composant d'interaction.
+    /// </summary>
+    /// <param name="interaction">Composant d'interaction du chien cliqué</param>
+    public void ShowDogPopup(InteractionChien interaction)
+    {
+        if (interaction == null) return;
+        
+        if (interaction.NeedController != null)
+        {
+            ShowDogPopup(interaction.NeedController, interaction.DisplayName);
+        }
+        else if (interaction.DogBehaviour != null)
+        {
+            ShowDogPopup(interaction.DogBehaviour);
+        }
+        else
+        {
+            Debug.LogWarning($"[UIController] InteractionChien sans données valides sur {interaction.gameObject.name}");
+        }
+    }
+    
+    /// <summary>
+    /// Masque la popup d'information du chien.
+    /// </summary>
+    public void HideDogPopup()
+    {
+        if (dogPopupInfo != null)
+            dogPopupInfo.Hide();
     }
 
     #endregion

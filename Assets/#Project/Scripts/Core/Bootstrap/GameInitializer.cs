@@ -48,7 +48,7 @@ public class GameInitializer : MonoBehaviour
     [Space]
     [Header("Dog")]
     [SerializeField] private DogBehaviour husky;
-    DogSatisfaction dogSatisfaction;
+    private ControleurBesoinsChien dogNeedController;
 
     /// <summary>Position initiale du chien dans le monde</summary>
     [SerializeField] private Vector3 dogPosition;
@@ -79,7 +79,7 @@ public class GameInitializer : MonoBehaviour
     private UIController uiController;
     private HudButtonActions hudButtonActions;
     private HudGlobalSatisfaction hud;
-    private GlobalSatisfactionService satisfactionService = new GlobalSatisfactionService();
+    private AggregateurSatisfactionPension satisfactionService = new AggregateurSatisfactionPension();
     private DogPopupInfo dogPopupInfo;
 
     /// <summary>
@@ -134,10 +134,12 @@ public class GameInitializer : MonoBehaviour
         
         // Initialiser le chien avec tous ses parametres (position, niveau, config, mouvement, faim)
         husky.Initialize(dogPosition, Quaternion.identity, level, range, cooldownMax, hungerConfig, dogConfig);
-        dogSatisfaction = husky.GetComponent<DogSatisfaction>();
+        
+        // Récupérer le nouveau contrôleur de besoins
+        dogNeedController = husky.GetComponent<ControleurBesoinsChien>();
 
-        // Enregistrer la satisfaction du chien
-        if(dogSatisfaction != null) satisfactionService.Register(dogSatisfaction);
+        // Enregistrer le contrôleur de besoins comme fournisseur de satisfaction
+        if(dogNeedController != null) satisfactionService.Register(dogNeedController);
 
         // === UI et Menus ===
         uiController = uiRoot.GetComponentInChildren<UIController>(true);
@@ -163,6 +165,12 @@ public class GameInitializer : MonoBehaviour
 
         hudButtonActions = uiRoot.GetComponentInChildren<HudButtonActions>(true);
         dogPopupInfo = uiRoot.GetComponentInChildren<DogPopupInfo>(true);
+        
+        // Debug: vérifier si la popup a été trouvée
+        if (dogPopupInfo == null)
+            Debug.LogError("[GameInitializer] DogPopupInfo introuvable dans uiRoot !");
+        else
+            Debug.Log($"[GameInitializer] DogPopupInfo trouvé sur : {dogPopupInfo.gameObject.name}");
 
         // === Bind UI au GameManager ===
         gameManager.BindHud(hud);

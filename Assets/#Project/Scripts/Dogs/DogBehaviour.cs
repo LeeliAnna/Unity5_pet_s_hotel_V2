@@ -13,7 +13,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(RandomMovement))]
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(DogSatisfaction))]
+[RequireComponent(typeof(ControleurBesoinsChien))]
 public class DogBehaviour : MonoBehaviour
 {
     /// <summary>Agent de navigation du chien (NavMesh)</summary>
@@ -25,9 +25,8 @@ public class DogBehaviour : MonoBehaviour
     /// <summary>Gestionnaire du niveau (environnement, gamelle, etc.)</summary>
     public LevelManager Level { get; private set; }
 
-    /// <summary>Contreleur des besoins du chien (faim, etc.)</summary>
-    public DogNeedController needController { get; private set; }
-    private DogSatisfaction satisfaction;
+    /// <summary>Controleur des besoins du chien (faim, etc.) - Nouveau système</summary>
+    public ControleurBesoinsChien needController { get; private set; }
 
     /// <summary>Événement déclenché quand le joueur clique sur ce chien</summary>
     public event Action<DogBehaviour> OnSelected;
@@ -107,12 +106,9 @@ public class DogBehaviour : MonoBehaviour
         RandomMovement = GetComponent<RandomMovement>();
         RandomMovement.Initialize(level, range, dogConfig);
 
-        // Initialisation du contreleur de besoins (faim)
-        needController = GetComponent<DogNeedController>();
+        // Initialisation du controleur de besoins (nouveau système)
+        needController = GetComponent<ControleurBesoinsChien>();
         needController.Initialize(hungerConfig);
-
-        satisfaction = GetComponent<DogSatisfaction>();
-        if(satisfaction != null) satisfaction.Initialize(needController);
 
         dogAnimator = GetComponent<Animator>();
         dogAnimationController = GetComponent<DogAnimationController>();
@@ -140,9 +136,6 @@ public class DogBehaviour : MonoBehaviour
         
         // Identifier le besoin le plus urgent
         urgent = needController.GetMostUrgent();
-
-        // Surveiller les changements de satisfaction (événements)
-        if (satisfaction != null) satisfaction.Process();
 
         // Executer la logique de la machine a etats
         stateMachine.Process();
@@ -253,26 +246,4 @@ public class DogBehaviour : MonoBehaviour
         // Verifier la presence du niveau, de la gamelle et ses croquettes
         return Level != null && Level.lunchBowl != null && Level.lunchBowl.IsUsable;
     }
-
-    // Accesseurs pour les événements de satisfaction (délégués à DogSatisfaction)
-    public event Action<float, float> OnHungerChanged
-    {
-        add => satisfaction.OnHungerChanged += value;
-        remove => satisfaction.OnHungerChanged -= value;
-    }
-    
-    public event Action<float, float> OnThirstynessChanged
-    {
-        add => satisfaction.OnThirstynessChanged += value;
-        remove => satisfaction.OnThirstynessChanged -= value;
-    }
-    
-    public event Action<float, float> OnGlobalSatisfactionChanged
-    {
-        add => satisfaction.OnGlobalSatisfactionChanged += value;
-        remove => satisfaction.OnGlobalSatisfactionChanged -= value;
-    }
-
-
-
 }

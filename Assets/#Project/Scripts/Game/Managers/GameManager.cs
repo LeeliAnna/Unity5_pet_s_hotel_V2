@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     public IGameState CurrentGameState => gameStateMachine?.CurrentState;
 
     // === Services ===
-    private GlobalSatisfactionService satisfactionService;
+    private AggregateurSatisfactionPension satisfactionService;
     public HudGlobalSatisfaction HudGlobalSatisfaction { get; private set; }
     public HudButtonActions HudButtonActions { get; private set; }
     
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         CameraManager cameraManager,
         InputActionAsset actions,
         PensionSettings pensionSettings,
-        GlobalSatisfactionService satisfactionService)
+        AggregateurSatisfactionPension satisfactionService)
     {
         // Stocker les références
         RegisterDog(dogBehavior);
@@ -221,6 +221,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void OnDogSelected(DogBehaviour selectedDog)
     {
+        Debug.Log($"[GameManager] OnDogSelected appelé pour : {selectedDog?.name}");
+        
         if (dogPopupInfo == null)
         {
             Debug.LogWarning("[GameManager] DogPopupInfo non configuré. Utilisez BindDogPopup().");
@@ -230,6 +232,7 @@ public class GameManager : MonoBehaviour
         // Initialiser la popup avec le chien sélectionné et l'afficher
         dogPopupInfo.Initialize(this, selectedDog);
         dogPopupInfo.Show();
+        Debug.Log("[GameManager] Popup affichée");
     }
 
     #endregion

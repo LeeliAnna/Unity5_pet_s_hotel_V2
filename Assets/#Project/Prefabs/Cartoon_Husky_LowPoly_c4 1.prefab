@@ -202,11 +202,10 @@ GameObject:
   - component: {fileID: 44658714181734247}
   - component: {fileID: 910256308836660786}
   - component: {fileID: 4164770372457975148}
-  - component: {fileID: 4598966705217013650}
   - component: {fileID: -2083787937679466024}
   - component: {fileID: 1612858771463097614}
-  - component: {fileID: 24291432206488268}
   - component: {fileID: 6536195828791477782}
+  - component: {fileID: 4597245222083574040}
   m_Layer: 0
   m_Name: Cartoon_Husky_LowPoly_c4 1
   m_TagString: Untagged
@@ -323,19 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51b0b2d3a9ffc9488447e13d45543d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DogBehavior
-  hungerConfig: {fileID: 0}
---- !u!114 &4598966705217013650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1406628425980949499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dc1e82948d501e49a0b6ce0280fe702, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DogNeedController
+  hungerConfig: {fileID: 11400000, guid: e4cd75bca97890b48a32629b01443563, type: 2}
 --- !u!114 &-2083787937679466024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,18 +353,6 @@ MonoBehaviour:
   logToConsole: 1
   stuckDetectionTime: 3
   minDistanceToNotBeStuck: 0.5
---- !u!114 &24291432206488268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1406628425980949499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64793f1fa8e63014da969b6bd023b4f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DogSatisfaction
 --- !u!114 &6536195828791477782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,6 +366,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DogImpulseEmitter
   config: {fileID: 11400000, guid: 9ad9bc9ae02034145a4d33e71b14b875, type: 2}
+--- !u!114 &4597245222083574040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406628425980949499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c6a267cb60a22f46aaace60d102b6df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControleurBesoinsChien
 --- !u!1 &2475177614833116291
 GameObject:
   m_ObjectHideFlags: 0

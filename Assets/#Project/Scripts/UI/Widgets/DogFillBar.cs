@@ -2,6 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Barre de remplissage pour afficher un besoin spécifique d'un chien.
+/// S'abonne aux événements du ControleurBesoinsChien pour les mises à jour en temps réel.
+/// </summary>
 public class DogFillBar : MonoBehaviour
 {
     [SerializeField] private Slider slider;
@@ -12,17 +16,42 @@ public class DogFillBar : MonoBehaviour
     [SerializeField] private NeedType needType = NeedType.Faim;
 
     private DogBehaviour dog;
+    private ControleurBesoinsChien needController;
     private NeedBase trackedNeed;
-    private Action<float, float> needChangeCallback;
+    private Action<NeedType, float, bool> needChangeCallback;
 
+    /// <summary>
+    /// Initialise la barre avec un DogBehaviour (compatibilité).
+    /// </summary>
     public void Initialize(DogBehaviour dogBehaviour)
     {
         dog = dogBehaviour;
         
-        if (dog?.needController == null) return;
+        if (dog == null) return;
+
+        // Récupérer le nouveau ControleurBesoinsChien
+        needController = dog.GetComponent<ControleurBesoinsChien>();
+        
+        if (needController == null)
+        {
+            Debug.LogWarning($"[DogFillBar] ControleurBesoinsChien introuvable sur {dog.name}");
+            return;
+        }
+
+        InitializeWithController(needController);
+    }
+
+    /// <summary>
+    /// Initialise la barre directement avec un ControleurBesoinsChien.
+    /// </summary>
+    public void InitializeWithController(ControleurBesoinsChien controller)
+    {
+        needController = controller;
+        
+        if (needController?.needs == null) return;
 
         // Trouver le besoin correspondant dans la liste via l'enum
-        trackedNeed = dog.needController.needs.Find(need => need.Type == needType);
+        trackedNeed = needController.needs.Find(need => need.Type == needType);
 
         if (trackedNeed == null)
         {
@@ -30,7 +59,7 @@ public class DogFillBar : MonoBehaviour
             return;
         }
 
-        // S'abonner à l'événement correspondant selon le type de besoin
+        // S'abonner à l'événement du nouveau système
         SubscribeToNeedEvent();
         
         // Initialiser la barre avec la valeur actuelle
@@ -39,50 +68,40 @@ public class DogFillBar : MonoBehaviour
 
     private void SubscribeToNeedEvent()
     {
-        // Créer le callback pour être réutilisable dans OnDestroy
+        if (needController == null) return;
+        
+        // Créer le callback pour le nouveau système
         needChangeCallback = OnNeedChanged;
-
-        // S'abonner à l'événement correspondant au type de besoin
-        switch (needType)
-        {
-            case NeedType.Faim:
-                dog.OnHungerChanged += needChangeCallback;
-                break;
-            case NeedType.Soif:
-                dog.OnThirstynessChanged += needChangeCallback;
-                break;
-            // Ajouter ici d'autres besoins au fur et à mesure
-            default:
-                Debug.LogWarning($"[DogFillBar] Pas d'événement configuré pour '{needType}'");
-                break;
-        }
+        needController.OnNeedChanged += needChangeCallback;
     }
 
     private void UnsubscribeFromNeedEvent()
     {
-        if (dog == null || needChangeCallback == null) return;
-
-        switch (needType)
-        {
-            case NeedType.Faim:
-                dog.OnHungerChanged -= needChangeCallback;
-                break;
-            case NeedType.Soif:
-                dog.OnThirstynessChanged -= needChangeCallback;
-                break;
-            // Ajouter ici d'autres besoins au fur et à mesure
-        }
+        if (needController == null || needChangeCallback == null) return;
+        
+        needController.OnNeedChanged -= needChangeCallback;
+        needChangeCallback = null;
     }
 
     /// <summary>
-    /// Appelé automatiquement quand le besoin surveillé change via l'événement
+    /// Appelé automatiquement quand un besoin change via l'événement du ControleurBesoinsChien.
+    /// Filtre pour ne mettre à jour que si c'est le bon type de besoin.
     /// </summary>
-    private void OnNeedChanged(float current, float max)
+    private void OnNeedChanged(NeedType type, float normalizedValue, bool isCritical)
     {
-        UpdateBar(current, max);
+        // Ne traiter que le besoin surveillé
+        if (type != needType) return;
+        
+        // Convertir la valeur normalisée en valeur absolue pour le slider
+        if (trackedNeed != null)
+        {
+            // float currentValue = normalizedValue * trackedNeed.MaxValue;
+            float currentValue = trackedNeed.NeedValue;
+            UpdateBar(currentValue, trackedNeed.MaxValue);
+        }
     }
 
-    private void UpdateBar(float current, float max)
+    public void UpdateBar(float current, float max)
     {
         // Mettre à jour la valeur du slider
         if (slider != null)

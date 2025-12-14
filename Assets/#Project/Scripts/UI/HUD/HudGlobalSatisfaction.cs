@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class HudGlobalSatisfaction : MonoBehaviour
 {
-    public GlobalSatisfactionService Service{ get; private set;}
+    public AggregateurSatisfactionPension Service{ get; private set;}
 
     [Header("Satisfaction")]
     [SerializeField] private Slider satisfactionSlider;
@@ -15,7 +15,7 @@ public class HudGlobalSatisfaction : MonoBehaviour
     [SerializeField] private TMP_Text moneyText;
     [SerializeField] private TMP_Text prestigeText;
 
-    public void Initialize(GlobalSatisfactionService service)
+    public void Initialize(AggregateurSatisfactionPension service)
     {
         Service = service;
     }

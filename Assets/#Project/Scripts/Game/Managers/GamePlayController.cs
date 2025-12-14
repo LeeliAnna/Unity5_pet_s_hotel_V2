@@ -13,7 +13,7 @@ public class GameplayController
     private readonly LevelManager levelManager;
     private readonly CameraManager cameraManager;
     private readonly PlayerInteraction playerInteraction;
-    private readonly GlobalSatisfactionService satisfactionService;
+    private readonly AggregateurSatisfactionPension satisfactionService;
     private readonly HudGlobalSatisfaction hudGlobalSatisfaction;
     private readonly PensionController pensionController;
 
@@ -22,7 +22,7 @@ public class GameplayController
         LevelManager levelManager,
         CameraManager cameraManager,
         PlayerInteraction playerInteraction,
-        GlobalSatisfactionService satisfactionService,
+        AggregateurSatisfactionPension satisfactionService,
         HudGlobalSatisfaction hudGlobalSatisfaction,
         PensionController pensionController)
     {
