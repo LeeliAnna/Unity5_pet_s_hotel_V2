@@ -20,10 +20,16 @@ public abstract class NeedBase
     private float _criticalThreshold;
 
     /// <summary>
-    /// Nom du besoin (ex : "Faim", "Sommeil").
-    /// Recupere depuis la configuration.
+    /// Type du besoin (enum type-safe).
+    /// Récupéré depuis la configuration.
     /// </summary>
-    public string Name { get; private set; }
+    public NeedType Type { get; private set; }
+    
+    /// <summary>
+    /// Nom du besoin en string (pour affichage UI).
+    /// Automatiquement généré depuis Type.
+    /// </summary>
+    public string Name => Type.ToString();
 
     /// <summary>
     /// Valeur actuelle du besoin (comprise entre 0 et MaxValue).
@@ -119,8 +125,8 @@ public abstract class NeedBase
     /// <param name="config">Asset NeedConfig contenant les parametres du besoin</param>
     public NeedBase(NeedConfig config)
     {
-        // Recuperer le nom depuis la config (ou "Need" par defaut)
-        Name = config.needName is not null ? config.needName : "Need";
+        // Récupérer le type depuis la config
+        Type = config.needType;
         
         // Initialiser les valeurs (les proprietes appliquent les clamps automatiquement)
         MaxValue = config.maxValue;

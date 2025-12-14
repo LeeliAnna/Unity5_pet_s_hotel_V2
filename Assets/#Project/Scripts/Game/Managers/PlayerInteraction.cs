@@ -108,8 +108,17 @@ public class PlayerInteraction : MonoBehaviour
         if (Physics.Raycast(ray, out hit, maxDistance))
         {
             Debug.Log($"[PlayerInteraction] interaction avec : {hit.collider.name}");
+            
+            // Priorité 1 : Vérifier si c'est un chien (pour ouvrir la popup)
+            DogBehaviour dog = hit.collider.GetComponentInParent<DogBehaviour>();
+            if (dog != null)
+            {
+                dog.Select(); // Déclenche l'événement OnSelected
+                return;
+            }
+            
+            // Priorité 2 : Objets interactables classiques
             IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-
             if (interactable != null)
             {
                 interactable.Interact();

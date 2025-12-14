@@ -10,12 +10,11 @@ using UnityEngine;
 public class NeedConfig : ScriptableObject
 {
     /// <summary>
-    /// Nom du besoin (ex : "Faim", "Sommeil", "Jeu").
-    /// Utilise pour l'identification et l'affichage en UI.
-    /// Valeur par defaut : "Need".
+    /// Type du besoin (sélectionné via dropdown dans l'Inspector).
+    /// Utilisé pour l'identification type-safe et la recherche dans needController.
     /// </summary>
     [Header("Valeurs générales")]
-    public string needName = "Need";
+    public NeedType needType = NeedType.Faim;
 
     /// <summary>
     /// Valeur maximale du besoin (satisfaction complète).

@@ -159,7 +159,7 @@ public class SaveController
 
             list.Add(new SaveNeedData
             {
-                name = need.Name,
+                type = need.Type,
                 currentValue = need.NeedValue,
                 maxValue = need.MaxValue
             });
@@ -202,8 +202,8 @@ public class SaveController
             return;
         }
 
-        // Restaurer la Pension via PensionController
-        // (Actuellement géré directement, mais devrait passer par PensionController.RestorePension)
+        // Restaurer la Pension via GameManager.RestorePension
+        gameManager.RestorePension(data.pensionName, data.pensionMoney, data.pensionPrestige);
         
         // Restaurer le Chien (actuellement 1 seul)
         if (dogs != null && dogs.Count > 0 && data.dog != null)
@@ -239,11 +239,11 @@ public class SaveController
 
         foreach (SaveNeedData savedNeed in savedNeeds)
         {
-            NeedBase need = needController.needs.FirstOrDefault(n => n.Name == savedNeed.name);
+            NeedBase need = needController.needs.FirstOrDefault(n => n.Type == savedNeed.type);
 
             if (need == null)
             {
-                Debug.LogWarning($"[SaveController] Besoin introuvable: {savedNeed.name}");
+                Debug.LogWarning($"[SaveController] Besoin introuvable: {savedNeed.type}");
                 continue;
             }
 

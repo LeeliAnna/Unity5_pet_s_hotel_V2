@@ -80,6 +80,7 @@ public class GameInitializer : MonoBehaviour
     private HudButtonActions hudButtonActions;
     private HudGlobalSatisfaction hud;
     private GlobalSatisfactionService satisfactionService = new GlobalSatisfactionService();
+    private DogPopupInfo dogPopupInfo;
 
     /// <summary>
     /// Appele automatiquement par Unity au demarrage du jeu.
@@ -161,11 +162,13 @@ public class GameInitializer : MonoBehaviour
             hud.SetVisible(false);
 
         hudButtonActions = uiRoot.GetComponentInChildren<HudButtonActions>(true);
+        dogPopupInfo = uiRoot.GetComponentInChildren<DogPopupInfo>(true);
 
         // === Bind UI au GameManager ===
         gameManager.BindHud(hud);
         gameManager.BindHudButtonActions(hudButtonActions);
         gameManager.BindUI(uiController);
+        gameManager.BindDogPopup(dogPopupInfo);
 
         // === Initialiser UIController avec le satisfactionService ===
         uiController.Initialize(gameManager, satisfactionService);
