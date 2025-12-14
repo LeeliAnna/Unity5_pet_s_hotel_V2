@@ -143,8 +143,13 @@ public abstract class NeedBase
     /// <param name="amount">Points de satisfaction a ajouter (ex : +35 pour manger)</param>
     public virtual void ApplySatisfaction(float amount)
     {
+        float before = NeedValue;
+        Debug.Log($"[NeedBase.ApplySatisfaction] Type={Type}, AVANT={before}, amount={amount}, MaxValue={MaxValue}");
+        
         // Augmenter la valeur du besoin (clampee automatiquement par la propriete)
         NeedValue += amount;
+        
+        Debug.Log($"[NeedBase.ApplySatisfaction] Type={Type}, APRÈS={NeedValue}, Différence réelle={NeedValue - before}");
     }
 
     /// <summary>

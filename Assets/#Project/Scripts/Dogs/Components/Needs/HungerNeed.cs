@@ -43,7 +43,13 @@ public class HungerNeed : NeedBase
     /// </summary>
     public void EatOnce()
     {
+        float before = NeedValue;
+        Debug.Log($"[HungerNeed.EatOnce] AVANT: NeedValue={before}, EatGain={EatGain}");
+        
         // Appliquer le gain de faim au besoin
         ApplySatisfaction(EatGain);
+        
+        float after = NeedValue;
+        Debug.Log($"[HungerNeed.EatOnce] APRÈS: NeedValue={after}, Différence={after - before}");
     }
 }

@@ -199,6 +199,8 @@ public class DogBehaviour : MonoBehaviour
         // Varifier que le chien a vraiment faim (seuil critique)
         if (needController.IsHungry)
         {
+            Debug.Log($"[DogBehaviour.Eat()] {name} mange - avant: faim={needController.HungerNeed.NeedValue}");
+            
             // Augmenter la jauge de faim du chien
             needController.HungerNeed.EatOnce();
 
@@ -206,7 +208,14 @@ public class DogBehaviour : MonoBehaviour
             if(Level != null && Level.lunchBowl != null && Level.lunchBowl.IsUsable)
             {
                 Level.lunchBowl.DecreaseQuantity(hungerConfig.eatCost);
+                Debug.Log($"[DogBehaviour.Eat()] Gamelle diminuée, quantité actuelle: {Level.lunchBowl.CurrentQuantity}");
             }
+            
+            Debug.Log($"[DogBehaviour.Eat()] {name} mange - après: faim={needController.HungerNeed.NeedValue}");
+        }
+        else
+        {
+            Debug.LogWarning($"[DogBehaviour.Eat()] {name} n'a pas faim assez pour manger !");
         }
     }
 
@@ -246,4 +255,38 @@ public class DogBehaviour : MonoBehaviour
         // Verifier la presence du niveau, de la gamelle et ses croquettes
         return Level != null && Level.lunchBowl != null && Level.lunchBowl.IsUsable;
     }
+
+    /// <summary>
+    /// Appelé par BowlTriggerZone quand les pattes du chien arrivent à la gamelle.
+    /// Déclenche l'action de manger si le chien a faim.
+    /// </summary>
+    /// <param name="bowl">La gamelle atteinte</param>
+    public void OnArrivedAtBowl(BowlBehaviour bowl)
+    {
+        // Vérifier que c'est bien la gamelle du niveau et que le chien a faim
+        if (bowl == null)
+        {
+            Debug.LogWarning($"[DogBehaviour.OnArrivedAtBowl] Bowl est null");
+            return;
+        }
+        
+        Debug.Log($"[DogBehaviour.OnArrivedAtBowl] {name} arrivé à la gamelle. IsHungry={needController.IsHungry}, HungerValue={needController.HungerNeed.NeedValue}");
+        
+        if (!needController.IsHungry)
+        {
+            Debug.Log($"[DogBehaviour.OnArrivedAtBowl] {name} n'a pas faim assez (IsHungry=false)");
+            return;
+        }
+        
+        // Notifier la state machine que le chien est arrivé à destination
+        HasArrivedAtBowl = true;
+        
+        Debug.Log($"[DogBehaviour.OnArrivedAtBowl] {name} prêt à manger !");
+    }
+    
+    /// <summary>
+    /// Indique si le chien est physiquement arrivé à la gamelle (détecté par trigger).
+    /// Utilisé par EatingState pour savoir quand commencer à manger.
+    /// </summary>
+    public bool HasArrivedAtBowl { get; set; }
 }

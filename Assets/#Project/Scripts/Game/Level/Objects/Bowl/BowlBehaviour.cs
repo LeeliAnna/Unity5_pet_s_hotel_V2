@@ -82,8 +82,15 @@ public class BowlBehaviour : MonoBehaviour, IInteractable
     /// <param name="quantity">Nombre de croquettes a consommer</param>
     public void DecreaseQuantity(int quantity)
     {
+        float before = CurrentQuantity;
+        Debug.Log($"[BowlBehaviour.DecreaseQuantity] AVANT={before}, quantity à diminuer={quantity}");
+        
         // Soustraire les croquettes consommees (le clamp dans la propriete gere les debordements)
         CurrentQuantity -= quantity;
+        
+        Debug.Log($"[BowlBehaviour.DecreaseQuantity] APRÈS={CurrentQuantity}, IsUsable={IsUsable}");
+        Debug.Log($"[BowlBehaviour.DecreaseQuantity] Déclenchement OnQuantityChanged, listeners={(OnQuantityChanged != null ? OnQuantityChanged.GetInvocationList().Length : 0)}");
+        
         OnQuantityChanged?.Invoke(CurrentQuantity, maxQuantity);
     }
 
@@ -111,12 +118,15 @@ public class BowlBehaviour : MonoBehaviour, IInteractable
 
     private void UpdateFoodVisual()
     {
+        Debug.Log($"[BowlBehaviour.UpdateFoodVisual] Appelé! CurrentQuantity={CurrentQuantity}, maxQuantity={maxQuantity}, contentVisual={(contentVisual != null ? "exists" : "NULL")}");
+        
         if (contentVisual != null)
         {
             float fillRatio = CurrentQuantity / maxQuantity;
 
             if(CurrentQuantity <= 0)
             {
+                Debug.Log("[BowlBehaviour.UpdateFoodVisual] Gamelle vide, désactivation du visuel");
                 contentVisual.SetActive(false);
                 return;
             }
@@ -129,7 +139,12 @@ public class BowlBehaviour : MonoBehaviour, IInteractable
             Vector3 position = contentVisual.transform.localPosition;
             position.y = Mathf.Lerp(minY, maxY, fillRatio);
             contentVisual.transform.localPosition = position;
-
+            
+            Debug.Log($"[BowlBehaviour.UpdateFoodVisual] Visuel mis à jour: fillRatio={fillRatio}, position.y={position.y}");
+        }
+        else
+        {
+            Debug.LogWarning("[BowlBehaviour.UpdateFoodVisual] contentVisual est NULL!");
         }
     }
 }
