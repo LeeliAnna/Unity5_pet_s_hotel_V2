@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5a5e7798ced2b49a1df535d92eb53e, type: 3}
+  m_Name: Hunger Config
+  m_EditorClassIdentifier: Assembly-CSharp::HungerConfig
+  needName: Hunger
+  maxValue: 100
+  DecreaseRate: 0.5
+  criticalThreshold: 25
+  eatGain: 100
+  eatCooldown: 2
+  eatCost: 100

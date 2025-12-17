@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c5a5e7798ced2b49a1df535d92eb53e, type: 3}
-  m_Name: HungerConfig
+  m_Name: Hunger Config  new
   m_EditorClassIdentifier: Assembly-CSharp::HungerConfig
-  needName: Hunger
-  maxValue: 100
+  needName: Need
+  maxValue: 300
   DecreaseRate: 0.5
   criticalThreshold: 25
-  eatGain: 100
+  eatGain: 35
   eatCooldown: 2
   eatCost: 100

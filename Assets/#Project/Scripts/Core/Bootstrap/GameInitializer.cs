@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -126,7 +127,9 @@ public class GameInitializer : MonoBehaviour
         if(satisfactionService == null) satisfactionService = new();
 
         // Initialiser le niveau avec sa position, point central et quantite de croquettes
+        Debug.Log($"[GameInitializer] Initialisation du niveau {centerPoint}");
         level.Initialize(levelPosition, Quaternion.identity, centerPoint, hungerConfig.maxValue);
+        // level.Initialize(levelPosition, Quaternion.identity, hungerConfig.maxValue);
 
         // Initialiser la camera avec sa position et rotation
         cameraManager.Initialize(camPosition, Quaternion.Euler(camEuler), actions, cameraSettings, level);

@@ -22,6 +22,8 @@ public class BallBehaviour : MonoBehaviour
             rigidBody.linearDamping = config.linearDrag;
             rigidBody.angularDamping = config.angularDrag;
         }
+
+        rigidBody.position = new Vector3(rigidBody.position.x, 0, rigidBody.position.z);
     }
 
     public void ApplyImpulse(Vector3 force, Vector3 contactPoint)
@@ -71,6 +73,12 @@ public class BallBehaviour : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (rigidBody == null) return;
+        if(collision.gameObject.CompareTag("Floor")) return;
+        {
+            // Ignorer les collisions avec le chien
+            Debug.Log("[BallBehaviour] Collision avec le chien ignorée.");
+            return;
+        }
 
         // Rebond sur murs/meubles : inverse direction selon la normale
         if (collision.contactCount > 0)
@@ -82,6 +90,7 @@ public class BallBehaviour : MonoBehaviour
             Vector3 reflected = Vector3.Reflect(velocity, normal);
             float bounce = config != null ? config.bounciness : 0.8f;
             rigidBody.linearVelocity = reflected * bounce;
+            Debug.Log($"[BallBehaviour] Collision detected with {collision.gameObject.name}. New velocity: {rigidBody.linearVelocity}");
         }
 
         ClampVelocity();

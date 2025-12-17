@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// Gere les interactions du joueur avec le monde du jeu
@@ -16,6 +17,7 @@ public class PlayerInteraction : MonoBehaviour
     private Vector2 mousePosition;                  // Position de la souris
     
     private float maxDistance = 50f;                // distance ou le click est autoriser
+    [SerializeField]private LayerMask clickableLayer;              // Layer des objets cliquables
 
     /// <summary>
     /// Initilaise le playerInteraction
@@ -105,7 +107,7 @@ public class PlayerInteraction : MonoBehaviour
         Ray ray = cameraManager.Camera.ScreenPointToRay(mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, maxDistance))
+        if (Physics.Raycast(ray, out hit, maxDistance, clickableLayer))
         {
             Debug.Log($"[PlayerInteraction] interaction avec : {hit.collider.name}");
             IInteractable interactable = hit.collider.GetComponent<IInteractable>();

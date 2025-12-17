@@ -45,12 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameInitializer
   cameraManager: {fileID: 616804668313946544, guid: 25578a446c56add49b70e76a08779942, type: 3}
-  cameraSettings: {fileID: 11400000, guid: 4368ee5fb642fa54c8e540f1571f9ae3, type: 2}
+  cameraSettings: {fileID: 11400000, guid: 06a5a031cd636be43971a1bd441b69ec, type: 2}
   camPosition: {x: 7.35, y: 5, z: 0}
   camEuler: {x: 0, y: 0, z: 0}
   gameManager: {fileID: 8076476632325488078, guid: 18573e3a1321fbf459456d819aa5ebc8, type: 3}
   actions: {fileID: -944628639613478452, guid: a15406cb28aa27042898dfd5bc10aad2, type: 3}
-  level: {fileID: 1352924665569756312, guid: 7abcc706699b70d45bc0b806cda767af, type: 3}
+  level: {fileID: 1758631751406445807, guid: 041000cb50446434289ebae0ae65a06f, type: 3}
   levelPosition: {x: 1.476199, y: 0, z: 0.9416288}
   centerPoint: {fileID: 6774652335348138850, guid: e200b2c572642ad42a4c83355ad650fc, type: 3}
   husky: {fileID: 0}
@@ -58,6 +58,6 @@ MonoBehaviour:
   dogConfig: {fileID: 11400000, guid: 2d003d38323231d40877c19e7acac038, type: 2}
   range: 15
   cooldownMax: 5
-  hungerConfig: {fileID: 11400000, guid: e4cd75bca97890b48a32629b01443563, type: 2}
+  hungerConfig: {fileID: 11400000, guid: ada2be67306235745864dae9e6e82586, type: 2}
   pensionSettings: {fileID: 11400000, guid: ae55a54b602222e4887afc7e3d5c4a0e, type: 2}
   uiRoot: {fileID: 644979849582591923, guid: 882676fe37349874f880984377f85282, type: 3}

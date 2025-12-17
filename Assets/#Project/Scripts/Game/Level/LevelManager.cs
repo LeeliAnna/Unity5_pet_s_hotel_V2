@@ -38,6 +38,7 @@ public class LevelManager : MonoBehaviour
     /// <param name="centerPoint">Transform representant le point central du niveau</param>
     /// <param name="lunchBowlQuantity">Quantite initiale de croquettes dans la gamelle</param>
     public void Initialize(Vector3 position, Quaternion rotation, Transform centerPoint, float lunchBowlQuantity)
+    // public void Initialize(Vector3 position, Quaternion rotation, float lunchBowlQuantity)
     {
         // Positionner et orienter le niveau
         transform.SetPositionAndRotation(position, rotation);
@@ -50,6 +51,7 @@ public class LevelManager : MonoBehaviour
         
         // Stocker la reference au point central
         CenterPoint = centerPoint;
+        // CenterPoint = GetComponentInChildren<Transform>();
 
         // Chercher automatiquement le composant LunchBowlBehavior dans les enfants du niveau
         lunchBowl = GetComponentInChildren<BowlBehaviour>();
@@ -60,6 +62,9 @@ public class LevelManager : MonoBehaviour
         {
             lunchBowl.Initialize(lunchBowlQuantity);
         }
+
+        Debug.Log("[LevelManager] Niveau initialisé à la position " + position.ToString() +
+                  " avec une gamelle contenant " + lunchBowlQuantity + " croquettes.");
     }
 
     /// <summary>
