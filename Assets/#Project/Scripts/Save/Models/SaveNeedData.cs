@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class SaveNeedData
 {
-    public string name;
+    public NeedType type;
     public float currentValue;
     public float maxValue;
 }

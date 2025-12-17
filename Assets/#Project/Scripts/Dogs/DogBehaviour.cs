@@ -29,6 +29,9 @@ public class DogBehaviour : MonoBehaviour
     public DogNeedController needController { get; private set; }
     private DogSatisfaction satisfaction;
 
+    /// <summary>Événement déclenché quand le joueur clique sur ce chien</summary>
+    public event Action<DogBehaviour> OnSelected;
+
     /// <summary>Besoin le plus urgent du moment (faim, etc.)</summary>
     public NeedBase urgent { get; private set; }
 
@@ -138,11 +141,32 @@ public class DogBehaviour : MonoBehaviour
         // Identifier le besoin le plus urgent
         urgent = needController.GetMostUrgent();
 
+        // Surveiller les changements de satisfaction (événements)
+        if (satisfaction != null) satisfaction.Process();
+
         // Executer la logique de la machine a etats
         stateMachine.Process();
 
         // Mise a jour de l'animation en fonction de la vitesse de l'agent
         dogAnimationController.UpdateLocomotion(Agent.velocity);
+    }
+
+    /// <summary>
+    /// Déclenche l'événement de sélection.
+    /// Appelé par PlayerInteraction lors d'un clic sur le chien.
+    /// </summary>
+    public void Select()
+    {
+        OnSelected?.Invoke(this);
+    }
+
+    /// <summary>
+    /// Déclenche l'événement de sélection lors d'un clic sur le chien (fallback).
+    /// Nécessite un Collider sur l'objet (déjà requis par ce composant).
+    /// </summary>
+    private void OnMouseDown()
+    {
+        Select();
     }
 
     /// <summary>
@@ -229,5 +253,26 @@ public class DogBehaviour : MonoBehaviour
         // Verifier la presence du niveau, de la gamelle et ses croquettes
         return Level != null && Level.lunchBowl != null && Level.lunchBowl.IsUsable;
     }
+
+    // Accesseurs pour les événements de satisfaction (délégués à DogSatisfaction)
+    public event Action<float, float> OnHungerChanged
+    {
+        add => satisfaction.OnHungerChanged += value;
+        remove => satisfaction.OnHungerChanged -= value;
+    }
+    
+    public event Action<float, float> OnThirstynessChanged
+    {
+        add => satisfaction.OnThirstynessChanged += value;
+        remove => satisfaction.OnThirstynessChanged -= value;
+    }
+    
+    public event Action<float, float> OnGlobalSatisfactionChanged
+    {
+        add => satisfaction.OnGlobalSatisfactionChanged += value;
+        remove => satisfaction.OnGlobalSatisfactionChanged -= value;
+    }
+
+
 
 }
