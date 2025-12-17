@@ -74,11 +74,6 @@ public class BallBehaviour : MonoBehaviour
     {
         if (rigidBody == null) return;
         if(collision.gameObject.CompareTag("Floor")) return;
-        {
-            // Ignorer les collisions avec le chien
-            Debug.Log("[BallBehaviour] Collision avec le chien ignorée.");
-            return;
-        }
 
         // Rebond sur murs/meubles : inverse direction selon la normale
         if (collision.contactCount > 0)
