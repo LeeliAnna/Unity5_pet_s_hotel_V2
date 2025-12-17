@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     public HudButtonActions HudButtonActions { get; private set; }
     
     // === UI Popup ===
-    private DogPopupInfo dogPopupInfo;
+    //private DogPopupInfo dogPopupInfo;
 
     // === Propriétés publiques ===
     public Pension CurrentPension => pensionController?.CurrentPension;
@@ -196,7 +196,7 @@ public class GameManager : MonoBehaviour
         dogs.Add(dog);
         
         // S'abonner à l'événement de sélection pour afficher la popup
-        dog.OnSelected += OnDogSelected;
+        //dog.OnSelected += OnDogSelected;
         
         Debug.Log($"[GameManager] Chien enregistré. Total: {dogs.Count}");
     }
@@ -209,7 +209,7 @@ public class GameManager : MonoBehaviour
         if (dog == null) return;
         
         // Se désabonner de l'événement de sélection
-        dog.OnSelected -= OnDogSelected;
+        //dog.OnSelected -= OnDogSelected;
         
         dogs.Remove(dog);
         Debug.Log($"[GameManager] Chien retiré. Total: {dogs.Count}");
@@ -219,18 +219,18 @@ public class GameManager : MonoBehaviour
     /// Appelé quand un chien est cliqué/sélectionné.
     /// Affiche la popup d'informations du chien.
     /// </summary>
-    private void OnDogSelected(DogBehaviour selectedDog)
-    {
-        if (dogPopupInfo == null)
-        {
-            Debug.LogWarning("[GameManager] DogPopupInfo non configuré. Utilisez BindDogPopup().");
-            return;
-        }
+    // private void OnDogSelected(DogBehaviour selectedDog)
+    // {
+    //     if (dogPopupInfo == null)
+    //     {
+    //         Debug.LogWarning("[GameManager] DogPopupInfo non configuré. Utilisez BindDogPopup().");
+    //         return;
+    //     }
         
-        // Initialiser la popup avec le chien sélectionné et l'afficher
-        dogPopupInfo.Initialize(this, selectedDog);
-        dogPopupInfo.Show();
-    }
+    //     // Initialiser la popup avec le chien sélectionné et l'afficher
+    //     dogPopupInfo.Initialize(this, selectedDog);
+    //     dogPopupInfo.Show();
+    // }
 
     #endregion
 
@@ -322,7 +322,7 @@ public class GameManager : MonoBehaviour
     public void BindUI(UIController ui) => uiController = ui;
     public void BindHud(HudGlobalSatisfaction hud) => HudGlobalSatisfaction = hud;
     public void BindHudButtonActions(HudButtonActions buttons) => HudButtonActions = buttons;
-    public void BindDogPopup(DogPopupInfo popup) => dogPopupInfo = popup;
+    //public void BindDogPopup(DogPopupInfo popup) => dogPopupInfo = popup;
 
     #endregion
 
